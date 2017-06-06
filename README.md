@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 
 # Impact Website
 
@@ -37,3 +38,7 @@ Website: http://impactwebsite.azurewebsites.net/
 
 
 
+=======
+# ImpactWebApp
+A web application using ASP.NET MVC Core 1.1
+>>>>>>> 025eee285f7f8b4665f7548805839f9db1f7a8a1
