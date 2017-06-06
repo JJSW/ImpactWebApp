@@ -1,0 +1,50 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderLine>
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2><i class="fa fa-file-o"></i>  Payment Details</h2>
+
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeaderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderLineId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModuleId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModuleName)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderHeaderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderLineId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModuleId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ModuleName)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    <a asp-action="PaymentHistory">Back to List</a>
+</div>

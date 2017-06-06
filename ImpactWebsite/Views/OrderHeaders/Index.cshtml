@@ -1,0 +1,83 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderHeader>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderNum)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SalesRep)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderedDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DeliveredDate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserEmail)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.TotalAmount)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    var totalAmountDollar = item.TotalAmount / 100;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderNum)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SalesRep)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderedDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DeliveredDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserEmail)
+            </td>
+            <td>
+                $ @totalAmountDollar
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderHeaderId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </button>
+                </a> 
+                <a asp-action="Details" asp-route-id="@item.OrderHeaderId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-tasks"></span> Details
+                    </button>
+                </a> 
+                <a asp-action="Delete" asp-route-id="@item.OrderHeaderId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,0 +1,50 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderHeader>
+
+@{
+    ViewData["Title"] = "Order Complete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2><i class="fa fa-file-o"></i>  Payment Complete</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderHeaderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteFromUser)
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var totalAmountDollar = item.TotalAmount / 100;
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderHeaderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderedDate)
+            </td>
+            <td>
+                $ @totalAmountDollar
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderStatus)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NoteFromUser)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,19 @@
+
+@{
+    ViewData["Title"] = "Investment";
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+<h2>Investment</h2>
+<form method="post" asp-action="FileUpdaload" asp-controller="Order" enctype="multipart/form-data">
+    <input type="hidden" name="email" value="@ViewData["email"]" />
+    <div style="width: 400px; margin-left: 50px; margin-top: 20px;">
+        <div style="width: 300px; float: left;">
+            <input type="file" class="btn btn-primary" name="files" multiple />
+        </div>
+        <input style="width: 100px;" type="submit" class="btn btn-default" value="Upload" />
+    </div>
+    
+</form>

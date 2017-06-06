@@ -1,0 +1,93 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Promotion>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+<a asp-action="Create">
+    <button type="button" class="btn btn-default btn-sm">
+        <span class="glyphicon glyphicon-plus"></span> Create
+    </button>
+</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromotionName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PromotionCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DiscountRate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateFrom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DateTo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ModifiedDate)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.PromotionName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PromotionCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.PromotionId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </button>
+                </a>
+                <a asp-action="Details" asp-route-id="@item.PromotionId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-tasks"></span> Details
+                    </button>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.PromotionId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

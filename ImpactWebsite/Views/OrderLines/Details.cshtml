@@ -1,0 +1,42 @@
+@model ImpactWebsite.Models.OrderModels.OrderLine
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderLine</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ModuleName)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModuleName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ModifiedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ModifiedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Module)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Module.ModuleId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderHeader)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderHeader.UserEmail)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.OrderLineId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

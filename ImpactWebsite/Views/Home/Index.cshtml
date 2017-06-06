@@ -1,0 +1,71 @@
+﻿@model ImpactWebsite.Models.NewsLetterUser
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+    <form asp-action="Index">
+
+        <div class="header__carousel--caption">
+            <h2 class="header__slider--subtitle">We help investors understand their impact.</h2>
+            <p class="header__slider--text">START ANALYSIS AND GET REPORTING SOLUTIONS</p>
+                <a class="header__slider--cta" id="Test" asp-controller="Order" asp-action="Index">
+                    Start Analysis
+                    <div class="arrow-left"></div>
+                    <div class="arrow-right"></div>
+                </a>          
+            
+            <h2 class="newsletter-text">Subscribe our news letter :</h2>
+            <table class="newsletter-table">
+                <tr>
+                    <td><input id="email" asp-for="Email" class="form-control newsletter-input" /></td>
+                    <td>
+                        <input type="submit" value="Request" class="impact-btn newsletter-btn" />
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="3">
+                        <strong><span asp-validation-for="Email" class="text-danger"></span></strong>
+                    </td>
+                </tr>
+
+            </table>
+        </div>
+
+</form>
+
+    <div id="box" class=""></div>
+
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+        <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+        <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
+        @if (@ViewData["status"].Equals("success"))
+        {
+            <script>
+                var msg = $('#email').val();
+                $(document).ready(function () {
+                    $('#box').dialog({
+                        autoOpen: true,
+                        position: { my: "top", at: "top+150", of: window },
+                        open: function () {
+                            var markup = msg + ' is Successfully added!';
+                            $(this).html(markup);
+                        },
+                        title: 'Message',
+                        width: 300,
+                        height: 150,
+                        resizable: false,
+                        modal: true,
+                        show: {
+                            effect: "blind",
+                            duration: 100
+                        },
+                    });
+                    $('#email').val('')
+                });
+            </script>
+        }
+    }
+

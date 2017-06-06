@@ -1,0 +1,72 @@
+@model ImpactWebsite.Models.OrderModels.OrderHeader
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>OrderHeader</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderNum)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderNum)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SalesRep)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SalesRep)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderedDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderedDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.DeliveredDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.DeliveredDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.OrderStatus)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteFromUser)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NoteFromUser)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NoteFromAdmin)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NoteFromAdmin)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.UserEmail)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.UserEmail)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TotalAmount)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.OrderHeaderId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

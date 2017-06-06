@@ -1,0 +1,65 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderLine>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderHeader)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Module)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModuleName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ModifiedDate)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderHeader.UserEmail)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Module.ModuleId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModifiedDate)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.OrderLineId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-edit"></span> Edit
+                    </button>
+                </a>
+                <a asp-action="Details" asp-route-id="@item.OrderLineId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-tasks"></span> Details
+                    </button>
+                </a>
+                <a asp-action="Delete" asp-route-id="@item.OrderLineId">
+                    <button type="button" class="btn btn-default btn-sm">
+                        <span class="glyphicon glyphicon-remove"></span> Delete
+                    </button>
+                </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

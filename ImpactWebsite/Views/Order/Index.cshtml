@@ -1,0 +1,151 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderList>
+
+@using Microsoft.AspNetCore.Identity
+@using ImpactWebsite.Models
+
+@{ 
+    ViewData["Title"] = "Index";
+    IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
+}
+
+@inject SignInManager<ApplicationUser> SignInManager
+@inject UserManager<ApplicationUser> UserManager
+
+    <h2><i class="fa fa-check-square-o"></i>  Select Modules</h2>
+
+<form action="/Order/NewOrder" method="post">
+    
+    <label style="color: brown; margin:15px;">* Email Address: </label>
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <input type="email" required="required" name="email" value="@ViewData["email"]" />
+    }
+    else
+    {
+        <input type="email" required="required" name="email" />
+    }
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Select
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Modules.ModuleName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Modules.DeliveryDays)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Modules.UnitPrice)
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @for (int i = 0; i < Model.Count(); i++)
+            {
+                <tr>
+                    <td>
+                        @if (@i == 0)
+                        {
+                            <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                            <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                        }
+                    </td>
+                    <td> 
+                        <label asp-for="@Model.ElementAt(@i).IsChecked" >
+                            @Model.ElementAt(@i).Modules.ModuleName 
+                            <a class="Detail" value="@Model.ElementAt(@i).Modules.ModuleId"
+                               name="@Model.ElementAt(@i).Modules.ModuleName">Detail</a>
+                        </label>
+                    </td>
+                    <td>
+                        <label asp-for="@Model.ElementAt(@i).IsChecked">
+                            @Model.ElementAt(@i).Modules.DeliveryDays
+                        </label>
+                    </td>
+                    <td>
+                        <label asp-for="@Model.ElementAt(@i).IsChecked">
+                            @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C", fp)
+                        </label>
+                    </td>
+                </tr>
+            }
+            <tr>
+                <td></td>
+                <td>Total: </td>
+                <td><input type="text" name="totalDay" value="3" readonly="readonly" /></td>
+                <td><span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly"/> </span></td>    
+            </tr>
+        </tbody>
+    </table>
+    <div class="form-group">
+        <div>
+            <input type="submit" class="impact-btn" value="Next >>"  />
+        </div>
+    </div>
+</form>
+ 
+<div id="AddUserForm"></div>
+
+@section scripts
+{
+@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("input[type='checkbox']").click(function () {
+                calculateTotal();
+            });
+        });
+         function calculateTotal() {
+            totalPrice = 0.0;
+            totalDays = 3;
+            $(':checkbox:checked.chkBox').each(function () {
+
+                var jsonObj = JSON.parse($(this).val());
+                console.log($(this).val());
+                totalPrice += +jsonObj.modules.unitPrice.price;
+                totalDays += +jsonObj.modules.deliveryDays;
+            });
+            $('input[name=totalDay]').val(totalDays);
+            $('input[name=totalPrice]').val(totalPrice);
+        }
+
+
+    </script>
+
+    <script type="text/javascript">
+         var idNum;
+         $('.Detail').on('click', function () {
+
+             var idNum = $(this).attr('value');
+             var link = '@Url.Action("PartialModuleDetail", "Order", new { id = "-1" })';
+             var strTitle = $(this).attr('name');
+
+             link = link.replace("-1", idNum);
+
+             $("#AddUserForm").dialog({
+             type: 'GET',
+             autoOpen: true,
+             position: { my: "top", at: "top+150", of: window },
+             width: 600,
+             height: 200,
+             resizable: false,
+             title: strTitle,
+             modal: true,
+             open: function () {
+                 $(this).load(link);
+             },
+             });
+             return false;
+         });
+</script>
+    }

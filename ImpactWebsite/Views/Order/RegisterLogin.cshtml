@@ -1,0 +1,75 @@
+
+@{
+    ViewData["Title"] = "RegisterLogin";
+}
+
+@if (ViewData["checkUser"].Equals("NeedRegister"))
+{
+    <h3 class="header__slider--text" style="margin-top:20px; text-align:center">
+        <i class="fa fa-exclamation" aria-hidden="true"></i>&nbsp;&nbsp;Please register to request and pay</h3>
+    <div style="width: 250px; margin: auto; margin-top: 5%; text-align: center;">
+        <a id="Register" asp-controller="Order" asp-action="PartialRegister" style="display: block; width: 150px;" class="impact-btn neworder-btn">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;&nbsp;Register
+        </a>
+    </div>
+}
+else if (ViewData["checkUser"].Equals("NeedLogin"))
+{
+    <h3 class="header__slider--text" style="margin-top:20px; text-align:center">
+        <i class="fa fa-exclamation" aria-hidden="true"></i>
+        &nbsp;&nbsp;Please login to request and pay</h3>
+    <div style="width: 250px; margin: auto; margin-top: 5%; text-align: center;">
+        <a id="Login" asp-controller="Order" asp-action="PartialLogin" style="display: block; width: 150px; " class="impact-btn neworder-btn">
+            <i class="fa fa-sign-in" aria-hidden="true"></i>&nbsp;&nbsp;Login
+        </a>
+    </div>
+}
+
+@section scripts
+    {
+    <script type="text/javascript" src="../../lib/jquery/dist/jquery.js"></script>
+    <script src="../../lib/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="../../lib/jquery-ui/themes/base/jquery-ui.css" />
+}
+
+@*
+    <script type="text/javascript">
+        $('#Register').on('click', function () {
+
+            $("#AddUserForm").dialog({
+            type: 'GET',
+            autoOpen: true,
+            position: { my: "top", at: "top+150", of: window },
+            width: 600,
+            height: 600,
+            resizable: false,
+            title: 'Register',
+            modal: true,
+            open: function () {
+                $(this).load('@Url.Action("PartialRegister", "Order")');
+            },
+        });
+        return false;
+    });
+    </script>
+
+    <script type="text/javascript">
+         $('#Login').on('click', function () {
+
+            $("#AddUserForm").dialog({
+            type: 'GET',
+            autoOpen: true,
+            position: { my: "top", at: "top+150", of: window },
+            width: 600,
+            height: 600,
+            resizable: false,
+            title: 'Login',
+            modal: true,
+            open: function () {
+                $(this).load('@Url.Action("PartialLogin", "Order")');
+            },
+        });
+    return false;
+    });
+    </script>
+}*@

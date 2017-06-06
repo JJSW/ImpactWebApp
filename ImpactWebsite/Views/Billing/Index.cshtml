@@ -1,0 +1,120 @@
+@using Microsoft.Extensions.Options
+@using ImpactWebsite.Models.BillingModels
+@model IEnumerable<ImpactWebsite.Models.BillingModels.BillingDetailViewModel>
+
+@inject IOptions<StripeSettings> Stripe
+
+@{
+    ViewData["Title"] = "Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Display payment details as a partial view -->
+<h2><i class="fa fa-list"></i>  Billing Dashboard</h2>
+
+<hr />
+@Html.Partial("_PaymentDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.PaymentDetails)
+<br />
+<hr />
+
+<!-- 
+    Display and connect to Stripe API
+    There are 3 conditions to be able to proceed the payment. 
+    1. Total amount exists
+    2. Total amount is not 0 (default module)
+    3. The client has a billing address
+-->
+<h3><i class="fa fa-credit-card"></i>   Payment</h3>
+<br />
+@if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0 && (int)@ViewData["billingAddressId"] != -1)
+{
+    var orderId = 0;
+    var bAddressId = (int)@ViewData["billingAddressId"];
+    foreach (var a in Model) { orderId = a.OrderHeaderId; }
+
+    <!--
+        Create options to send to Stripe API.
+        Billing address can be sent from the API by turning on the option.
+        Default currecty is CAD, however it can be changed by dynmically with extented functions
+    -->
+    <form action="/Billing/Charge" method="post">
+
+        <article>
+            <label>Amount: $@ViewData["amountDisplay"]</label>
+        </article>
+
+        <input type="submit"
+               id="StripePay"
+               value="Pay with Card"
+               class="impact-btn"
+               data-key='@Stripe.Value.PublishableKey'
+               data-amount="@ViewData["amount"]"
+               data-currency="cad"
+               data-name="Impact Website"
+               data-description="@ViewData["moduleCount"] Module(s)"
+               data-email="@ViewData["email"]" 
+               data-billing-address="false"
+               data-zip-code="false"
+               data-locale="auto"
+               data-image="/images/favicon.png"
+               />
+
+        <a href="javascript:history.back()" class="impact-btn">Cancel Payment</a>
+
+        <!-- 
+            Creates Stripe tokens for custom payment process.
+            In this case, deals with a specific order with a specific user billing address
+        -->
+        <script src="https://checkout.stripe.com/v2/checkout.js"></script>
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+
+        <script>
+            $(document).ready(function () {
+                $('#StripePay').on('click', function (event) {
+                    event.preventDefault();
+                    var $button = $(this),
+                        $form = $button.parents('form');
+                    var opts = $.extend({}, $button.data(), {
+                        token: function (result) {
+
+                            var $stripeToken = $('<input>').attr({ type: 'hidden', name: 'stripeToken', value: result.id })
+                            var $stripeEmail = $('<input>').attr({ type: 'hidden', name: 'stripeEmail', value: result.email })
+                            var $orderId = $('<input>').attr({ type: 'hidden', name: 'orderId', value: @orderId })
+                            var $bAddressId =$('<input>').attr({ type: 'hidden', name: 'bAddressId', value: @bAddressId })
+
+                            $form.append($stripeToken).append($stripeEmail).append($orderId).append($bAddressId)
+                            .submit();
+                        }
+                    });
+                    StripeCheckout.open(opts);
+                });
+            });
+        </script>
+    </form>
+
+
+}
+else if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0 && (int)@ViewData["billingAddressId"] == -1)
+{
+    <p> Please add a new billing address </p>
+    <br />
+}
+else if (@ViewData["amount"] != null && (int)@ViewData["amount"] == 0)
+{
+    var orderId = 0;
+    foreach (var a in Model) { orderId = a.OrderHeaderId; }
+    <a class="impact-btn" href="@Url.Action("CompleteDefaultOrder", "Billing", new { orderId = @orderId})">
+        Complete Order
+    </a>
+}
+else
+{
+<p> No payment to make </p>
+    <br/>
+}
+
+<!--Display billing address details as a partial view -->
+<hr/>
+@Html.Partial("_BillingAddress", (BillingAddress)ViewBag.BillingAddress)
+<br />
