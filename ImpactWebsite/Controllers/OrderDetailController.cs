@@ -10,23 +10,23 @@ using ImpactWebsite.Models.OrderModels;
 
 namespace ImpactWebsite.Controllers
 {
-    public class OrderLinesController : Controller
+    public class OrderDetailController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderLinesController(ApplicationDbContext context)
+        public OrderDetailController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: OrderLines
+        // GET: OrderDetails
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.OrderLines.Include(o => o.Module).Include(o => o.OrderHeader);
+            var applicationDbContext = _context.OrderDetails.Include(o => o.Module);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: OrderLines/Details/5
+        // GET: OrderDetails/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,45 +34,45 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLines
+            var orderDetail = await _context.OrderDetails
                 .Include(o => o.Module)
-                .Include(o => o.OrderHeader)
-                .SingleOrDefaultAsync(m => m.OrderLineId == id);
-            if (orderLine == null)
+                //.Include(o => o.Order)
+                .SingleOrDefaultAsync(m => m.OrderDetailId == id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
 
-            return View(orderLine);
+            return View(orderDetail);
         }
 
-        // GET: OrderLines/Create
+        // GET: OrderDetails/Create
         public IActionResult Create()
         {
             ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId");
-            ViewData["OrderHeaderId"] = new SelectList(_context.OrderHeaders, "OrderHeaderId", "UserEmail");
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserEmail");
             return View();
         }
 
-        // POST: OrderLines/Create
+        // POST: OrderDetails/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("OrderLineId,OrderHeaderId,ModuleId,ModuleName,ModifiedDate")] OrderLine orderLine)
+        public async Task<IActionResult> Create([Bind("OrderDetailId,OrderId,ModuleId,ModuleName,ModifiedDate")] OrderDetail orderDetail)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderLine);
+                _context.Add(orderDetail);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderLine.ModuleId);
-            ViewData["OrderHeaderId"] = new SelectList(_context.OrderHeaders, "OrderHeaderId", "UserEmail", orderLine.OrderHeaderId);
-            return View(orderLine);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderDetail.ModuleId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserEmail", orderDetail.OrderId);
+            return View(orderDetail);
         }
 
-        // GET: OrderLines/Edit/5
+        // GET: OrderDetails/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,24 +80,24 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLines.SingleOrDefaultAsync(m => m.OrderLineId == id);
-            if (orderLine == null)
+            var orderDetail = await _context.OrderDetails.SingleOrDefaultAsync(m => m.OrderDetailId == id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderLine.ModuleId);
-            ViewData["OrderHeaderId"] = new SelectList(_context.OrderHeaders, "OrderHeaderId", "UserEmail", orderLine.OrderHeaderId);
-            return View(orderLine);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderDetail.ModuleId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserEmail", orderDetail.OrderId);
+            return View(orderDetail);
         }
 
-        // POST: OrderLines/Edit/5
+        // POST: OrderDetails/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("OrderLineId,OrderHeaderId,ModuleId,ModuleName,ModifiedDate")] OrderLine orderLine)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderDetailId,OrderId,ModuleId,ModuleName,ModifiedDate")] OrderDetail orderDetail)
         {
-            if (id != orderLine.OrderLineId)
+            if (id != orderDetail.OrderDetailId)
             {
                 return NotFound();
             }
@@ -106,12 +106,12 @@ namespace ImpactWebsite.Controllers
             {
                 try
                 {
-                    _context.Update(orderLine);
+                    _context.Update(orderDetail);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderLineExists(orderLine.OrderLineId))
+                    if (!OrderDetailExists(orderDetail.OrderDetailId))
                     {
                         return NotFound();
                     }
@@ -122,12 +122,12 @@ namespace ImpactWebsite.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderLine.ModuleId);
-            ViewData["OrderHeaderId"] = new SelectList(_context.OrderHeaders, "OrderHeaderId", "UserEmail", orderLine.OrderHeaderId);
-            return View(orderLine);
+            ViewData["ModuleId"] = new SelectList(_context.Modules, "ModuleId", "ModuleId", orderDetail.ModuleId);
+            ViewData["OrderId"] = new SelectList(_context.Orders, "OrderId", "UserEmail", orderDetail.OrderId);
+            return View(orderDetail);
         }
 
-        // GET: OrderLines/Delete/5
+        // GET: OrderDetails/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -135,32 +135,32 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderLine = await _context.OrderLines
+            var orderDetail = await _context.OrderDetails
                 .Include(o => o.Module)
-                .Include(o => o.OrderHeader)
-                .SingleOrDefaultAsync(m => m.OrderLineId == id);
-            if (orderLine == null)
+                //.Include(o => o.Order)
+                .SingleOrDefaultAsync(m => m.OrderDetailId == id);
+            if (orderDetail == null)
             {
                 return NotFound();
             }
 
-            return View(orderLine);
+            return View(orderDetail);
         }
 
-        // POST: OrderLines/Delete/5
+        // POST: OrderDetails/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orderLine = await _context.OrderLines.SingleOrDefaultAsync(m => m.OrderLineId == id);
-            _context.OrderLines.Remove(orderLine);
+            var orderDetail = await _context.OrderDetails.SingleOrDefaultAsync(m => m.OrderDetailId == id);
+            _context.OrderDetails.Remove(orderDetail);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool OrderLineExists(int id)
+        private bool OrderDetailExists(int id)
         {
-            return _context.OrderLines.Any(e => e.OrderLineId == id);
+            return _context.OrderDetails.Any(e => e.OrderDetailId == id);
         }
     }
 }

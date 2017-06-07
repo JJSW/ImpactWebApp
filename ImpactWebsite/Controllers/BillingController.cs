@@ -64,12 +64,12 @@ namespace ImpactWebsite.Controllers
             if (id != null)
             {
                 var billingDetails = (from u in _context.Users
-                                      join oh in _context.OrderHeaders on u.Id equals oh.UserId
-                                      join ol in _context.OrderLines on oh.OrderHeaderId equals ol.OrderHeaderId
+                                      join oh in _context.Orders on u.Id equals oh.UserId
+                                      join ol in _context.OrderDetails on oh.OrderId equals ol.OrderId
                                       join m in _context.Modules on ol.ModuleId equals m.ModuleId
                                       select new
                                       {
-                                          OrderHeaderId = oh.OrderHeaderId,
+                                          OrderId = oh.OrderId,
                                           UserId = u.Id,
                                           UserEmail = u.Email,
                                           ModuleId = m.ModuleId,
@@ -79,13 +79,13 @@ namespace ImpactWebsite.Controllers
                                           OrderStatus = oh.OrderStatus,
                                       }).ToList();
 
-                var temps = billingDetails.Where(x => x.UserId == id).Where(y => y.OrderHeaderId == orderId).ToList();
+                var temps = billingDetails.Where(x => x.UserId == id).Where(y => y.OrderId == orderId).ToList();
 
                 foreach (var billing in temps)
                 {
                     billingVM.Add(new BillingDetailViewModel()
                     {
-                        OrderHeaderId = billing.OrderHeaderId,
+                        OrderId = billing.OrderId,
                         UserId = billing.UserId,
                         UserEmail = billing.UserEmail,
                         ModuleId = billing.ModuleId,
@@ -129,7 +129,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> CompleteDefaultOrder(int orderId)
         {
             // Check orderNum
-            var completedOrders = _context.OrderHeaders.Where(x => x.OrderHeaderId == orderId);
+            var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
 
             foreach (var order in completedOrders)
             {
@@ -162,7 +162,7 @@ namespace ImpactWebsite.Controllers
             var charges = new StripeChargeService();
 
             // check OrderNumber
-            var completedOrders = _context.OrderHeaders.Where(x => x.OrderHeaderId == orderId);
+            var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
 
             var customer = customers.Create(new StripeCustomerCreateOptions
             {
@@ -180,6 +180,7 @@ namespace ImpactWebsite.Controllers
                 CustomerId = customer.Id,
             });
 
+            /*
             StripeAddress stripeAddress = new StripeAddress()
             {
                 Line1 = billingAddress.AddressLine1,
@@ -189,6 +190,7 @@ namespace ImpactWebsite.Controllers
                 PostalCode = billingAddress.ZipCode,
                 Country = billingAddress.Country
             };
+            */
 
             foreach (var order in completedOrders) { order.OrderStatus = OrderStatusList.Completed; }
 
@@ -209,7 +211,7 @@ namespace ImpactWebsite.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             var userId = user.Id;
 
-            return View(await _context.OrderHeaders.Where(m => m.UserId == userId).ToListAsync());
+            return View(await _context.Orders.Where(m => m.UserId == userId).ToListAsync());
         }
 
         /// <summary>
@@ -224,14 +226,14 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderlines = await _context.OrderLines.Where(m => m.OrderHeaderId == id).ToListAsync();
+            var orderDetails = await _context.OrderDetails.Where(m => m.OrderId == id).ToListAsync();
     
-            if (orderlines == null)
+            if (orderDetails == null)
             {
                 return NotFound();
             }
 
-            return View(orderlines);
+            return View(orderDetails);
         }
 
         public IActionResult Error()

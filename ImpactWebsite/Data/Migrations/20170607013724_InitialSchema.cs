@@ -107,10 +107,10 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderHeaders",
+                name: "Orders",
                 columns: table => new
                 {
-                    OrderHeaderId = table.Column<int>(nullable: false)
+                    OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DeliveredDate = table.Column<DateTime>(nullable: false),
@@ -126,9 +126,9 @@ namespace WebApplication1.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderHeaders", x => x.OrderHeaderId);
+                    table.PrimaryKey("PK_Orders", x => x.OrderId);
                     table.ForeignKey(
-                        name: "FK_OrderHeaders_AspNetUsers_ApplicationUserId",
+                        name: "FK_Orders_AspNetUsers_ApplicationUserId",
                         column: x => x.ApplicationUserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -194,30 +194,30 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrderLines",
+                name: "OrderDetails",
                 columns: table => new
                 {
-                    OrderLineId = table.Column<int>(nullable: false)
+                    OrderDetailId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleId = table.Column<int>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
-                    OrderHeaderId = table.Column<int>(nullable: false)
+                    OrderId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrderLines", x => x.OrderLineId);
+                    table.PrimaryKey("PK_OrderDetails", x => x.OrderDetailId);
                     table.ForeignKey(
-                        name: "FK_OrderLines_Modules_ModuleId",
+                        name: "FK_OrderDetails_Modules_ModuleId",
                         column: x => x.ModuleId,
                         principalTable: "Modules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OrderLines_OrderHeaders_OrderHeaderId",
-                        column: x => x.OrderHeaderId,
-                        principalTable: "OrderHeaders",
-                        principalColumn: "OrderHeaderId",
+                        name: "FK_OrderDetails_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "OrderId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -233,19 +233,19 @@ namespace WebApplication1.Data.Migrations
                 column: "BillingAddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderHeaders_ApplicationUserId",
-                table: "OrderHeaders",
+                name: "IX_Orders_ApplicationUserId",
+                table: "Orders",
                 column: "ApplicationUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderLines_ModuleId",
-                table: "OrderLines",
+                name: "IX_OrderDetails_ModuleId",
+                table: "OrderDetails",
                 column: "ModuleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderLines_OrderHeaderId",
-                table: "OrderLines",
-                column: "OrderHeaderId");
+                name: "IX_OrderDetails_OrderId",
+                table: "OrderDetails",
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Modules_UnitPriceId",
@@ -277,7 +277,7 @@ namespace WebApplication1.Data.Migrations
                 name: "NewsLetterUsers");
 
             migrationBuilder.DropTable(
-                name: "OrderLines");
+                name: "OrderDetails");
 
             migrationBuilder.DropTable(
                 name: "Promotions");
@@ -286,7 +286,7 @@ namespace WebApplication1.Data.Migrations
                 name: "Modules");
 
             migrationBuilder.DropTable(
-                name: "OrderHeaders");
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "UnitPrices");

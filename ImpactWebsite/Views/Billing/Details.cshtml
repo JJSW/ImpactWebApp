@@ -1,4 +1,4 @@
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderLine>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderDetail>
 
 @{
     ViewData["Title"] = "Details";
@@ -12,10 +12,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderHeaderId)
+                @Html.DisplayNameFor(model => model.OrderId)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.OrderLineId)
+                @Html.DisplayNameFor(model => model.OrderDetailId)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.ModuleId)
@@ -30,10 +30,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrderHeaderId)
+                    @Html.DisplayFor(modelItem => item.OrderId)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrderLineId)
+                    @Html.DisplayFor(modelItem => item.OrderDetailId)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ModuleId)

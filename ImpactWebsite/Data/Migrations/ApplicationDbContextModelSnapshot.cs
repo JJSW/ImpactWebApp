@@ -152,9 +152,9 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("NewsLetterUsers");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderHeader", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Order", b =>
                 {
-                    b.Property<int>("OrderHeaderId")
+                    b.Property<int>("OrderId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("ApplicationUserId");
@@ -181,16 +181,16 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.HasKey("OrderHeaderId");
+                    b.HasKey("OrderId");
 
                     b.HasIndex("ApplicationUserId");
 
-                    b.ToTable("OrderHeaders");
+                    b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderLine", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderDetail", b =>
                 {
-                    b.Property<int>("OrderLineId")
+                    b.Property<int>("OrderDetailId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<DateTime>("ModifiedDate");
@@ -199,15 +199,15 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ModuleName");
 
-                    b.Property<int>("OrderHeaderId");
+                    b.Property<int>("OrderId");
 
-                    b.HasKey("OrderLineId");
+                    b.HasKey("OrderDetailId");
 
                     b.HasIndex("ModuleId");
 
-                    b.HasIndex("OrderHeaderId");
+                    b.HasIndex("OrderId");
 
-                    b.ToTable("OrderLines");
+                    b.ToTable("OrderDetails");
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderModule", b =>
@@ -391,23 +391,23 @@ namespace WebApplication1.Data.Migrations
                         .HasForeignKey("BillingAddressId");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderHeader", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Order", b =>
                 {
                     b.HasOne("ImpactWebsite.Models.ApplicationUser")
                         .WithMany("Orders")
                         .HasForeignKey("ApplicationUserId");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderLine", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderDetail", b =>
                 {
                     b.HasOne("ImpactWebsite.Models.OrderModels.OrderModule", "Module")
-                        .WithMany("OrderLines")
+                        .WithMany("OrderDetails")
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("ImpactWebsite.Models.OrderModels.OrderHeader", "OrderHeader")
-                        .WithMany("OrderLines")
-                        .HasForeignKey("OrderHeaderId")
+                    b.HasOne("ImpactWebsite.Models.OrderModels.Order", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

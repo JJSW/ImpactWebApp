@@ -10,7 +10,7 @@ namespace ImpactWebsite.Models.BillingModels
     public class BillingDetailViewModel
     {
         [Display(Name = "Order Number")]
-        public Int32 OrderHeaderId { get; set; }
+        public Int32 OrderId { get; set; }
 
         public string UserId { get; set; }
 

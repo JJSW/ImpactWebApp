@@ -14,11 +14,11 @@ namespace ImpactWebsite.Models.OrderModels
         Cancelled = 3,       
     }
 
-    public class OrderHeader
+    public class Order
     {
         [Key]
         [Display(Name = "Order Number")]
-        public int OrderHeaderId { get; set; }
+        public int OrderId { get; set; }
 
         public int OrderNum { get; set; }
 
@@ -46,7 +46,9 @@ namespace ImpactWebsite.Models.OrderModels
         public string UserId { get; set; }
         //public Promotion Promotion { get; set; }
         //public int PromotionId { get; set; }
-        public List<OrderLine> OrderLines { get; set; }
+
+
+        public List<OrderDetail> OrderDetails { get; set; }
 
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }

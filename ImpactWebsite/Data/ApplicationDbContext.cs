@@ -27,11 +27,10 @@ namespace ImpactWebsite.Data
         public DbSet<OrderModule> Modules { get; set; }
         public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<NewsLetterUser> NewsLetterUsers { get; set; }
-        public DbSet<OrderHeader> OrderHeaders { get; set; }
-        public DbSet<OrderLine> OrderLines { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
-
         public DbSet<BillingAddress> BillingAddresses { get; set; }        
     }
 }

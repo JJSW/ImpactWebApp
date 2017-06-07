@@ -1,4 +1,4 @@
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderLine>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderDetail>
 
 @{
     ViewData["Title"] = "NewOrder";
@@ -9,7 +9,7 @@
 @inject UserManager<ApplicationUser> UserManager
 
     <table class="table table-bordered table-responsive table-hover" style="margin: 50px auto auto auto; max-width:800px;">
-        <caption style="text-align: center; font-size: large; font-weight:bold; margin-bottom: 20px;">Order Number: @ViewData["orderNumber"]</caption>
+        <caption style="text-align: center; font-size: large; font-weight:bold; margin-bottom: 20px;">Order Number: @ViewData["orderId"]</caption>
         <thead>
             <tr>
                 <th>Module Name</th>
@@ -49,13 +49,13 @@
     <div style="display:block; float:right; text-align: center;">
         @if (SignInManager.IsSignedIn(User))
         {
-            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderNumber"] })"  class="impact-btn neworder-btn">    
+            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderId"] })"  class="impact-btn neworder-btn">    
                 <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;&nbsp;Request & Payment
             </a>
         }
         else
         {
-            <a id="Charge" asp-controller="Order" asp-action="RegisterLogin" asp-route-id="@ViewData["orderNumber"]"  class="impact-btn neworder-btn">
+            <a id="Charge" asp-controller="Order" asp-action="RegisterLogin" asp-route-id="@ViewData["orderId"]"  class="impact-btn neworder-btn">
                 <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;&nbsp;Request & Payment
             </a>
         }

@@ -25,7 +25,7 @@ namespace ImpactWebsite.Models
         public string CompanyName { get; set; }
         public bool NewsletterRequired { get; set; }
         public bool IsTempUser { get; set; }
-        public List<OrderHeader> Orders { get; set; }
+        public List<Order> Orders { get; set; }
 
         public BillingAddress BillingAddress { get; set; }
     }

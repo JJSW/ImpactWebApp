@@ -1,4 +1,4 @@
-@model ImpactWebsite.Models.OrderModels.OrderLine
+@model ImpactWebsite.Models.OrderModels.OrderDetail
 
 @{
     ViewData["Title"] = "Details";
@@ -7,7 +7,7 @@
 <h2>Details</h2>
 
 <div>
-    <h4>OrderLine</h4>
+    <h4>OrderDetail</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -29,14 +29,14 @@
             @Html.DisplayFor(model => model.Module.ModuleId)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.OrderHeader)
+            @Html.DisplayNameFor(model => model.Order)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.OrderHeader.UserEmail)
+            @Html.DisplayFor(model => model.Order.UserEmail)
         </dd>
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderLineId">Edit</a> |
+    <a asp-action="Edit" asp-route-id="@Model.OrderDetailId">Edit</a> |
     <a asp-action="Index">Back to List</a>
 </div>

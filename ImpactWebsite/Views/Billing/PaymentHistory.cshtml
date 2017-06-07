@@ -1,5 +1,5 @@
 @using ImpactWebsite.Models.OrderModels
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderHeader>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
 
 @{
     ViewData["Title"] = "PaymentHistory";
@@ -11,7 +11,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OrderHeaderId)
+            @Html.DisplayNameFor(model => model.OrderId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderedDate)
@@ -35,7 +35,7 @@
         {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderHeaderId)
+                @Html.DisplayFor(modelItem => item.OrderId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderedDate)
@@ -50,7 +50,7 @@
                 @Html.DisplayFor(modelItem => item.NoteFromUser)
             </td>
             <td>
-                <a asp-action="Details" asp-route-id="@item.OrderHeaderId">
+                <a asp-action="Details" asp-route-id="@item.OrderId">
                     <button type="button" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-tasks"></span> Details
                     </button>

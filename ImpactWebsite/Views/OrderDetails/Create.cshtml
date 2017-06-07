@@ -1,4 +1,4 @@
-@model ImpactWebsite.Models.OrderModels.OrderLine
+@model ImpactWebsite.Models.OrderModels.OrderDetail
 
 @{
     ViewData["Title"] = "Create";
@@ -8,13 +8,13 @@
 
 <form asp-action="Create">
     <div class="form-horizontal">
-        <h4>OrderLine</h4>
+        <h4>OrderDetail</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="form-group">
-            <label asp-for="OrderHeaderId" class="col-md-2 control-label"></label>
+            <label asp-for="OrderId" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <select asp-for="OrderHeaderId" class ="form-control" asp-items="ViewBag.OrderHeaderId"></select>
+                <select asp-for="OrderId" class ="form-control" asp-items="ViewBag.OrderId"></select>
             </div>
         </div>
         <div class="form-group">

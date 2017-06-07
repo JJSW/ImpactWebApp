@@ -26,11 +26,11 @@
 -->
 <h3><i class="fa fa-credit-card"></i>   Payment</h3>
 <br />
-@if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0 && (int)@ViewData["billingAddressId"] != -1)
+@if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0)
 {
     var orderId = 0;
     var bAddressId = (int)@ViewData["billingAddressId"];
-    foreach (var a in Model) { orderId = a.OrderHeaderId; }
+    foreach (var a in Model) { orderId = a.OrderId; }
 
     <!--
         Create options to send to Stripe API.
@@ -103,7 +103,7 @@ else if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0 && (int)@V
 else if (@ViewData["amount"] != null && (int)@ViewData["amount"] == 0)
 {
     var orderId = 0;
-    foreach (var a in Model) { orderId = a.OrderHeaderId; }
+    foreach (var a in Model) { orderId = a.OrderId; }
     <a class="impact-btn" href="@Url.Action("CompleteDefaultOrder", "Billing", new { orderId = @orderId})">
         Complete Order
     </a>

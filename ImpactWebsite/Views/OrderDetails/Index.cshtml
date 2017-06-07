@@ -1,4 +1,4 @@
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderLine>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderDetail>
 
 @{
     ViewData["Title"] = "Index";
@@ -12,7 +12,7 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderHeader)
+                @Html.DisplayNameFor(model => model.Order)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Module)
@@ -31,7 +31,7 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderHeader.UserEmail)
+                @Html.DisplayFor(modelItem => item.Order.UserEmail)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Module.ModuleId)
@@ -43,17 +43,17 @@
                 @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.OrderLineId">
+                <a asp-action="Edit" asp-route-id="@item.OrderDetailId">
                     <button type="button" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-edit"></span> Edit
                     </button>
                 </a>
-                <a asp-action="Details" asp-route-id="@item.OrderLineId">
+                <a asp-action="Details" asp-route-id="@item.OrderDetailId">
                     <button type="button" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-tasks"></span> Details
                     </button>
                 </a>
-                <a asp-action="Delete" asp-route-id="@item.OrderLineId">
+                <a asp-action="Delete" asp-route-id="@item.OrderDetailId">
                     <button type="button" class="btn btn-default btn-sm">
                         <span class="glyphicon glyphicon-remove"></span> Delete
                     </button>

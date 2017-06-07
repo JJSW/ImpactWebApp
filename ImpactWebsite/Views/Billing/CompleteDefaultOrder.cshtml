@@ -1,4 +1,4 @@
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderHeader>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
 
 @{
     ViewData["Title"] = "Order Complete";
@@ -10,7 +10,7 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OrderHeaderId)
+            @Html.DisplayNameFor(model => model.OrderId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderedDate)
@@ -30,7 +30,7 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderHeaderId)
+                @Html.DisplayFor(modelItem => item.OrderId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderedDate)

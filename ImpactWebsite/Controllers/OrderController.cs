@@ -24,18 +24,18 @@ namespace ImpactWebsite.Controllers
     public class OrderController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private readonly UserManager<ApplicationUser> _UserManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private IHostingEnvironment _environment;
-        private readonly SignInManager<ApplicationUser> _SignInManager;
+        private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
-        private static string _EmailAddress;
-        private static string _TotalAmount;
-        private static string _TotalDay;
+        private static string _emailAddress;
+        private static string _totalAmount;
+        private static string _totalDay;
+        private static int _orderId;
         private static int _OrderNumber;
-        private static int _orderHeaderId;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100;
-        private static double _DiscountRate;
+        private static double _discountRate;
 
         public OrderController(ApplicationDbContext context,
                                UserManager<ApplicationUser> UserManager,
@@ -45,21 +45,21 @@ namespace ImpactWebsite.Controllers
                                ILoggerFactory loggerFactory)
         {
             _context = context;
-            _UserManager = UserManager;
+            _userManager = UserManager;
             _environment = environment;
-            _SignInManager = SignInManager;
+            _signInManager = SignInManager;
             _logger = loggerFactory.CreateLogger<AccountController>();
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
         }
         public async Task<IActionResult> Index(string message)
         {
-            ApplicationUser user = await _UserManager.GetUserAsync(HttpContext.User);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ViewData["error"] = message;
-            _DiscountRate = 0;
-            if (_SignInManager.IsSignedIn(User))
+            _discountRate = 0;
+            if (_signInManager.IsSignedIn(User))
             {
-                _EmailAddress = await _UserManager.GetEmailAsync(user);
-                ViewData["email"] = _EmailAddress;
+                _emailAddress = await _userManager.GetEmailAsync(user);
+                ViewData["email"] = _emailAddress;
             }
             List<OrderList> OrderLists = new List<OrderList>();
 
@@ -80,41 +80,40 @@ namespace ImpactWebsite.Controllers
         [AllowAnonymous]
         public IActionResult NewOrder()
         {
-            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_TotalDay)).ToString("MMM dd yyyy");
-            ViewData["TotalDay"] = _TotalDay;
-            ViewData["TotalAmount"] = _TotalAmount;
-            ViewData["LoggedinUserId"] = _context.OrderHeaders.FirstOrDefault(o => o.OrderHeaderId == _orderHeaderId).UserId;
-            ViewData["orderNumber"] = _orderHeaderId;
-            ViewData["DiscountRate"] = _DiscountRate;
-            var OrderLines = _context.OrderLines.Where(o => o.OrderHeader.OrderHeaderId == _orderHeaderId).Include(o => o.Module.UnitPrice);
-            return View(OrderLines.ToList());
+            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
+            ViewData["TotalDay"] = _totalDay;
+            ViewData["TotalAmount"] = _totalAmount;
+            ViewData["LoggedinUserId"] = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId;
+            ViewData["orderId"] = _orderId;
+            ViewData["DiscountRate"] = _discountRate;
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+            return View(OrderDetails.ToList());
         }
 
         [HttpPost]
         public async Task<IActionResult> NewOrder(IFormCollection collection, string email, string totalPrice, string totalDay)
-
         {
             int totalAmount = 0;
             int parsedAmount = 0;
-            ApplicationUser user = await _UserManager.GetUserAsync(HttpContext.User);
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
-            _TotalAmount = totalPrice;
-            _TotalDay = totalDay;
-            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_TotalDay)).ToString("MMM dd yyyy");
+            _totalAmount = totalPrice;
+            _totalDay = totalDay;
+            ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = totalDay;
             ViewData["TotalAmount"] = totalPrice;
-            ViewData["DiscountRate"] = _DiscountRate;
+            ViewData["DiscountRate"] = _discountRate;
 
-            if (_SignInManager.IsSignedIn(User))
+            if (_signInManager.IsSignedIn(User))
             {
                 TempUser = user;
-                _EmailAddress = await _UserManager.GetEmailAsync(user);
-                ViewData["email"] = _EmailAddress;
+                _emailAddress = await _userManager.GetEmailAsync(user);
+                ViewData["email"] = _emailAddress;
             }
             else
             {
-                var findUser = await _UserManager.FindByEmailAsync(email);
-                var notRegisteredUser = await _UserManager.FindByEmailAsync("temp@user.com");
+                var findUser = await _userManager.FindByEmailAsync(email);
+                var notRegisteredUser = await _userManager.FindByEmailAsync("temp@user.com");
                 if (findUser != null)
                 {
                     TempUser = findUser;
@@ -122,64 +121,67 @@ namespace ImpactWebsite.Controllers
                 {
                     TempUser = notRegisteredUser;
                 }
-                _EmailAddress = email;                
+                _emailAddress = email;                
             }
             ViewData["email"] = email;
             ViewData["LoggedinUserId"] = TempUser.Id;
 
-            totalAmount = int.TryParse(_TotalAmount, out parsedAmount) ? parsedAmount : 0;
+            totalAmount = int.TryParse(_totalAmount, out parsedAmount) ? parsedAmount : 0;
 
-            if (!_context.OrderHeaders.Any())
+            if (!_context.Orders.Any())
             {
-                _context.OrderHeaders.Add(new OrderHeader()
+                _context.Orders.Add(new Order()
                 {
                     UserEmail = email,
                     OrderedDate = DateTime.Now,
-                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_TotalDay)),
+                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
                     UserId = TempUser.Id,
                     TotalAmount = totalAmount * _dollarCent
                 });
             }
             else
-            {
-                _orderHeaderId = _context.OrderHeaders.LastOrDefault().OrderHeaderId;
-                _context.OrderHeaders.Add(new OrderHeader()
+            {                
+                _context.Orders.Add(new Order()
                 {
                     UserEmail = email,
                     OrderedDate = DateTime.Now,
-                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_TotalDay)),
+                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
                     UserId = TempUser.Id,
                     TotalAmount = totalAmount * _dollarCent
                 });
             }
 
             await _context.SaveChangesAsync();
+
+            _orderId = _context.Orders.LastOrDefault(o => o.UserId == TempUser.Id).OrderId;
+           
+
+
 
             var lists = collection["modules"];
             foreach (var list in lists)
             {
                 var jsonObj = JsonConvert.DeserializeObject<OrderList>(list);
 
-                if (_context.OrderLines == null)
-                {
-                    OrderLine temp = new OrderLine();
-                    _context.OrderLines.Add(temp);
-                }
-
-                _context.OrderLines.Add(new OrderLine()
+                _context.OrderDetails.Add(new OrderDetail()
                 {
                     ModifiedDate = DateTime.Now,
-                    OrderHeaderId = _context.OrderHeaders.LastOrDefault(o => o.OrderHeaderId == _orderHeaderId).OrderHeaderId,
+                    OrderId = _context.Orders.LastOrDefault(o => o.OrderId == _orderId).OrderId,
                     ModuleId = jsonObj.Modules.ModuleId,
                     ModuleName = jsonObj.Modules.ModuleName
                 });
             }
             await _context.SaveChangesAsync();
 
+
+
+
+
+
             try
             {
-                var newOrderHeader = _context.OrderHeaders.SingleOrDefault(x => x.OrderHeaderId == _orderHeaderId);
-                ViewData["OrderId"] = newOrderHeader.OrderHeaderId;
+                var newOrder = _context.Orders.SingleOrDefault(x => x.OrderId == _orderId);
+                ViewData["OrderId"] = newOrder.OrderId;
 
                 if (ViewData["OrderId"] == null)
                 {
@@ -191,10 +193,10 @@ namespace ImpactWebsite.Controllers
                 Console.WriteLine("ArgumentNullException source: {0}", e.Source);
             }
 
-            var OrderLines = _context.OrderLines.Where(o => o.OrderHeader.OrderHeaderId == _orderHeaderId).Include(o => o.Module.UnitPrice);
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
 
-            ViewData["orderNumber"] = _orderHeaderId;
-            return View(OrderLines.ToList());
+            ViewData["orderId"] = _orderId;
+            return View(OrderDetails.ToList());
         }
 
         [HttpGet]
@@ -212,11 +214,11 @@ namespace ImpactWebsite.Controllers
                 var result = _context.Promotions.FirstOrDefault(p => p.PromotionCode.Equals(model.PromotionCode));
                 if (result != null && result.DateFrom <= DateTime.Now && result.DateTo >= DateTime.Now && result.IsActive)
                 {
-                    _DiscountRate = (double)result.DiscountRate;
-                    var tmpAmount = _context.OrderHeaders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount;
+                    _discountRate = (double)result.DiscountRate;
+                    var tmpAmount = _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount;
                     var discoutRate = result.DiscountRate * _dollarCent;
                     tmpAmount = tmpAmount - (tmpAmount * (int)discoutRate/ _dollarCent);
-                    _context.OrderHeaders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount = tmpAmount;
+                    _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount = tmpAmount;
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -230,18 +232,18 @@ namespace ImpactWebsite.Controllers
         [HttpGet]
         public IActionResult FileUpdaload()
         {
-            ViewData["email"] = _EmailAddress;
-            ViewData["TotalAmount"] = _TotalAmount;
+            ViewData["email"] = _emailAddress;
+            ViewData["TotalAmount"] = _totalAmount;
             return PartialView("_Investment");
         }
 
         [HttpPost]
         public async Task<IActionResult> FileUpdaload(ICollection<IFormFile> files)
         {
-            ViewData["TotalAmount"] = _TotalAmount;
+            ViewData["TotalAmount"] = _totalAmount;
             DateTime dtNow = DateTime.Now;
             string UpdateDate = dtNow.ToString("ddMMyyyy");
-            string uploads = Path.Combine(_environment.WebRootPath, "uploads/" + UpdateDate + "/" + _EmailAddress);
+            string uploads = Path.Combine(_environment.WebRootPath, "uploads/" + UpdateDate + "/" + _emailAddress);
 
             if (!Directory.Exists(uploads))
             {
@@ -258,8 +260,8 @@ namespace ImpactWebsite.Controllers
                     }
                 }
             }
-            var OrderLines = _context.OrderLines.Where(o => o.OrderHeader.OrderNum == _OrderNumber).Include(o => o.Module.UnitPrice);
-            ViewData["orderNumber"] = _OrderNumber;
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+            ViewData["orderId"] = _OrderNumber;
             return RedirectToAction("NewOrder");
         }
 
@@ -280,10 +282,10 @@ namespace ImpactWebsite.Controllers
         [HttpGet]
         public async Task<IActionResult> RegisterLogin(int id)
         {
-            ViewData["orderNumber"] = _orderHeaderId;
-            string userEmail = _context.OrderHeaders.FirstOrDefault(o => o.OrderNum == id).UserEmail;
+            ViewData["orderId"] = _orderId;
+            string userEmail = _context.Orders.FirstOrDefault(o => o.OrderNum == id).UserEmail;
 
-            if (await _UserManager.FindByEmailAsync(userEmail) == null)
+            if (await _userManager.FindByEmailAsync(userEmail) == null)
             {
                 ViewData["checkUser"] = "NeedRegister";
             } else
@@ -299,8 +301,8 @@ namespace ImpactWebsite.Controllers
         [AllowAnonymous]
         public IActionResult PartialRegister(string returnUrl = null)
         {
-            ViewData["email"] = _EmailAddress;
-            ViewData["orderNumber"] = _OrderNumber;
+            ViewData["email"] = _emailAddress;
+            ViewData["orderId"] = _OrderNumber;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -310,19 +312,19 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialRegister(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewData["email"] = _EmailAddress;
-            ViewData["orderNumber"] = _OrderNumber;
+            ViewData["email"] = _emailAddress;
+            ViewData["orderId"] = _OrderNumber;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, NewsletterRequired = model.NewsLetterRequired };
-                var result = await _UserManager.CreateAsync(user, model.Password);
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await _SignInManager.SignInAsync(user, isPersistent: false);
-                    _context.OrderHeaders.FirstOrDefault(o => o.OrderNum == _OrderNumber).UserId = user.Id;
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).UserId = user.Id;
                     await _context.SaveChangesAsync();
                     _logger.LogInformation(3, "User created a new account with password.");
-                    await _UserManager.AddToRoleAsync(user, "Member");
+                    await _userManager.AddToRoleAsync(user, "Member");
                     return RedirectToAction("NewOrder");
                 }
                 AddErrors(result);
@@ -338,8 +340,8 @@ namespace ImpactWebsite.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> PartialLogin(string returnUrl = null)
         {
-            ViewData["email"] = _EmailAddress;
-            ViewData["orderNumber"] = _OrderNumber;
+            ViewData["email"] = _emailAddress;
+            ViewData["orderId"] = _OrderNumber;
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
 
@@ -355,13 +357,13 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialLogin(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewData["email"] = _EmailAddress;
-            ViewData["orderNumber"] = _OrderNumber;
+            ViewData["email"] = _emailAddress;
+            ViewData["orderId"] = _OrderNumber;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
