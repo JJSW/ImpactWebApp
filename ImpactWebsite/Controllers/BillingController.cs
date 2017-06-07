@@ -128,7 +128,6 @@ namespace ImpactWebsite.Controllers
         /// <returns></returns>
         public async Task<IActionResult> CompleteDefaultOrder(int orderId)
         {
-            // Check orderNum
             var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
 
             foreach (var order in completedOrders)
@@ -161,7 +160,6 @@ namespace ImpactWebsite.Controllers
             var customers = new StripeCustomerService();
             var charges = new StripeChargeService();
 
-            // check OrderNumber
             var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
 
             var customer = customers.Create(new StripeCustomerCreateOptions

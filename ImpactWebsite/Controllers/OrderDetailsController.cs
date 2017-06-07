@@ -10,11 +10,11 @@ using ImpactWebsite.Models.OrderModels;
 
 namespace ImpactWebsite.Controllers
 {
-    public class OrderDetailController : Controller
+    public class OrderDetailsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public OrderDetailController(ApplicationDbContext context)
+        public OrderDetailsController(ApplicationDbContext context)
         {
             _context = context;    
         }

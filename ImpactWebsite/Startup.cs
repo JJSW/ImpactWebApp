@@ -48,12 +48,12 @@ namespace ImpactWebsite
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase());
 
-            services.AddIdentity<ApplicationUser, IdentityRole>(config => {
+            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
+            {
                 config.SignIn.RequireConfirmedEmail = true;
             })
-
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
 
             services.AddMvc();
 
@@ -87,7 +87,6 @@ namespace ImpactWebsite
             app.UseIdentity();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

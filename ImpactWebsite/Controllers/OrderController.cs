@@ -32,7 +32,6 @@ namespace ImpactWebsite.Controllers
         private static string _totalAmount;
         private static string _totalDay;
         private static int _orderId;
-        private static int _OrderNumber;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100;
         private static double _discountRate;
@@ -127,9 +126,7 @@ namespace ImpactWebsite.Controllers
             ViewData["LoggedinUserId"] = TempUser.Id;
 
             totalAmount = int.TryParse(_totalAmount, out parsedAmount) ? parsedAmount : 0;
-
-            if (!_context.Orders.Any())
-            {
+             
                 _context.Orders.Add(new Order()
                 {
                     UserEmail = email,
@@ -138,18 +135,6 @@ namespace ImpactWebsite.Controllers
                     UserId = TempUser.Id,
                     TotalAmount = totalAmount * _dollarCent
                 });
-            }
-            else
-            {                
-                _context.Orders.Add(new Order()
-                {
-                    UserEmail = email,
-                    OrderedDate = DateTime.Now,
-                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
-                    UserId = TempUser.Id,
-                    TotalAmount = totalAmount * _dollarCent
-                });
-            }
 
             await _context.SaveChangesAsync();
 
@@ -215,10 +200,10 @@ namespace ImpactWebsite.Controllers
                 if (result != null && result.DateFrom <= DateTime.Now && result.DateTo >= DateTime.Now && result.IsActive)
                 {
                     _discountRate = (double)result.DiscountRate;
-                    var tmpAmount = _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount;
+                    var tmpAmount = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount;
                     var discoutRate = result.DiscountRate * _dollarCent;
                     tmpAmount = tmpAmount - (tmpAmount * (int)discoutRate/ _dollarCent);
-                    _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).TotalAmount = tmpAmount;
+                    _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount = tmpAmount;
                     await _context.SaveChangesAsync();
                 }
                 else
@@ -261,7 +246,7 @@ namespace ImpactWebsite.Controllers
                 }
             }
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
-            ViewData["orderId"] = _OrderNumber;
+            ViewData["orderId"] = _orderId;
             return RedirectToAction("NewOrder");
         }
 
@@ -283,7 +268,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> RegisterLogin(int id)
         {
             ViewData["orderId"] = _orderId;
-            string userEmail = _context.Orders.FirstOrDefault(o => o.OrderNum == id).UserEmail;
+            string userEmail = _context.Orders.FirstOrDefault(o => o.OrderId == id).UserEmail;
 
             if (await _userManager.FindByEmailAsync(userEmail) == null)
             {
@@ -302,26 +287,26 @@ namespace ImpactWebsite.Controllers
         public IActionResult PartialRegister(string returnUrl = null)
         {
             ViewData["email"] = _emailAddress;
-            ViewData["orderId"] = _OrderNumber;
+            ViewData["orderId"] = _orderId;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PartialRegister(RegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> PartialRegister(PartialRegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["email"] = _emailAddress;
-            ViewData["orderId"] = _OrderNumber;
+            ViewData["orderId"] = _orderId;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, FirstName = model.FirstName, LastName = model.LastName, Email = model.Email, NewsletterRequired = model.NewsLetterRequired };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NewsletterRequired = model.NewsLetterRequired };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
-                    _context.Orders.FirstOrDefault(o => o.OrderNum == _OrderNumber).UserId = user.Id;
+                    _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId = user.Id;
                     await _context.SaveChangesAsync();
                     _logger.LogInformation(3, "User created a new account with password.");
                     await _userManager.AddToRoleAsync(user, "Member");
@@ -341,7 +326,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialLogin(string returnUrl = null)
         {
             ViewData["email"] = _emailAddress;
-            ViewData["orderId"] = _OrderNumber;
+            ViewData["orderId"] = _orderId;
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
 
@@ -358,7 +343,7 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["email"] = _emailAddress;
-            ViewData["orderId"] = _OrderNumber;
+            ViewData["orderId"] = _orderId;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout

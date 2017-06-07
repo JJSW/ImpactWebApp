@@ -15,10 +15,8 @@ namespace ImpactWebsite.Models
         //Auto generated
         //public Int64 UserId { get; set; }
 
-        [Required]
         [StringLength(160, MinimumLength = 1)]
         public string FirstName { get; set; }
-        [Required]
         [StringLength(160, MinimumLength = 1)]
         public string LastName { get; set; }
         [StringLength(160, MinimumLength = 2)]
