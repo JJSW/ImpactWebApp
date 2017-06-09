@@ -10,12 +10,14 @@ using Microsoft.Extensions.Options;
 using ImpactWebsite.Models;
 using ImpactWebsite.Models.ManageViewModels;
 using ImpactWebsite.Services;
+using ImpactWebsite.Data;
 
 namespace ImpactWebsite.Controllers
 {
     [Authorize]
     public class ManageController : Controller
     {
+        private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly string _externalCookieScheme;
@@ -24,6 +26,7 @@ namespace ImpactWebsite.Controllers
         private readonly ILogger _logger;
 
         public ManageController(
+          ApplicationDbContext context,
           UserManager<ApplicationUser> userManager,
           SignInManager<ApplicationUser> signInManager,
           IOptions<IdentityCookieOptions> identityCookieOptions,
@@ -31,6 +34,7 @@ namespace ImpactWebsite.Controllers
           ISmsSender smsSender,
           ILoggerFactory loggerFactory)
         {
+            _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
@@ -58,6 +62,7 @@ namespace ImpactWebsite.Controllers
             {
                 return View("Error");
             }
+            /*
             var model = new IndexViewModel
             {
                 HasPassword = await _userManager.HasPasswordAsync(user),
@@ -65,6 +70,16 @@ namespace ImpactWebsite.Controllers
                 TwoFactor = await _userManager.GetTwoFactorEnabledAsync(user),
                 Logins = await _userManager.GetLoginsAsync(user),
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
+            };*/
+
+
+            var model = new ApplicationUser
+            {
+                FirstName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).FirstName,
+                LastName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).LastName,
+                CompanyName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).CompanyName,
+                NewsletterRequired = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).NewsletterRequired,
+                Orders = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).Orders,
             };
             return View(model);
         }

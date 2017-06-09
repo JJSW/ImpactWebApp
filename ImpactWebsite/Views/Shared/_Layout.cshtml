@@ -58,16 +58,6 @@
                         <li><a asp-area="" asp-controller="OrderModules" asp-action="Index">Modules</a></li>
                         <li><a asp-area="" asp-controller="Promotions" asp-action="Index">Promotion</a></li>
                     }
-                    else if (User.Identity.IsAuthenticated)
-                    {
-                        <li>
-                            <a asp-area="" asp-controller="Billing" asp-action="Index">Billing Dashboard</a>
-                        </li>
-                        <li>
-                            <a asp-area="" asp-controller="Billing" asp-action="PaymentHistory">Payment History</a>
-                        </li>
-
-                    }
                 </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
