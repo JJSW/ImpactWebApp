@@ -189,6 +189,32 @@ namespace ImpactWebsite.Controllers
         }
 
 
+        // GET: Orders
+        public async Task<IActionResult> Orders()
+        {
+            var applicationDbContext = _context.Orders;
+            return View(await applicationDbContext.ToListAsync());
+        }
+
+        // GET: Orders/OrderDetails/5
+        public async Task<IActionResult> OrderDetails(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var orderDetail = await _context.OrderDetails
+                .Include(o => o.Module)
+                .FirstOrDefaultAsync(m => m.OrderId == id);
+            if (orderDetail == null)
+            {
+                return NotFound();
+            }
+
+            return View(orderDetail);
+        }
+
 
 
         [HttpGet]
