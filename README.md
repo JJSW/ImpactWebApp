@@ -10,4 +10,4 @@ Website:
 
 - ASP.Net Core 1.1
 - Android Studio 2017
-- MS SQL Server 2012, 2014
+- MS SQL Server

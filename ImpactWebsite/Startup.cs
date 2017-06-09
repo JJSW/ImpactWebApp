@@ -47,11 +47,8 @@ namespace ImpactWebsite
             // Use in memory database for unit testing
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase());
-
-            services.AddIdentity<ApplicationUser, IdentityRole>(config =>
-            {
-                config.SignIn.RequireConfirmedEmail = true;
-            })
+            
+            services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 

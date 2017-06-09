@@ -116,33 +116,45 @@ namespace ImpactWebsite.Controllers
                 if (findUser != null)
                 {
                     TempUser = findUser;
-                } else
+                }
+                else
                 {
                     TempUser = notRegisteredUser;
                 }
-                _emailAddress = email;                
+                _emailAddress = email;
             }
             ViewData["email"] = email;
             ViewData["LoggedinUserId"] = TempUser.Id;
 
             totalAmount = int.TryParse(_totalAmount, out parsedAmount) ? parsedAmount : 0;
-             
-                _context.Orders.Add(new Order()
-                {
-                    UserEmail = email,
-                    OrderedDate = DateTime.Now,
-                    DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
-                    UserId = TempUser.Id,
-                    TotalAmount = totalAmount * _dollarCent
-                });
+
+
+            _context.Orders.Add(new Order()
+            {
+                UserEmail = email,
+                OrderedDate = DateTime.Now,
+                DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
+                UserId = TempUser.Id,
+                TotalAmount = totalAmount * _dollarCent
+            });
 
             await _context.SaveChangesAsync();
 
             _orderId = _context.Orders.LastOrDefault(o => o.UserId == TempUser.Id).OrderId;
-           
 
+            CreateOrderDetail(collection);
+            await _context.SaveChangesAsync();
 
+            GetOrderId();
 
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+
+            ViewData["orderId"] = _orderId;
+            return View(OrderDetails.ToList());
+        }
+
+        private void CreateOrderDetail(IFormCollection collection)
+        {
             var lists = collection["modules"];
             foreach (var list in lists)
             {
@@ -156,13 +168,10 @@ namespace ImpactWebsite.Controllers
                     ModuleName = jsonObj.Modules.ModuleName
                 });
             }
-            await _context.SaveChangesAsync();
+        }
 
-
-
-
-
-
+        private void GetOrderId()
+        {
             try
             {
                 var newOrder = _context.Orders.SingleOrDefault(x => x.OrderId == _orderId);
@@ -177,12 +186,10 @@ namespace ImpactWebsite.Controllers
             {
                 Console.WriteLine("ArgumentNullException source: {0}", e.Source);
             }
-
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
-
-            ViewData["orderId"] = _orderId;
-            return View(OrderDetails.ToList());
         }
+
+
+
 
         [HttpGet]
         public IActionResult SubmitPromoCode()
@@ -202,7 +209,7 @@ namespace ImpactWebsite.Controllers
                     _discountRate = (double)result.DiscountRate;
                     var tmpAmount = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount;
                     var discoutRate = result.DiscountRate * _dollarCent;
-                    tmpAmount = tmpAmount - (tmpAmount * (int)discoutRate/ _dollarCent);
+                    tmpAmount = tmpAmount - (tmpAmount * (int)discoutRate / _dollarCent);
                     _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount = tmpAmount;
                     await _context.SaveChangesAsync();
                 }
@@ -273,7 +280,8 @@ namespace ImpactWebsite.Controllers
             if (await _userManager.FindByEmailAsync(userEmail) == null)
             {
                 ViewData["checkUser"] = "NeedRegister";
-            } else
+            }
+            else
             {
                 ViewData["checkUser"] = "NeedLogin";
             }
