@@ -47,18 +47,6 @@
             </div>
 
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav main-nav">
-
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li><a asp-area="" asp-controller="OrderDetails" asp-action="Index" class="nav-menu">Orders</a></li>
-                        <li><a asp-area="" asp-controller="OrderDetails" asp-action="Index">OrderDetails</a></li>
-                        <li><a asp-area="" asp-controller="ApplicationUsers" asp-action="Index">Users</a></li>
-                        <li><a asp-area="" asp-controller="NewsLetterUsers" asp-action="Index">NewsLetterUser</a></li>
-                        <li><a asp-area="" asp-controller="OrderModules" asp-action="Index">Modules</a></li>
-                        <li><a asp-area="" asp-controller="Promotions" asp-action="Index">Promotion</a></li>
-                    }
-                </ul>
                 @await Html.PartialAsync("_LoginPartial")
             </div>
         </div>

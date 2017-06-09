@@ -144,34 +144,6 @@ namespace ImpactWebsite.Controllers
 
             CreateOrderDetail(collection);
 
-            GetOrderId();
-
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
-
-            ViewData["orderId"] = _orderId;
-            return View(OrderDetails.ToList());
-        }
-
-        private async void CreateOrderDetail(IFormCollection collection)
-        {
-            var lists = collection["modules"];
-            foreach (var list in lists)
-            {
-                var jsonObj = JsonConvert.DeserializeObject<OrderList>(list);
-
-                _context.OrderDetails.Add(new OrderDetail()
-                {
-                    ModifiedDate = DateTime.Now,
-                    OrderId = _context.Orders.LastOrDefault(o => o.OrderId == _orderId).OrderId,
-                    ModuleId = jsonObj.Modules.ModuleId,
-                    ModuleName = jsonObj.Modules.ModuleName
-                });
-            }
-            await _context.SaveChangesAsync();
-        }
-
-        private void GetOrderId()
-        {
             try
             {
                 var newOrder = _context.Orders.SingleOrDefault(x => x.OrderId == _orderId);
@@ -186,6 +158,34 @@ namespace ImpactWebsite.Controllers
             {
                 Console.WriteLine("ArgumentNullException source: {0}", e.Source);
             }
+
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+
+            ViewData["orderId"] = _orderId;
+            return View(OrderDetails.ToList());
+        }
+
+        private void CreateOrderDetail(IFormCollection collection)
+        {
+            var lists = collection["modules"];
+            foreach (var list in lists)
+            {
+                var jsonObj = JsonConvert.DeserializeObject<OrderList>(list);
+
+                _context.OrderDetails.Add(new OrderDetail()
+                {
+                    ModifiedDate = DateTime.Now,
+                    OrderId = _context.Orders.LastOrDefault(o => o.OrderId == _orderId).OrderId,
+                    ModuleId = jsonObj.Modules.ModuleId,
+                    ModuleName = jsonObj.Modules.ModuleName
+                });
+            }
+            _context.SaveChanges();
+        }
+
+        private void GetOrderId()
+        {
+
         }
 
 
