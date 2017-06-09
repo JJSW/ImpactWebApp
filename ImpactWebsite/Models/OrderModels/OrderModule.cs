@@ -10,13 +10,20 @@ namespace ImpactWebsite.Models.OrderModels
     {
         [Key]
         public int ModuleId { get; set; }
+
+        [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
-        public int DeliveryDays { get; set; }
+
+        [Display(Name = "Module Description")]
         public string Description { get; set; }
+
+        [Display(Name = "Module Description")]
         public string LongDescription { get; set; }
+
         public int UnitPriceId { get; set; }
-        public UnitPrice UnitPrice { get; set; }
+
         [Display(Name = "Unit Price")]
-        public List<OrderDetail> OrderDetails { get; set; }
+        public UnitPrice UnitPrice { get; set; }
+
     }
 }

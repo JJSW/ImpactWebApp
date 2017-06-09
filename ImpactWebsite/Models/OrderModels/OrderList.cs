@@ -8,6 +8,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class OrderList
     {
         public bool IsChecked { get; set; }
+
         public OrderModule Modules { get; set; }
 
     }

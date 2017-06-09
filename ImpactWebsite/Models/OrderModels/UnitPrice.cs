@@ -10,9 +10,12 @@ namespace ImpactWebsite.Models.OrderModels
     {
         [Key]
         public int UnitPriceId { get; set; }
+
         [DataType(DataType.Currency)]
         public int Price { get; set; }
+
         public DateTime DateEffectFrom { get; set; }
+
         public DateTime DateEffectTo { get; set; }
     }
 }

@@ -25,8 +25,8 @@ namespace ImpactWebsite.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
-        private IHostingEnvironment _environment;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private IHostingEnvironment _environment;
         private readonly ILogger _logger;
         private static string _emailAddress;
         private static string _totalAmount;
@@ -58,7 +58,7 @@ namespace ImpactWebsite.Controllers
             if (_signInManager.IsSignedIn(User))
             {
                 _emailAddress = await _userManager.GetEmailAsync(user);
-                ViewData["email"] = _emailAddress;
+                ViewData["Email"] = _emailAddress;
             }
             List<OrderList> OrderLists = new List<OrderList>();
 
@@ -107,7 +107,7 @@ namespace ImpactWebsite.Controllers
             {
                 TempUser = user;
                 _emailAddress = await _userManager.GetEmailAsync(user);
-                ViewData["email"] = _emailAddress;
+                ViewData["Email"] = _emailAddress;
             }
             else
             {
@@ -123,7 +123,7 @@ namespace ImpactWebsite.Controllers
                 }
                 _emailAddress = email;
             }
-            ViewData["email"] = email;
+            ViewData["Email"] = email;
             ViewData["LoggedinUserId"] = TempUser.Id;
 
             totalAmount = int.TryParse(_totalAmount, out parsedAmount) ? parsedAmount : 0;
@@ -143,7 +143,6 @@ namespace ImpactWebsite.Controllers
             _orderId = _context.Orders.LastOrDefault(o => o.UserId == TempUser.Id).OrderId;
 
             CreateOrderDetail(collection);
-            await _context.SaveChangesAsync();
 
             GetOrderId();
 
@@ -153,7 +152,7 @@ namespace ImpactWebsite.Controllers
             return View(OrderDetails.ToList());
         }
 
-        private void CreateOrderDetail(IFormCollection collection)
+        private async void CreateOrderDetail(IFormCollection collection)
         {
             var lists = collection["modules"];
             foreach (var list in lists)
@@ -168,6 +167,7 @@ namespace ImpactWebsite.Controllers
                     ModuleName = jsonObj.Modules.ModuleName
                 });
             }
+            await _context.SaveChangesAsync();
         }
 
         private void GetOrderId()
@@ -224,7 +224,7 @@ namespace ImpactWebsite.Controllers
         [HttpGet]
         public IActionResult FileUpdaload()
         {
-            ViewData["email"] = _emailAddress;
+            ViewData["Email"] = _emailAddress;
             ViewData["TotalAmount"] = _totalAmount;
             return PartialView("_Investment");
         }
@@ -294,7 +294,7 @@ namespace ImpactWebsite.Controllers
         [AllowAnonymous]
         public IActionResult PartialRegister(string returnUrl = null)
         {
-            ViewData["email"] = _emailAddress;
+            ViewData["Email"] = _emailAddress;
             ViewData["orderId"] = _orderId;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
@@ -305,7 +305,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialRegister(PartialRegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewData["email"] = _emailAddress;
+            ViewData["Email"] = _emailAddress;
             ViewData["orderId"] = _orderId;
             if (ModelState.IsValid)
             {
@@ -333,7 +333,7 @@ namespace ImpactWebsite.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> PartialLogin(string returnUrl = null)
         {
-            ViewData["email"] = _emailAddress;
+            ViewData["Email"] = _emailAddress;
             ViewData["orderId"] = _orderId;
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
@@ -350,7 +350,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialLogin(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
-            ViewData["email"] = _emailAddress;
+            ViewData["Email"] = _emailAddress;
             ViewData["orderId"] = _orderId;
             if (ModelState.IsValid)
             {

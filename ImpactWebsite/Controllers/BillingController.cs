@@ -58,7 +58,7 @@ namespace ImpactWebsite.Controllers
             if (_signInManager.IsSignedIn(User))
             {
                 _emailAddress = await _userManager.GetEmailAsync(user);
-                ViewData["email"] = _emailAddress;
+                ViewData["Email"] = _emailAddress;
             }
 
             if (id != null)

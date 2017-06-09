@@ -38,7 +38,10 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Note")]
         public string NoteFromUser { get; set; }
+
+        [Display(Name = "Note from admin")]
         public string NoteFromAdmin { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string UserEmail { get; set; }
