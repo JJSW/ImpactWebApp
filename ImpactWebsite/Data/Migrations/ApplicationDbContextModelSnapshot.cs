@@ -133,9 +133,9 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("Investments");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.NewsLetterUser", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.NewsletterUser", b =>
                 {
-                    b.Property<long>("NewsLetterUserId")
+                    b.Property<long>("NewsletterUserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
@@ -145,9 +145,29 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<bool>("isSubscribed");
 
-                    b.HasKey("NewsLetterUserId");
+                    b.HasKey("NewsletterUserId");
 
-                    b.ToTable("NewsLetterUsers");
+                    b.ToTable("NewsletterUsers");
+                });
+
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
+                {
+                    b.Property<int>("ModuleId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("LongDescription");
+
+                    b.Property<string>("ModuleName");
+
+                    b.Property<int>("UnitPriceId");
+
+                    b.HasKey("ModuleId");
+
+                    b.HasIndex("UnitPriceId");
+
+                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Order", b =>
@@ -206,26 +226,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasIndex("OrderId");
 
                     b.ToTable("OrderDetails");
-                });
-
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderModule", b =>
-                {
-                    b.Property<int>("ModuleId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("LongDescription");
-
-                    b.Property<string>("ModuleName");
-
-                    b.Property<int>("UnitPriceId");
-
-                    b.HasKey("ModuleId");
-
-                    b.HasIndex("UnitPriceId");
-
-                    b.ToTable("Modules");
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Promotion", b =>
@@ -387,6 +387,14 @@ namespace WebApplication1.Data.Migrations
                         .HasForeignKey("BillingAddressId");
                 });
 
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
+                {
+                    b.HasOne("ImpactWebsite.Models.OrderModels.UnitPrice", "UnitPrice")
+                        .WithMany()
+                        .HasForeignKey("UnitPriceId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Order", b =>
                 {
                     b.HasOne("ImpactWebsite.Models.ApplicationUser")
@@ -396,7 +404,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderDetail", b =>
                 {
-                    b.HasOne("ImpactWebsite.Models.OrderModels.OrderModule", "Module")
+                    b.HasOne("ImpactWebsite.Models.OrderModels.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -404,14 +412,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasOne("ImpactWebsite.Models.OrderModels.Order")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.OrderModule", b =>
-                {
-                    b.HasOne("ImpactWebsite.Models.OrderModels.UnitPrice", "UnitPrice")
-                        .WithMany()
-                        .HasForeignKey("UnitPriceId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

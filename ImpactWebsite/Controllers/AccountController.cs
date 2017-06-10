@@ -123,7 +123,7 @@ namespace ImpactWebsite.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, CompanyName = model.CompanyName, NewsletterRequired = model.NewsLetterRequired };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, CompanyName = model.CompanyName, NewsletterRequired = model.NewsletterRequired };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

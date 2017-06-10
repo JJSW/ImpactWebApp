@@ -51,55 +51,55 @@ namespace ImpactWebsite.Models.SampleSeedData
         {
             if (!db.Modules.Any())
             {
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Overview and Financials",
                     Description = "Overview and Financials",
                     LongDescription = "Long Overview and Financials",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 0).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Operational blueprint and asset-level data",
                     Description = "Operational blueprint and asset-level data",
                     LongDescription = "Long Operational blueprint and asset-level data",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Social Impact metrics",
                     Description = "Social Impact metrics",
                     LongDescription = "Long Social Impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Environmental impact metrics",
                     Description = "Environmental impact metrics",
                     LongDescription = "Long Environmental impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Governance and controversies",
                     Description = "Governance and controversies",
                     LongDescription = "Long Governance and controversies",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Upstream and downstream supplier analysis",
                     Description = "Upstream and downstream supplier analysis",
                     LongDescription = "Long Upstream and downstream supplier analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
-                db.Modules.Add(new OrderModule()
+                db.Modules.Add(new Module()
                 {
                     ModuleName = "Regulatory, climate-realted and other risk analysis",
                     Description = "Regulatory, climate-realted and other risk analysis",
                     LongDescription = "Long Regulatory, climate-realted and other risk analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
-                }); db.Modules.Add(new OrderModule()
+                }); db.Modules.Add(new Module()
                 {
                     ModuleName = "Benchmarking and targets",
                     Description = "Benchmarking and targets",

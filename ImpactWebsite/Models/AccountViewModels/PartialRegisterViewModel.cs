@@ -25,6 +25,6 @@ namespace ImpactWebsite.Models.AccountViewModels
         public string ConfirmPassword { get; set; }
 
         [Display(Name = "Receive Newsletter")]
-        public bool NewsLetterRequired { get; set; }
+        public bool NewsletterRequired { get; set; }
     }
 }

@@ -335,7 +335,7 @@ namespace ImpactWebsite.Controllers
             ViewData["orderId"] = _orderId;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NewsletterRequired = model.NewsLetterRequired };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NewsletterRequired = model.NewsletterRequired };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

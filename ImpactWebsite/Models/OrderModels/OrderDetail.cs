@@ -23,6 +23,6 @@ namespace ImpactWebsite.Models.OrderModels
         public string ModuleName { get; set; }
 
 
-        public OrderModule Module { get; set; }
+        public Module Module { get; set; }
     }
 }

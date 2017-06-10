@@ -24,16 +24,16 @@ namespace ImpactWebsite.Controllers
         public IActionResult Index()
         {
             ViewData["status"] = "get";
-            NewsLetterUser nlUser = new NewsLetterUser();
+            NewsletterUser nlUser = new NewsletterUser();
             return View(nlUser);
         }
 
         [HttpPost]        
-        public async Task<IActionResult> Index(NewsLetterUser model)
+        public async Task<IActionResult> Index(NewsletterUser model)
         {
             if (ModelState.IsValid)
             {
-                if (_context.NewsLetterUsers.Any(a => a.Email == model.Email))
+                if (_context.NewsletterUsers.Any(a => a.Email == model.Email))
                 {
                     ModelState.AddModelError("Email", "Email " + model.Email + " is already in use.");
                     ViewData["status"] = "fail";

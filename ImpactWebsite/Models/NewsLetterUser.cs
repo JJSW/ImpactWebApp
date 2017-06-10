@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models
 {
-    public class NewsLetterUser : BaseEntity
+    public class NewsletterUser : BaseEntity
     {
         [Key]
-        public Int64 NewsLetterUserId { get; set; }
+        public Int64 NewsletterUserId { get; set; }
         
         [Required]
         [Display(Name = "Email")]
