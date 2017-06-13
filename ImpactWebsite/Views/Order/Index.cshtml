@@ -61,7 +61,7 @@
             }
             <tr>
                 <td></td>
-                <td>Total: <span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly" /> </span></td>    
+                <td>Total: <span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly" /></span> Discount: <p name="discount"></p></td>    
             </tr>
         </tbody>
     </table>
@@ -79,6 +79,7 @@
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+  
     <script type="text/javascript">
         $(document).ready(function () {
             $("input[type='checkbox']").click(function () {
@@ -86,14 +87,29 @@
             });
         });
          function calculateTotal() {
-            totalPrice = 0.0;
+             totalPrice = 0.0;
+             discount = 0;
             $(':checkbox:checked.chkBox').each(function () {
 
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
-                totalPrice += +jsonObj.modules.unitPrice.price;
+                totalPrice += +jsonObj.modules.unitPrice.price;     
+                                
             });
+            var count_modules = $(':checkbox:checked').length;
+
+            if (count_modules >= 3  && count_modules <= 5 ) {
+                totalPrice = totalPrice - 10;  
+                discount = 10;
+            } else if (count_modules > 5 && count_modules <= 8 ){
+                totalPrice = totalPrice - 20;   
+                discount = 20;
+            }
+
             $('input[name=totalPrice]').val(totalPrice);
+            $('p[name=discount]').text(discount);
+
+            
         }
 
 
