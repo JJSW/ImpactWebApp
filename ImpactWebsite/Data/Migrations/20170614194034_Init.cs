@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -102,6 +102,24 @@ namespace WebApplication1.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_NewsletterUsers", x => x.NewsletterUserId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Discounts",
+                columns: table => new
+                {
+                    DiscountId = table.Column<long>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    DiscountName = table.Column<string>(nullable: true),
+                    DiscountRate = table.Column<int>(nullable: false),
+                    IsActive = table.Column<bool>(nullable: false),
+                    SelectFrom = table.Column<int>(nullable: false),
+                    SelectTo = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Discounts", x => x.DiscountId);
                 });
 
             migrationBuilder.CreateTable(
@@ -272,6 +290,9 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "NewsletterUsers");
+
+            migrationBuilder.DropTable(
+                name: "Discounts");
 
             migrationBuilder.DropTable(
                 name: "OrderDetails");

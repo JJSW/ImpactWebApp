@@ -60,19 +60,36 @@ namespace ImpactWebsite.Controllers
                 _emailAddress = await _userManager.GetEmailAsync(user);
                 ViewData["Email"] = _emailAddress;
             }
-            List<OrderList> OrderLists = new List<OrderList>();
+            List<TempOrder> tempOrders = new List<TempOrder>();
 
             var moduleList = _context.Modules.Include(o => o.UnitPrice);
 
+            var activeDiscount1 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount1");
+            var activeDiscount2 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount2");
+
+            foreach (var active1 in activeDiscount1)
+            {
+                ViewBag.D1SelectFrom = active1.SelectFrom;
+                ViewBag.D1SelectTo = active1.SelectTo;
+                ViewBag.D1DiscountRate = active1.DiscountRate;
+            }
+
+            foreach (var active2 in activeDiscount2)
+            {
+                ViewBag.D2SelectFrom = active2.SelectFrom;
+                ViewBag.D2SelectTo = active2.SelectTo;
+                ViewBag.D2DiscountRate = active2.DiscountRate;
+            }
+
             foreach (var module in moduleList)
             {
-                OrderLists.Add(new OrderList()
+                tempOrders.Add(new TempOrder()
                 {
                     Modules = module
                 });
             }
 
-            return View(OrderLists);
+            return View(tempOrders);
         }
 
         [HttpGet]
@@ -170,7 +187,7 @@ namespace ImpactWebsite.Controllers
             var lists = collection["modules"];
             foreach (var list in lists)
             {
-                var jsonObj = JsonConvert.DeserializeObject<OrderList>(list);
+                var jsonObj = JsonConvert.DeserializeObject<TempOrder>(list);
 
                 _context.OrderDetails.Add(new OrderDetail()
                 {

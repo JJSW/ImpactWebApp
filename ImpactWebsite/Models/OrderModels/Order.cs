@@ -32,7 +32,6 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Delivered Date")]
         public DateTime DeliveredDate { get; set; }
 
-        // Uses list of order statuses
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
 

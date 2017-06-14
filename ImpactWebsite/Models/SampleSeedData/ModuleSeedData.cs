@@ -13,6 +13,7 @@ namespace ImpactWebsite.Models.SampleSeedData
         {
             GetUnitPrice(db);
             GetModules(db);
+            GetDiscounts(db);
         }
 
         public static void GetUnitPrice(ApplicationDbContext db)
@@ -106,6 +107,32 @@ namespace ImpactWebsite.Models.SampleSeedData
                     LongDescription = "Long Benchmarking and targets",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
+                db.SaveChanges();
+            }
+        }
+
+        public static void GetDiscounts(ApplicationDbContext db)
+        {
+            if (!db.Discounts.Any())
+            {
+                db.Discounts.Add(new Discount()
+                {
+                    DiscountName = "Discount1",
+                    DiscountRate = 10,
+                    SelectFrom = 3,
+                    SelectTo = 5,
+                    Description = "Discount $10 for selections of 3 to 5"
+                });
+
+                db.Discounts.Add(new Discount()
+                {
+                    DiscountName = "Discount2",
+                    DiscountRate = 20,
+                    SelectFrom = 6,
+                    SelectTo = 8,
+                    Description = "Discount $20 for selections of 6 to 8"
+                });
+
                 db.SaveChanges();
             }
         }

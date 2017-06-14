@@ -1,0 +1,66 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Discount>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.DiscountName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.DiscountRate)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SelectFrom)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.SelectTo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DiscountRate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectFrom)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SelectTo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IsActive)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.DiscountId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.DiscountId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.DiscountId">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

@@ -1,4 +1,4 @@
-@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderList>
+@model IEnumerable<ImpactWebsite.Models.OrderModels.TempOrder>
 
 @using Microsoft.AspNetCore.Identity
 @using ImpactWebsite.Models
@@ -61,7 +61,9 @@
             }
             <tr>
                 <td></td>
-                <td>Total: <span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly" /></span> Discount: <p name="discount"></p></td>    
+                <td>Total: <span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly" /></span> 
+                <p>Discount: <span class="text-danger" name="discount"></span>
+                </td>    
             </tr>
         </tbody>
     </table>
@@ -77,8 +79,6 @@
 @section scripts
 {
 @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
   
     <script type="text/javascript">
         $(document).ready(function () {
@@ -86,30 +86,30 @@
                 calculateTotal();
             });
         });
-         function calculateTotal() {
-             totalPrice = 0.0;
-             discount = 0;
+        function calculateTotal() {
+            totalPrice = 0.0;
+            discount = '';
             $(':checkbox:checked.chkBox').each(function () {
 
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
-                totalPrice += +jsonObj.modules.unitPrice.price;     
-                                
-            });
-            var count_modules = $(':checkbox:checked').length;
+                totalPrice += +jsonObj.modules.unitPrice.price;
 
-            if (count_modules >= 3  && count_modules <= 5 ) {
-                totalPrice = totalPrice - 10;  
-                discount = 10;
-            } else if (count_modules > 5 && count_modules <= 8 ){
-                totalPrice = totalPrice - 20;   
-                discount = 20;
+            });
+            var selectedModules = $(':checkbox:checked').length;
+
+            if (selectedModules >= '@ViewBag.D1SelectFrom' && selectedModules <= '@ViewBag.D1SelectTo' ) {
+                totalPrice = totalPrice - '@ViewBag.D1DiscountRate';
+                discount = '$ @ViewBag.D1DiscountRate';
+            } else if (selectedModules > '@ViewBag.D1SelectTo' && selectedModules <= '@ViewBag.D2SelectTo') {
+                totalPrice = totalPrice - '@ViewBag.D2DiscountRate';
+                discount = '$ @ViewBag.D2DiscountRate';
             }
 
             $('input[name=totalPrice]').val(totalPrice);
-            $('p[name=discount]').text(discount);
+            $('span[name=discount]').text(discount);
 
-            
+
         }
 
 

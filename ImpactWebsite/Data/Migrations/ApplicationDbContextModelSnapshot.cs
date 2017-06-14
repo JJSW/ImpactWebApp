@@ -150,6 +150,28 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("NewsletterUsers");
                 });
 
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Discount", b =>
+                {
+                    b.Property<long>("DiscountId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<string>("DiscountName");
+
+                    b.Property<int>("DiscountRate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<int>("SelectFrom");
+
+                    b.Property<int>("SelectTo");
+
+                    b.HasKey("DiscountId");
+
+                    b.ToTable("Discounts");
+                });
+
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
                 {
                     b.Property<int>("ModuleId")
