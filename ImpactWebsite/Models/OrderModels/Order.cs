@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +9,9 @@ namespace ImpactWebsite.Models.OrderModels
 {
     public enum OrderStatusList
     {
+        [Display(Name = "Awaiting Payment")]
         AwaitingPayment = 0,
+
         Processing = 1,
         Completed = 2,
         Cancelled = 3,       

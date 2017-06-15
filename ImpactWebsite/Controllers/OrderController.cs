@@ -67,18 +67,24 @@ namespace ImpactWebsite.Controllers
             var activeDiscount1 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount1");
             var activeDiscount2 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount2");
 
-            foreach (var active1 in activeDiscount1)
+            if (activeDiscount1.Any() || activeDiscount1 != null)
             {
-                ViewBag.D1SelectFrom = active1.SelectFrom;
-                ViewBag.D1SelectTo = active1.SelectTo;
-                ViewBag.D1DiscountRate = active1.DiscountRate;
+                foreach (var active1 in activeDiscount1)
+                {
+                    ViewBag.D1SelectFrom = active1.SelectFrom;
+                    ViewBag.D1SelectTo = active1.SelectTo;
+                    ViewBag.D1DiscountRate = active1.DiscountRate;
+                }
             }
 
-            foreach (var active2 in activeDiscount2)
+            if (activeDiscount2.Any() || activeDiscount2 != null)
             {
-                ViewBag.D2SelectFrom = active2.SelectFrom;
-                ViewBag.D2SelectTo = active2.SelectTo;
-                ViewBag.D2DiscountRate = active2.DiscountRate;
+                foreach (var active2 in activeDiscount2)
+                {
+                    ViewBag.D2SelectFrom = active2.SelectFrom;
+                    ViewBag.D2SelectTo = active2.SelectTo;
+                    ViewBag.D2DiscountRate = active2.DiscountRate;
+                }
             }
 
             foreach (var module in moduleList)
@@ -179,6 +185,10 @@ namespace ImpactWebsite.Controllers
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
 
             ViewData["orderId"] = _orderId;
+
+
+
+
             return View(OrderDetails.ToList());
         }
 
@@ -249,10 +259,10 @@ namespace ImpactWebsite.Controllers
                 var result = _context.Promotions.FirstOrDefault(p => p.PromotionCode.Equals(model.PromotionCode));
                 if (result != null && result.DateFrom <= DateTime.Now && result.DateTo >= DateTime.Now && result.IsActive)
                 {
-                    _discountRate = (double)result.DiscountRate;
+                    _discountRate = result.DiscountRate;
                     var tmpAmount = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount;
-                    var discoutRate = result.DiscountRate * _dollarCent;
-                    tmpAmount = tmpAmount - (tmpAmount * (int)discoutRate / _dollarCent);
+                    //var discountRate = result.DiscountRate;
+                    tmpAmount = tmpAmount - (tmpAmount * (int)(_discountRate / 100));
                     _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount = tmpAmount;
                     await _context.SaveChangesAsync();
                 }

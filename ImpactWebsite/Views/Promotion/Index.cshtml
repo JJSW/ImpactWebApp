@@ -1,4 +1,5 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.Promotion>
+@using ImpactWebsite.Models.OrderModels
 
 @{
     ViewData["Title"] = "Index";
@@ -23,6 +24,9 @@
                     @Html.DisplayNameFor(model => model.PromotionCode)
                 </th>
                 <th>
+                    @Html.DisplayNameFor(model => model.DiscountMethod)
+                </th>
+                <th>
                     @Html.DisplayNameFor(model => model.DiscountRate)
                 </th>
                 <th>
@@ -37,9 +41,7 @@
                 <th>
                     @Html.DisplayNameFor(model => model.IsActive)
                 </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModifiedDate)
-                </th>
+
             <th></th>
         </tr>
     </thead>
@@ -53,8 +55,21 @@
                 @Html.DisplayFor(modelItem => item.PromotionCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DiscountRate)
+                @Html.DisplayFor(modelItem => item.DiscountMethod)
             </td>
+            @if (item.DiscountMethod == DiscountMethodList.Fixed)
+            {
+            <td>
+                $@Html.DisplayFor(modelItem => item.DiscountRate)
+            </td>
+            }
+            else if (item.DiscountMethod == DiscountMethodList.Percentage)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.DiscountRate)%
+                </td>
+            }
+
             <td>
                 @Html.DisplayFor(modelItem => item.DateFrom)
             </td>
@@ -66,9 +81,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.IsActive)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModifiedDate)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.PromotionId">

@@ -49,8 +49,8 @@ namespace ImpactWebsite.Controllers
         {
             var promotion = new Promotion();
             promotion.PromotionCode = GetPromoCode();
-            promotion.DateFrom = new DateTime(2017,01,01);
-            promotion.DateTo = new DateTime(2017, 01, 01);
+            promotion.DateFrom = DateTime.Now;
+            promotion.DateTo = DateTime.Now.AddYears(+1);
             return View(promotion);
         }
 
@@ -59,7 +59,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PromotionId,PromotionName,PromotionCode,DiscountRate,DateFrom,DateTo,Description,IsActive,ModifiedDate")] Promotion promotion)
+        public async Task<IActionResult> Create([Bind("PromotionId,PromotionName,PromotionCode,DiscountMethod,DiscountRate,DateFrom,DateTo,Description,IsActive,ModifiedDate")] Promotion promotion)
         {
             if (ModelState.IsValid)
             {
@@ -93,7 +93,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PromotionId,PromotionName,PromotionCode,DiscountRate,DateFrom,DateTo,Description,IsActive,ModifiedDate")] Promotion promotion)
+        public async Task<IActionResult> Edit(int id, [Bind("PromotionId,PromotionName,PromotionCode,DiscountMethod,DiscountRate,DateFrom,DateTo,Description,IsActive,ModifiedDate")] Promotion promotion)
         {
             if (id != promotion.PromotionId)
             {

@@ -9,9 +9,10 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170614204131_Promotion")]
+    partial class Promotion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -260,8 +261,6 @@ namespace WebApplication1.Data.Migrations
                     b.Property<DateTime>("DateTo");
 
                     b.Property<string>("Description");
-
-                    b.Property<int>("DiscountMethod");
 
                     b.Property<int>("DiscountRate");
 

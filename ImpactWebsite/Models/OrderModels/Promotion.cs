@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
+    public enum DiscountMethodList
+    {
+        Fixed,
+        Percentage,
+    }
+
     public class Promotion : BaseEntity
     {
         [Key]
@@ -20,10 +26,12 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Promotion Code")]
         public string PromotionCode { get; set; }
 
-        [DisplayFormat(ApplyFormatInEditMode = false, DataFormatString = "{0:P2}")]
-        [Range(0.0, double.MaxValue)]
+        [Required]
+        [Display(Name = "Discount Method")]
+        public DiscountMethodList DiscountMethod { get; set; }
+
         [Display(Name = "Discount Rate")]
-        public decimal DiscountRate { get; set; }
+        public int DiscountRate { get; set; }
 
         [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         [Display(Name = "Date from")]

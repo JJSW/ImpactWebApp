@@ -1,4 +1,5 @@
 @model ImpactWebsite.Models.OrderModels.Promotion
+@using ImpactWebsite.Models.OrderModels;
 
 @{
     ViewData["Title"] = "Create";
@@ -23,6 +24,15 @@
             <div class="col-md-10">
                 <input asp-for="PromotionCode" class="form-control" />
                 <span asp-validation-for="PromotionCode" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+              <select asp-for="DiscountMethod">
+                  <option value="0">Fixed</option>
+                  <option value="1">Percentage</option>
+                  </select>
             </div>
         </div>
         <div class="form-group">

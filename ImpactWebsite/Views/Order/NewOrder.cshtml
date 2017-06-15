@@ -3,6 +3,7 @@
 @{
     ViewData["Title"] = "NewOrder";
     IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -67,10 +68,10 @@
 
 @section scripts
     {
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-    <link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
 
+<script src="~/lib/jquery/dist/jquery.js"></script>
+<script src="~/lib/jquery-ui/jquery-ui.js"></script>
+<link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript">
         $('#FileUpload').on('click', function () {
 
@@ -96,10 +97,10 @@
         $(document).ready(function () {
             var discountRate = @ViewData["DiscountRate"];
             var amount = @ViewData["TotalAmount"];
-            var result = amount - (discountRate * amount);
+            var result = amount - (discountRate * amount/100);
             $('label[for="grandTotal"]').text('$' + result);
             if (discountRate > 0) {
-                $('label[for="discountDisplay"]').text('(' + (discountRate * 100).toFixed(2) + '% off)');
+                $('label[for="discountDisplay"]').text('(' + (discountRate) + '% off)');
             }
         });
 </script>
