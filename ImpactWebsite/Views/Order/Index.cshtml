@@ -3,42 +3,63 @@
 @using Microsoft.AspNetCore.Identity
 @using ImpactWebsite.Models
 
-@{ 
+@{
     ViewData["Title"] = "Index";
+    IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<h2><i class="fa fa-check-square-o"></i>  Select Modules</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<h2><i class="fa fa-check-square-o"></i>@Html.Raw(strSpacer)Select Modules</h2>
 
 <form action="/Order/NewOrder" method="post">
-    
-    <label style="color: brown; margin:15px;">* Email Address: </label>
-    @if (SignInManager.IsSignedIn(User))
-    {
-        <input type="email" required="required" name="email" value="@ViewData["Email"]" />
-    }
-    else
-    {
-        <input type="email" required="required" name="email" />
-    }
 
     <table class="table">
         <thead>
             <tr>
                 <th>
-                    Select
+                    #
                 </th>
-                <th>
+                <th class="col-md-5">
                     @Html.DisplayNameFor(model => model.Modules.ModuleName)
+                </th>
+                <th class="col-md-2">
+                    Module Detail
+                </th>
+                <th class="col-md-2">
+                    @Html.DisplayNameFor(model => model.Modules.UnitPrice)
+                </th>
+                <th class="col-md-2">
+                    Select
                 </th>
             </tr>
         </thead>
         <tbody>
             @for (int i = 0; i < Model.Count(); i++)
             {
+                var moduleNum = @i + 1;
                 <tr>
+                    <td>@moduleNum</td>
+                    <td>
+                        <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:100;">
+                            @Model.ElementAt(@i).Modules.ModuleName
+                        </label>
+                    </td>
+                    <td>
+                        <a style="cursor:pointer" class="Detail"
+                           value="@Model.ElementAt(@i).Modules.ModuleId"
+                           name="@Model.ElementAt(@i).Modules.ModuleName">
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> Detail
+                        </a>
+                    </td>
+                    <td>
+                        <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:100;">
+                            @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C", fp)
+                        </label>
+                    </td>
                     <td>
                         @if (@i == 0)
                         {
@@ -50,36 +71,53 @@
                             <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
                         }
                     </td>
-                    <td> 
-                        <label asp-for="@Model.ElementAt(@i).IsChecked" >
-                            @Model.ElementAt(@i).Modules.ModuleName 
-                            <a class="Detail" value="@Model.ElementAt(@i).Modules.ModuleId"
-                               name="@Model.ElementAt(@i).Modules.ModuleName">Detail</a>
-                        </label>
-                    </td>
+
                 </tr>
+
             }
             <tr>
                 <td></td>
-                <td>Total: <span class="input-symbol-can"><input type="text" name="totalPrice" value="0" readonly="readonly" /></span> 
-                <p>Discount: <span class="text-danger" name="discount"></span>
-                </td>    
+                <td>
+                    <div class="input-group margin-bottom-sm" style="margin-top:20px;">
+                        <span class="input-group-addon"><span class="text-danger"><b><i class="fa fa-envelope-o fa-fw"></i> Email Address</b></span></span>
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" /></b>
+                        }
+                        else
+                        {
+                            <input class="form-control" type="email" required="required" name="email" />
+                        }
+
+                    </div>
+                </td>
+                <td></td>
+                <td>
+                    <p style="font-size:small">Total : <span name="totalPrice"></span></p>
+                    <p style="font-size:small">Discount: <span class="text-danger" name="discount"></span></p>
+                    <p style="font-size:large">Total to pay: <b><span name="totalPriceToPay"></span></b></p>
+
+                </td>
+                <td></td>
             </tr>
         </tbody>
     </table>
-    <div class="form-group">
-        <div>
-            <input type="submit" class="impact-btn" value="Next >>"  />
-        </div>
+    <div class="form-group" style="margin-top:-30px;">
+        <input type="submit" class="impact-btn" value="Next >>" />
     </div>
+
 </form>
- 
+
 <div id="AddUserForm"></div>
 
 @section scripts
 {
-@{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-  
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
     <script type="text/javascript">
         $(document).ready(function () {
             $("input[type='checkbox']").click(function () {
@@ -87,28 +125,32 @@
             });
         });
         function calculateTotal() {
-            totalPrice = 0.0;
-            discount = '';
+            totalPrice = 0;
+            discount = 0;
+            totalPriceToPay = 0;
             $(':checkbox:checked.chkBox').each(function () {
 
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
                 totalPrice += +jsonObj.modules.unitPrice.price;
-
             });
             var selectedModules = $(':checkbox:checked').length;
 
             if (selectedModules >= '@ViewBag.D1SelectFrom' && selectedModules <= '@ViewBag.D1SelectTo' ) {
                 totalPrice = totalPrice - '@ViewBag.D1DiscountRate';
-                discount = '$ @ViewBag.D1DiscountRate';
+                discount = '@ViewBag.D1DiscountRate';
             } else if (selectedModules > '@ViewBag.D1SelectTo' && selectedModules <= '@ViewBag.D2SelectTo') {
                 totalPrice = totalPrice - '@ViewBag.D2DiscountRate';
-                discount = '$ @ViewBag.D2DiscountRate';
+                discount = '@ViewBag.D2DiscountRate';
             }
 
-            $('input[name=totalPrice]').val(totalPrice);
-            $('span[name=discount]').text(discount);
+            $('span[name=totalPrice]').text('$' + totalPrice);
 
+            if (discount != null || discount != 0) {
+                $('span[name=discount]').text('- $' + discount);
+            }
+
+            $('span[name=totalPriceToPay]').text('$' + (totalPrice - discount));
 
         }
 
@@ -140,5 +182,32 @@
              });
              return false;
          });
-</script>
-    }
+    </script>
+
+    <script type="text/javascript">
+         var idNum;
+         $('.UserNote').on('click', function () {
+
+             var idNum = $(this).attr('value');
+             var link = '@Url.Action("PartialModuleDetail", "Order", new { id = "-1" })';
+             var strTitle = $(this).attr('name');
+
+             link = link.replace("-1", idNum);
+
+             $("#AddUserForm").dialog({
+             type: 'GET',
+             autoOpen: true,
+             position: { my: "top", at: "top+150", of: window },
+             width: 600,
+             height: 200,
+             resizable: false,
+             title: strTitle,
+             modal: true,
+             open: function () {
+                 $(this).load(link);
+             },
+             });
+             return false;
+         });
+    </script>
+}

@@ -2,6 +2,7 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
+    padding-top: 10px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -74,12 +75,10 @@ textarea {
 
 
 /* 
-    Change default font to Raleway 
-    Purpose to display consistent looks with 
-    the main website of fairbank financial 
+    Custom Style
 */
 body {
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     padding-top: 60px;
     padding-bottom: 20px;
 }
@@ -138,7 +137,7 @@ body {
 
         .main-nav li a, .main-nav li button {
             color: #262626;
-            font-family: Raleway,sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             font-size: 13px;
             font-weight: 500;
         }
@@ -178,14 +177,14 @@ footer {
         }
 
 .header__slider--subtitle {
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     color: #262626;
     line-height: 38px;
 }
 
 .header__slider--text {
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 30px;
     color: #262626;
     line-height: 48px;
@@ -198,7 +197,7 @@ footer {
     color: #fff;
     font-size: 12px;
     text-transform: uppercase;
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     padding: 14px 34px;
     background-color: hsla(0,0%,6%,.5);
     border: 2px solid #2bc1c5;
@@ -260,7 +259,7 @@ footer {
     color: #fff;
     font-size: 12px;
     text-transform: uppercase;
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     padding: 8px 20px;
     background-color: #333333;
     border: 2px solid #2bc1c5;
@@ -290,7 +289,7 @@ footer {
 
 .newsletter-text {
     margin-top: 50px;
-    font-family: Raleway,sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
     font-size: 20px;
     color: #262626;
     line-height: 38px;

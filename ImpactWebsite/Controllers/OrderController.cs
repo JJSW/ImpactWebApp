@@ -324,6 +324,7 @@ namespace ImpactWebsite.Controllers
             var DetailModules = _context.Modules.FirstOrDefault(m => m.ModuleId == Convert.ToInt32(id));
             return PartialView("_PartialModuleDetail", DetailModules);
         }
+
         [HttpGet]
         public async Task<IActionResult> RegisterLogin(int id)
         {

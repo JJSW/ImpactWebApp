@@ -25,7 +25,7 @@ namespace ImpactWebsite.Models.OrderModels
 
         public int OrderNum { get; set; }
 
-        [Display(Name = "Sales Representative Info")]
+        [Display(Name = "Sales Rep")]
         [StringLength(160, MinimumLength = 2)]
         public string SalesRep { get; set; }
 

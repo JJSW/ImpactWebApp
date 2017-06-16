@@ -8,38 +8,41 @@
 
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-    <table class="table table-bordered table-responsive table-hover" style="margin: 50px auto auto auto; max-width:800px;">
-        <caption style="text-align: center; font-size: large; font-weight:bold; margin-bottom: 20px;">Order Number: @ViewData["orderId"]</caption>
-        <thead>
-            <tr>
-                <th>Module Name</th>
-                <th>Module Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var orderlist in Model)
+<table class="table table-bordered table-responsive table-hover" style="margin: 50px auto auto auto; max-width:800px;">
+    <caption style="text-align: center; font-size: large; font-weight:bold; margin-bottom: 20px;">Order Number: @ViewData["orderId"]</caption>
+    <thead>
+        <tr>
+            <th>Module Name</th>
+            <th>Module Price</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderlist in Model)
             {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => orderlist.Module.ModuleName)</td>
-                    <td>@Html.DisplayFor(modelItem => orderlist.Module.UnitPrice.Price)</td>
-                </tr>
-            }
             <tr>
-                <td style="font-size: small; font-weight: bold;">Estimate Deliver Date: @ViewData["DeliverDate"]</td>
-                <td style="font-size: small; font-weight: bold;">$@ViewData["TotalAmount"]</td>
+                <td>@Html.DisplayFor(modelItem => orderlist.Module.ModuleName)</td>
+                <td>@Html.DisplayFor(modelItem => orderlist.Module.UnitPrice.Price)</td>
             </tr>
-            <tr>
-                <td style="font-size: 1em; font-weight: bold;" align="right">Grand Total: </td>
-                <td><label style="font-size: 1em; font-weight: bold;" for="grandTotal"></label>
-                    <label style="color: red; font-size: 0.9em; font-weight: bold;" for="discountDisplay"></label>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        }
+        <tr>
+            <td style="font-size: small; font-weight: bold;">Estimate Deliver Date: @ViewData["DeliverDate"]</td>
+            <td style="font-size: small; font-weight: bold;">$@ViewData["TotalAmount"]</td>
+        </tr>
+        <tr>
+            <td style="font-size: 1em; font-weight: bold;" align="right">Grand Total: </td>
+            <td>
+                <label style="font-size: 1em; font-weight: bold;" for="grandTotal"></label>
+                <label style="color: red; font-size: 0.9em; font-weight: bold;" for="discountDisplay"></label>
+            </td>
+        </tr>
+    </tbody>
+</table>
 <br />
-    <a id="promoCode" asp-controller="Order" asp-action="SubmitPromoCode" style="margin-left: 38%;" class="impact-btn">
-    <i class="fa fa-barcode" aria-hidden="true"></i>&nbsp;&nbsp;Please Enter a Promotion Code</a>
+<a id="promoCode" asp-controller="Order" asp-action="SubmitPromoCode" style="margin-left: 38%;" class="impact-btn">
+    <i class="fa fa-barcode" aria-hidden="true"></i>&nbsp;&nbsp;Please Enter a Promotion Code
+</a>
 
 <section style="width: 70%; margin: auto;">
     <div style="float: left; text-align: center;">
@@ -50,18 +53,29 @@
     <div style="display:block; float:right; text-align: center;">
         @if (SignInManager.IsSignedIn(User))
         {
-            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderId"] })"  class="impact-btn neworder-btn">    
+            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderId"] })" class="impact-btn neworder-btn">
                 <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;&nbsp;Request & Payment
             </a>
         }
         else
         {
-            <a id="Charge" asp-controller="Order" asp-action="RegisterLogin" asp-route-id="@ViewData["orderId"]"  class="impact-btn neworder-btn">
+            <a id="Charge" asp-controller="Order" asp-action="RegisterLogin" asp-route-id="@ViewData["orderId"]" class="impact-btn neworder-btn">
                 <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;&nbsp;Request & Payment
             </a>
         }
     </div>
-    <br/>
+
+
+    <div>
+        <p></p>
+        <button class="UserNote btn btn-info"
+                value="@Model.">
+            Add Note
+        </button>
+        <span>@Html.Raw(strSpacer)Add note for your order</span>
+
+    </div>
+    <br />
 </section>
 
 <div id="AddUserForm"></div>
@@ -69,9 +83,9 @@
 @section scripts
     {
 
-<script src="~/lib/jquery/dist/jquery.js"></script>
-<script src="~/lib/jquery-ui/jquery-ui.js"></script>
-<link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
+    <link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript">
         $('#FileUpload').on('click', function () {
 
@@ -103,8 +117,8 @@
                 $('label[for="discountDisplay"]').text('(' + (discountRate) + '% off)');
             }
         });
-</script>
-<script type="text/javascript">
+    </script>
+    <script type="text/javascript">
         $('#promoCode').on('click', function () {
             $("#AddUserForm").dialog({
             type: 'GET',
@@ -121,5 +135,5 @@
         });
         return false;
         });
-</script>
-    }
+    </script>
+}
