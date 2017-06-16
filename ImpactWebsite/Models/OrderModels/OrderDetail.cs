@@ -13,7 +13,7 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Order Detail Number")]
         public int OrderDetailId { get; set; }
 
-        [Display(Name = "Order Number")]
+        [Display(Name = "Order ID")]
         public int OrderId {get;set;}
 
         [Display(Name = "Module Number")]

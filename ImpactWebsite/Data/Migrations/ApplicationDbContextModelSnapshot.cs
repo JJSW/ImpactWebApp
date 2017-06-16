@@ -214,6 +214,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<string>("SalesRep")
                         .HasMaxLength(160);
 
+                    b.Property<int>("SelectionDiscount");
+
                     b.Property<int>("TotalAmount");
 
                     b.Property<string>("UserEmail")

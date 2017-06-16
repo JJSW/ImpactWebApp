@@ -9,7 +9,7 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170614194034_Init")]
+    [Migration("20170616024513_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -215,6 +215,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<string>("SalesRep")
                         .HasMaxLength(160);
 
+                    b.Property<int>("SelectionDiscount");
+
                     b.Property<int>("TotalAmount");
 
                     b.Property<string>("UserEmail")
@@ -262,7 +264,9 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<decimal>("DiscountRate");
+                    b.Property<int>("DiscountMethod");
+
+                    b.Property<int>("DiscountRate");
 
                     b.Property<bool>("IsActive");
 

@@ -30,24 +30,18 @@ namespace ImpactWebsite.Controllers
         // To be able to sent total amount to Stripe API, makes cent digits to 100
         private int _dollarCent = 100;
 
-        public BillingController(
-            ApplicationDbContext context,
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+        public BillingController(ApplicationDbContext context,
+                                 UserManager<ApplicationUser> userManager,
+                                 SignInManager<ApplicationUser> signInManager)
         {
             _context = context;
             _userManager = userManager;
             _signInManager = signInManager;
         }
    
-        /// <summary>
         /// Return billing page with a data that contains information with order and module.
         /// Only displays the specific order of the logged in user.
         /// Billing address will be displayed in any circumstances.
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
         public async Task<IActionResult> Index(string id, int orderId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);

@@ -71,15 +71,17 @@
                             <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
                         }
                     </td>
-
                 </tr>
-
             }
             <tr>
                 <td></td>
                 <td>
                     <div class="input-group margin-bottom-sm" style="margin-top:20px;">
-                        <span class="input-group-addon"><span class="text-danger"><b><i class="fa fa-envelope-o fa-fw"></i> Email Address</b></span></span>
+                        <span class="input-group-addon">
+                            <span class="text-danger">
+                                <b><i class="fa fa-envelope-o fa-fw"></i> Email Address</b>
+                            </span>
+                        </span>
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" /></b>
@@ -93,10 +95,23 @@
                 </td>
                 <td></td>
                 <td>
-                    <p style="font-size:small">Total : <span name="totalPrice"></span></p>
-                    <p style="font-size:small">Discount: <span class="text-danger" name="discount"></span></p>
-                    <p style="font-size:large">Total to pay: <b><span name="totalPriceToPay"></span></b></p>
-
+                    <p style="font-size:small">
+                        Total :
+                        <span name="totalPrice"></span>
+                    </p>
+                    <p style="font-size:small">
+                        Discount:
+                        <span class="input-symbol-can text-danger">
+                            <input name="selectionDiscount" style="width:50px; border:none;" />
+                        </span>
+                    </p>
+                    <p style="font-size:large">
+                        Total to pay: <b>
+                            <span class="input-symbol-can">
+                                <input name="totalAmountToPay" style="width:60px; border:none;" />
+                            </span>
+                        </b>
+                    </p>
                 </td>
                 <td></td>
             </tr>
@@ -126,32 +141,26 @@
         });
         function calculateTotal() {
             totalPrice = 0;
-            discount = 0;
+            selectionDiscount = 0;
             totalPriceToPay = 0;
-            $(':checkbox:checked.chkBox').each(function () {
 
+            $(':checkbox:checked.chkBox').each(function () {
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
                 totalPrice += +jsonObj.modules.unitPrice.price;
             });
+
             var selectedModules = $(':checkbox:checked').length;
 
             if (selectedModules >= '@ViewBag.D1SelectFrom' && selectedModules <= '@ViewBag.D1SelectTo' ) {
-                totalPrice = totalPrice - '@ViewBag.D1DiscountRate';
-                discount = '@ViewBag.D1DiscountRate';
+                selectionDiscount = '@ViewBag.D1DiscountRate';
             } else if (selectedModules > '@ViewBag.D1SelectTo' && selectedModules <= '@ViewBag.D2SelectTo') {
-                totalPrice = totalPrice - '@ViewBag.D2DiscountRate';
-                discount = '@ViewBag.D2DiscountRate';
+                selectionDiscount = '@ViewBag.D2DiscountRate';
             }
 
             $('span[name=totalPrice]').text('$' + totalPrice);
-
-            if (discount != null || discount != 0) {
-                $('span[name=discount]').text('- $' + discount);
-            }
-
-            $('span[name=totalPriceToPay]').text('$' + (totalPrice - discount));
-
+            $('input[name=selectionDiscount]').val(selectionDiscount);
+            $('input[name=totalAmountToPay]').val(totalPrice - selectionDiscount);
         }
 
 

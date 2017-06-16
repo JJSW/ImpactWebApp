@@ -238,6 +238,7 @@ footer {
 .newsletter-btn {
     margin-left: 40px;
     margin-right: 20px;
+    cursor: pointer;
     background-color: hsla(0,0%,6%,.5);
 }
     .newsletter-btn:hover {
@@ -251,6 +252,7 @@ footer {
     font-size: 14px !important;
     padding: 15px 25px !important;
     display: block;
+    cursor: pointer;
     margin: 50px 20px 0px 20px;
 }
 

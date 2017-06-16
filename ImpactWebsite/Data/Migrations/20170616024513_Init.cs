@@ -136,6 +136,7 @@ namespace WebApplication1.Data.Migrations
                     OrderStatus = table.Column<int>(nullable: false),
                     OrderedDate = table.Column<DateTime>(nullable: false),
                     SalesRep = table.Column<string>(maxLength: 160, nullable: true),
+                    SelectionDiscount = table.Column<int>(nullable: false),
                     TotalAmount = table.Column<int>(nullable: false),
                     UserEmail = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
@@ -160,7 +161,8 @@ namespace WebApplication1.Data.Migrations
                     DateFrom = table.Column<DateTime>(nullable: false),
                     DateTo = table.Column<DateTime>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    DiscountRate = table.Column<decimal>(nullable: false),
+                    DiscountMethod = table.Column<int>(nullable: false),
+                    DiscountRate = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     PromotionCode = table.Column<string>(maxLength: 8, nullable: false),

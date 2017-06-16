@@ -20,17 +20,24 @@ namespace ImpactWebsite.Models.OrderModels
     public class Order
     {
         [Key]
-        [Display(Name = "Order Number")]
+        [Display(Name = "Order ID")]
         public int OrderId { get; set; }
 
+        [Display(Name = "Order Number")]
         public int OrderNum { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+        public string UserEmail { get; set; }
+
+        public string UserId { get; set; }
 
         [Display(Name = "Sales Rep")]
         [StringLength(160, MinimumLength = 2)]
         public string SalesRep { get; set; }
 
         [Display(Name = "Ordered Date")]
-        public DateTime OrderedDate{ get; set; }
+        public DateTime OrderedDate { get; set; }
 
         [Display(Name = "Delivered Date")]
         public DateTime DeliveredDate { get; set; }
@@ -44,20 +51,16 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Note from admin")]
         public string NoteFromAdmin { get; set; }
 
-        [Required]
-        [Display(Name = "Email")]
-        public string UserEmail { get; set; }
-
-        public string UserId { get; set; }
-        //public Promotion Promotion { get; set; }
-        //public int PromotionId { get; set; }
-
-
-        public List<OrderDetail> OrderDetails { get; set; }
+        [Display(Name = "Selection Discount")]
+        public int SelectionDiscount { get; set; }
 
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
-    
+
+        public List<OrderDetail> OrderDetails { get; set; }
+
+        //public Promotion Promotion { get; set; }
+        //public int PromotionId { get; set; }
         //public List<Investment> Investments { get; set; }
     }
 }
