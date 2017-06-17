@@ -57,7 +57,7 @@
                     </td>
                     <td>
                         <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:100;">
-                            @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C", fp)
+                            @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C0", fp)
                         </label>
                     </td>
                     <td>
@@ -101,15 +101,14 @@
                     </p>
                     <p style="font-size:small">
                         Discount:
-                        <span class="input-symbol-can text-danger">
-                            <input name="selectionDiscount" style="width:50px; border:none;" />
-                        </span>
+                        <input type="hidden" name="selectionDiscount" value="0" style="width:50px; border:none;" />
+                        <span class="text-danger" name="selectionDiscountDisplay"></span>
                     </p>
                     <p style="font-size:large">
-                        Total to pay: <b>
-                            <span class="input-symbol-can">
-                                <input name="totalAmountToPay" style="width:60px; border:none;" />
-                            </span>
+                        Total to pay:
+                        <b>
+                            <input type="hidden" name="totalAmountToPay" value="0" style="width:60px; border:none;" />
+                            <span name="totalAmountToPayDisplay"></span>
                         </b>
                     </p>
                 </td>
@@ -135,14 +134,14 @@
 
     <script type="text/javascript">
         $(document).ready(function () {
-            $("input[type='checkbox']").click(function () {
+            $("input[type='checkbox']").change(function () {
                 calculateTotal();
             });
         });
         function calculateTotal() {
             totalPrice = 0;
             selectionDiscount = 0;
-            totalPriceToPay = 0;
+            totalAmountToPay = 0;
 
             $(':checkbox:checked.chkBox').each(function () {
                 var jsonObj = JSON.parse($(this).val());
@@ -159,8 +158,20 @@
             }
 
             $('span[name=totalPrice]').text('$' + totalPrice);
+
             $('input[name=selectionDiscount]').val(selectionDiscount);
-            $('input[name=totalAmountToPay]').val(totalPrice - selectionDiscount);
+
+            if (selectionDiscount != null || selectionDiscount != 0) {
+                $('span[name=selectionDiscountDisplay]').text('- $' + selectionDiscount);
+            }
+
+            totalAmountToPay = (totalPrice - selectionDiscount);
+
+            $('input[name=totalAmountToPay]').val(totalAmountToPay);
+
+            if (totalAmountToPay != null || totalAmountToPay != 0) {
+                $('span[name=totalAmountToPayDisplay]').text('$' + totalAmountToPay);
+            }
         }
 
 

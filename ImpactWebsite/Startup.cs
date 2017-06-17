@@ -52,8 +52,11 @@ namespace ImpactWebsite
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
+            // User session for tempdata
+            services.AddMemoryCache();
+            services.AddSession();
             services.AddMvc();
-
+            
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();
@@ -80,8 +83,8 @@ namespace ImpactWebsite
             }
 
             app.UseStaticFiles();
-
             app.UseIdentity();
+            app.UseSession();
 
             // Add external authentication middleware below. To configure them please see https://go.microsoft.com/fwlink/?LinkID=532715
             app.UseMvc(routes =>

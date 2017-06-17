@@ -29,7 +29,7 @@
             <tr>
                 <td>@moduleNum</td>
                 <td>@Model.ElementAt(@i).Module.ModuleName</td>
-                <td>@Model.ElementAt(@i).Module.UnitPrice.Price.ToString("C", fp)</td>
+                <td>@Model.ElementAt(@i).Module.UnitPrice.Price.ToString("C0", fp)</td>
             </tr>
         }
     </tbody>
@@ -38,7 +38,18 @@
         <td class="text-right text-danger">
             Saving
         </td>
-        <td class="text-danger">-$@ViewData["SelectionDiscount"]</td>
+        @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
+        {
+            <td class="text-danger">
+                -$@ViewBag.SelectionDiscount
+            </td>
+        }
+        else
+        {
+            <td class="text-danger">
+                0
+            </td>
+        }
     </tr>
     <tr>
         <td></td>
@@ -46,9 +57,18 @@
             Promotion
         </td>
 
-        <td class="text-danger">
-            @ViewData["PromotionDiscountRate"]
-        </td>
+        @if (!object.Equals((string)TempData["PromotionDiscountRate"], "0"))
+        {
+            <td class="text-danger">
+                @TempData["PromotionDiscountRate"]
+            </td>
+        }
+        else
+        {
+            <td class="text-danger">
+                0
+            </td>
+        }
     </tr>
 
     <tr>
@@ -56,11 +76,18 @@
         <td style="font-size: large; font-weight: bold;" align="right">
             Total to pay :
         </td>
-        <td>
-            <b>
-                <label style="font-size: large;">$@ViewData["TotalAmount"]</label>
-            </b>
-        </td>
+        @if (ViewData["TotalAmountToPay"] != null)
+        {
+            <td>
+                <b>
+                    <label style="font-size: large;">$@ViewData["TotalAmountToPay"]</label>
+                </b>
+            </td>
+        }
+        else
+        {
+            <td><b style="font-size: large;">0</b></td>
+        }
     </tr>
 
 </table>
@@ -115,7 +142,7 @@
             Estimate Deliver Date: @ViewData["DeliverDate"]
         </p>
 
-        <br/>
+        <br />
 
         <div class="input-group">
             <textarea class="form-control custom-control" rows="5"></textarea>
@@ -146,6 +173,25 @@
     <link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
 
     <script type="text/javascript">
+        $('#promoCode').on('click', function () {
+            $("#AddUserForm").dialog({
+            type: 'GET',
+            autoOpen: true,
+            position: { my: "top", at: "top+150", of: window },
+            width: 400,
+            height: 150,
+            resizable: true,
+            title: 'Please Input Promotion Code',
+            modal: true,
+            open: function () {
+                $(this).load('@Url.Action("SubmitPromoCode", "Order")');
+            },
+        });
+        return false;
+        });
+    </script>
+
+    <script type="text/javascript">
         $('#FileUpload').on('click', function () {
 
             $("#AddUserForm").dialog({
@@ -165,29 +211,13 @@
     });
     </script>
 
+
+
+    <!-- Not used -->
     <script type="text/javascript">
         $(document).ready(function () {
-            var promotionDiscountRate = (string)@ViewData["PromotionDiscountRate"];
+            var promotionDiscountRate = (string)@TempData["PromotionDiscountRate"];
             $('label[for="promotionDiscountRate"]').text(promotionDiscountRate);
-        });
-    </script>
-
-    <script type="text/javascript">
-        $('#promoCode').on('click', function () {
-            $("#AddUserForm").dialog({
-            type: 'GET',
-            autoOpen: true,
-            position: { my: "top", at: "top+150", of: window },
-            width: 400,
-            height: 150,
-            resizable: true,
-            title: 'Please Input Promotion Code',
-            modal: true,
-            open: function () {
-                $(this).load('@Url.Action("SubmitPromoCode", "Order")');
-            },
-        });
-        return false;
         });
     </script>
 }

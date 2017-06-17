@@ -35,7 +35,7 @@ namespace ImpactWebsite.Controllers
         private static string _promotionDiscountRate;
         private static int _orderId;
         private readonly string _externalCookieScheme;
-        private int _dollarCent = 100;
+        private int _dollarCent = 100; // $10.00 = 1000
 
         public OrderController(ApplicationDbContext context,
                                UserManager<ApplicationUser> UserManager,
@@ -51,11 +51,13 @@ namespace ImpactWebsite.Controllers
             _logger = loggerFactory.CreateLogger<AccountController>();
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
         }
+
         public async Task<IActionResult> Index(string message)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ViewData["error"] = message;
             _promotionDiscountRate = "0";
+
             if (_signInManager.IsSignedIn(User))
             {
                 _emailAddress = await _userManager.GetEmailAsync(user);
@@ -108,11 +110,12 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = _totalDay;
-            ViewData["selectionDiscount"] = _selectionDiscount;
-            ViewData["TotalAmount"] = _totalAmountToPay;
+            ViewBag.SelectionDiscount = _selectionDiscount;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+            ViewData["TotalAmountToPay"] = _totalAmountToPay;
             ViewData["LoggedinUserId"] = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["orderId"] = _orderId;
-            ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
             return View(OrderDetails.ToList());
         }
@@ -124,18 +127,21 @@ namespace ImpactWebsite.Controllers
                                                   string totalAmountToPay,
                                                   string totalDay)
         {
-            int parsedTotalAmountToPay = 0;
             int parsedSelectionDiscount = 0;
+            int parsedTotalAmountToPay = 0;
+            _promotionDiscountRate = "0";
+
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
+
             _selectionDiscount = selectionDiscount;
             _totalAmountToPay = totalAmountToPay;
             _totalDay = totalDay;
+
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = totalDay;
-            ViewData["selectionDiscount"] = _selectionDiscount;
-            ViewData["TotalAmount"] = _totalAmountToPay;
-            ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+            ViewBag.SelectionDiscount = _selectionDiscount;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -162,6 +168,10 @@ namespace ImpactWebsite.Controllers
 
             parsedTotalAmountToPay = ParseStringToInt(_totalAmountToPay);
             parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
+
+            //_totalAmountToPay = (double)parsedTotalAmountToPay * (double)_dollarCent;
+
+            ViewData["TotalAmountToPay"] = _totalAmountToPay;
 
             _context.Orders.Add(new Order()
             {
@@ -221,6 +231,12 @@ namespace ImpactWebsite.Controllers
 
             return parsedResult;
         }
+
+        private double ParseStringToDouble()
+        {
+            return 0.0;
+        }
+
 
         private void CreateOrderDetail(IFormCollection collection)
         {
@@ -300,14 +316,16 @@ namespace ImpactWebsite.Controllers
                         var promotionDiscountRate = verfiedPromotion.DiscountRate;
                         tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
                         _promotionDiscountRate = "-$" + promotionDiscountRate;
-                        ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        TempData["PromotionDiscountRate"] = _promotionDiscountRate;
                     }
                     else if (verfiedPromotion.DiscountMethod == DiscountMethodList.Percentage)
                     {
+                        var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
                         var promotionDiscountRate = verfiedPromotion.DiscountRate;
-                        tempTotalAmount = tempTotalAmount - (tempTotalAmount / (promotionDiscountRate * _dollarCent));
+                        var promotionDicountRatePercent = promotionDiscountRate * 0.01;
+                        tempTotalAmount = (int)((tempTotalAmountWithCent - (tempTotalAmountWithCent * promotionDicountRatePercent)) * _dollarCent);
                         _promotionDiscountRate = "-" + promotionDiscountRate + "%";
-                        ViewData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        TempData["PromotionDiscountRate"] = _promotionDiscountRate;
                     }
 
                     _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount = tempTotalAmount;
@@ -328,14 +346,14 @@ namespace ImpactWebsite.Controllers
         public IActionResult FileUpdaload()
         {
             ViewData["Email"] = _emailAddress;
-            ViewData["TotalAmount"] = _totalAmountToPay;
+            ViewData["TotalAmountToPay"] = _totalAmountToPay;
             return PartialView("_Investment");
         }
 
         [HttpPost]
         public async Task<IActionResult> FileUpdaload(ICollection<IFormFile> files)
         {
-            ViewData["TotalAmount"] = _totalAmountToPay;
+            ViewData["TotalAmountToPay"] = _totalAmountToPay;
             DateTime dtNow = DateTime.Now;
             string UpdateDate = dtNow.ToString("ddMMyyyy");
             string uploads = Path.Combine(_environment.WebRootPath, "uploads/" + UpdateDate + "/" + _emailAddress);
