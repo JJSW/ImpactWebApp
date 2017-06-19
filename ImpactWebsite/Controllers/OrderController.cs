@@ -33,6 +33,8 @@ namespace ImpactWebsite.Controllers
         private static string _totalAmountToPay;
         private static string _totalDay;
         private static string _promotionDiscountRate;
+        private static PromotionStatusList _promotionStatus;
+        private static int _promotionId;
         private static int _orderId;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100; // $10.00 = 1000
@@ -112,6 +114,7 @@ namespace ImpactWebsite.Controllers
             ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+            ViewBag.PromotionStatus = _promotionStatus;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             ViewData["LoggedinUserId"] = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["orderId"] = _orderId;
@@ -142,6 +145,7 @@ namespace ImpactWebsite.Controllers
             ViewData["TotalDay"] = totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+            ViewBag.PromotionStatus = PromotionStatusList.Ready;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -181,6 +185,7 @@ namespace ImpactWebsite.Controllers
                 UserId = TempUser.Id,
                 TotalAmount = parsedTotalAmountToPay * _dollarCent,
                 SelectionDiscount = parsedSelectionDiscount,
+                PromotionId = -1,
             });
 
             await _context.SaveChangesAsync();
@@ -303,35 +308,57 @@ namespace ImpactWebsite.Controllers
             if (ModelState.IsValid)
             {
                 var verfiedPromotion = _context.Promotions.FirstOrDefault(p => p.PromotionCode.Equals(promotion.PromotionCode));
+                var verfiedPromotionId = verfiedPromotion.PromotionId;
+                bool isPromotionCodeAppliedToOrder = _context.Orders.SingleOrDefault(s => s.OrderId == _orderId).IsPromotionCodeApplied;
 
+                var userId = _userManager.GetUserId(HttpContext.User);
+                var allOrdersFromCurrentUser = _context.Orders.Where(o=>o.UserId == userId);
+                bool isPromotionCodeAppliedToUser = allOrdersFromCurrentUser.Select(a=>a.PromotionId).Any(a => a.Equals(verfiedPromotionId));
+               
                 if (verfiedPromotion != null
                     && verfiedPromotion.DateFrom <= DateTime.Now
                     && verfiedPromotion.DateTo >= DateTime.Now
                     && verfiedPromotion.IsActive)
                 {
-                    var tempTotalAmount = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount;
-
-                    if (verfiedPromotion.DiscountMethod == DiscountMethodList.Fixed)
+                    // Check if there is already a promotion code is applied
+                    if (isPromotionCodeAppliedToOrder == false
+                        && isPromotionCodeAppliedToUser == false)
                     {
-                        var promotionDiscountRate = verfiedPromotion.DiscountRate;
-                        tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
-                        _promotionDiscountRate = "-$" + promotionDiscountRate;
-                        TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        var tempTotalAmount = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalAmount;
+
+                        if (verfiedPromotion.DiscountMethod == DiscountMethodList.Fixed)
+                        {
+                            var promotionDiscountRate = verfiedPromotion.DiscountRate;
+                            tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
+                            _promotionDiscountRate = "-$" + promotionDiscountRate;
+                            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        }
+                        else if (verfiedPromotion.DiscountMethod == DiscountMethodList.Percentage)
+                        {
+                            var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
+                            var promotionDiscountRate = verfiedPromotion.DiscountRate;
+                            var promotionDicountRatePercent = promotionDiscountRate * 0.01;
+                            tempTotalAmount = (int)((tempTotalAmountWithCent - (tempTotalAmountWithCent * promotionDicountRatePercent)) * _dollarCent);
+                            _promotionDiscountRate = "-" + promotionDiscountRate + "%";
+                            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        }
+
+                        _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalAmount = tempTotalAmount;
+                        _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).PromotionId = verfiedPromotionId;
+                        _promotionId = verfiedPromotionId;
+
+                        await _context.SaveChangesAsync();
+
+                        _totalAmountToPay = (tempTotalAmount / _dollarCent).ToString();
+
+                        ViewBag.PromotionStatus = PromotionStatusList.Applied;
+                        _promotionStatus = PromotionStatusList.Applied;
                     }
-                    else if (verfiedPromotion.DiscountMethod == DiscountMethodList.Percentage)
+                    else
                     {
-                        var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
-                        var promotionDiscountRate = verfiedPromotion.DiscountRate;
-                        var promotionDicountRatePercent = promotionDiscountRate * 0.01;
-                        tempTotalAmount = (int)((tempTotalAmountWithCent - (tempTotalAmountWithCent * promotionDicountRatePercent)) * _dollarCent);
-                        _promotionDiscountRate = "-" + promotionDiscountRate + "%";
-                        TempData["PromotionDiscountRate"] = _promotionDiscountRate;
+                        ViewBag.PromotionStatus = PromotionStatusList.Used;
+                        _promotionStatus = PromotionStatusList.Used;
                     }
-
-                    _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).TotalAmount = tempTotalAmount;
-                    await _context.SaveChangesAsync();
-
-                    _totalAmountToPay = (tempTotalAmount / _dollarCent).ToString();
                 }
                 else
                 {

@@ -59,8 +59,11 @@ namespace ImpactWebsite.Models.OrderModels
 
         public List<OrderDetail> OrderDetails { get; set; }
 
-        //public Promotion Promotion { get; set; }
-        //public int PromotionId { get; set; }
+        public int PromotionId { get; set; }
+
+        [Display(Name = "Promotion Code")]
+        public bool IsPromotionCodeApplied { get; set; }
+
         //public List<Investment> Investments { get; set; }
     }
 }

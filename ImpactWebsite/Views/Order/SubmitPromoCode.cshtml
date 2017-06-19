@@ -26,7 +26,7 @@
                 data: $(this).serialize(),
                 success: function (result) {
                     if (result.success == false) {
-                        alert('Promotion Code is not matched!, Please try again');
+                        alert('Promotion Code is not available');
                     } else {
                         window.location = 'NewOrder';
                     }

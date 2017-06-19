@@ -1,4 +1,5 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.OrderDetail>
+@using ImpactWebsite.Models.OrderModels
 
 @{
     ViewData["Title"] = "NewOrder";
@@ -14,7 +15,7 @@
     <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
     @Html.Raw(strSpacer)Order Number : @ViewData["orderId"]
 </h2>
-<table class="table table-responsive table-hover" style="margin: 30px auto; max-width:700px;">
+<table class="table table-responsive" style="margin: 30px auto; max-width:700px;">
     <thead>
         <tr>
             <th class="col-md-0">#</th>
@@ -90,17 +91,57 @@
         }
     </tr>
 
+    <tr>
+        <td></td>
+        <td colspan="2">
+            @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
+            {
+                <button id="promoCode"
+                        asp-controller="Order"
+                        asp-action="SubmitPromoCode"
+                        class="impact-btn pull-right"
+                        style="margin-top:15px;">
+
+                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Promo Code
+
+                </button>
+            }
+            else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
+            {
+                <button class="impact-btn pull-right"
+                        style="margin-top:15px; pointer-events:none;">
+
+                    <i class="fa fa-check" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Applied
+
+                </button>
+            }
+            else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
+            {
+                <button id="promoCode"
+                        asp-controller="Order"
+                        asp-action="SubmitPromoCode"
+                        class="impact-btn pull-right"
+                        style="margin-top:15px;">
+
+                    <i class="fa fa-barcode" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Promo Code
+
+                </button>
+                <p style="text-align:center; margin-top:20px;" class="text-danger">
+                    The promotion code is already used
+                </p>
+            }
+    </tr>
+
 </table>
+
+
 
 <section style="width: 35%; margin: auto; text-align: center;">
 
-    <a id="promoCode"
-       asp-controller="Order"
-       asp-action="SubmitPromoCode"
-       class="impact-btn neworder-btn">
-        <i class="fa fa-barcode" aria-hidden="true"></i>
-        @Html.Raw(strSpacer)Please Enter a Promotion Code
-    </a>
+
 
     <a id="FileUpload"
        class="impact-btn neworder-btn">
@@ -119,14 +160,14 @@
     }
     else
     {
-        <a id="Charge"
-           asp-controller="Order"
-           asp-action="RegisterLogin"
-           asp-route-id="@ViewData["orderId"]"
-           class="impact-btn neworder-btn">
+        <button id="Charge"
+                asp-controller="Order"
+                asp-action="RegisterLogin"
+                asp-route-id="@ViewData["orderId"]"
+                class="impact-btn neworder-btn">
             <i class="fa fa-credit-card" aria-hidden="true"></i>
             @Html.Raw(strSpacer)Request & Payment
-        </a>
+        </button>
     }
 
 </section>
@@ -166,7 +207,7 @@
 
 
 @section scripts
-    {
+  {
 
     <script src="~/lib/jquery/dist/jquery.js"></script>
     <script src="~/lib/jquery-ui/jquery-ui.js"></script>
@@ -181,7 +222,7 @@
             width: 400,
             height: 150,
             resizable: true,
-            title: 'Please Input Promotion Code',
+            title: 'Enter your promotional code',
             modal: true,
             open: function () {
                 $(this).load('@Url.Action("SubmitPromoCode", "Order")');

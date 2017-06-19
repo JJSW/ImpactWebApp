@@ -38,7 +38,7 @@ namespace ImpactWebsite.Controllers
             _userManager = userManager;
             _signInManager = signInManager;
         }
-   
+
         /// Return billing page with a data that contains information with order and module.
         /// Only displays the specific order of the logged in user.
         /// Billing address will be displayed in any circumstances.
@@ -47,7 +47,7 @@ namespace ImpactWebsite.Controllers
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<BillingDetailViewModel> billingVM = new List<BillingDetailViewModel>();
             var totalAmount = 0;
-            var moduleCount = 0;            
+            var moduleCount = 0;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -126,7 +126,7 @@ namespace ImpactWebsite.Controllers
 
             foreach (var order in completedOrders)
             {
-                order.OrderStatus = OrderStatusList.Completed;
+                order.OrderStatus = OrderStatusList.Processing;
             }
 
             await _context.SaveChangesAsync();
@@ -147,8 +147,8 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> Charge(
             string stripeToken
             , string stripeEmail
-            ,int orderId
-            ,int bAddressId
+            , int orderId
+            , int bAddressId
             )
         {
             var customers = new StripeCustomerService();
@@ -159,10 +159,10 @@ namespace ImpactWebsite.Controllers
             var customer = customers.Create(new StripeCustomerCreateOptions
             {
                 Email = stripeEmail,
-                SourceToken = stripeToken,                
+                SourceToken = stripeToken,
             });
 
-            var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x=>x.BillingAddressId == bAddressId);
+            var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.BillingAddressId == bAddressId);
 
             var charge = charges.Create(new StripeChargeCreateOptions
             {
@@ -184,7 +184,9 @@ namespace ImpactWebsite.Controllers
             };
             */
 
-            foreach (var order in completedOrders) { order.OrderStatus = OrderStatusList.Completed; }
+            foreach (var order in completedOrders) { order.OrderStatus = OrderStatusList.Processing; }
+
+            _context.Orders.SingleOrDefault(o => o.OrderId == orderId).IsPromotionCodeApplied = true;
 
             await _context.SaveChangesAsync();
 
@@ -219,7 +221,7 @@ namespace ImpactWebsite.Controllers
             }
 
             var orderDetails = await _context.OrderDetails.Where(m => m.OrderId == id).ToListAsync();
-    
+
             if (orderDetails == null)
             {
                 return NotFound();
@@ -269,11 +271,11 @@ namespace ImpactWebsite.Controllers
                         _context.BillingAddresses.Remove(address);
                     }
 
-                   await _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                 }
 
                 billingAddress.UserId = userId;
-                user.BillingAddress = billingAddress;                
+                user.BillingAddress = billingAddress;
                 await _userManager.UpdateAsync(user);
 
                 return RedirectToAction("Index");

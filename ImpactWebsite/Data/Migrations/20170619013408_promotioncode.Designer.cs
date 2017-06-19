@@ -9,9 +9,10 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170619013408_promotioncode")]
+    partial class promotioncode
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")
@@ -62,6 +63,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<string>("PhoneNumber");
 
                     b.Property<bool>("PhoneNumberConfirmed");
+
+                    b.Property<int?>("PromotionId");
 
                     b.Property<string>("SecurityStamp");
 

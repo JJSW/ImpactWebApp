@@ -12,6 +12,13 @@ namespace ImpactWebsite.Models.OrderModels
         Percentage,
     }
 
+    public enum PromotionStatusList
+    {
+        Ready,
+        Applied,
+        Used,
+    }
+
     public class Promotion : BaseEntity
     {
         [Key]
