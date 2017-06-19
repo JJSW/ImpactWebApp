@@ -36,6 +36,7 @@ namespace ImpactWebsite.Controllers
         private static PromotionStatusList _promotionStatus;
         private static int _promotionId;
         private static int _orderId;
+        private static int _orderNumber;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100; // $10.00 = 1000
 
@@ -116,8 +117,9 @@ namespace ImpactWebsite.Controllers
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.PromotionStatus = _promotionStatus;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
-            ViewData["LoggedinUserId"] = _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId;
+            ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["orderId"] = _orderId;
+            ViewData["OrderNumber"] = _orderNumber;
 
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
             return View(OrderDetails.ToList());
@@ -142,7 +144,7 @@ namespace ImpactWebsite.Controllers
             _totalDay = totalDay;
 
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
-            ViewData["TotalDay"] = totalDay;
+            ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.PromotionStatus = PromotionStatusList.Ready;
@@ -157,6 +159,7 @@ namespace ImpactWebsite.Controllers
             {
                 var findUser = await _userManager.FindByEmailAsync(email);
                 var notRegisteredUser = await _userManager.FindByEmailAsync("temp@user.com");
+
                 if (findUser != null)
                 {
                     TempUser = findUser;
@@ -167,8 +170,8 @@ namespace ImpactWebsite.Controllers
                 }
                 _emailAddress = email;
             }
-            ViewData["Email"] = email;
-            ViewData["LoggedinUserId"] = TempUser.Id;
+            ViewData["Email"] = _emailAddress;
+            ViewData["LoggedinOrTempUserId"] = TempUser.Id;
 
             parsedTotalAmountToPay = ParseStringToInt(_totalAmountToPay);
             parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
@@ -177,15 +180,27 @@ namespace ImpactWebsite.Controllers
 
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
 
+            var ordersFromCurrentUser = _context.Orders.Where(o => o.UserEmail == _emailAddress);
+
+            if (ordersFromCurrentUser == null || !ordersFromCurrentUser.Any())
+            {
+                _orderNumber = 1;
+            }
+            else
+            {
+                _orderNumber = ordersFromCurrentUser.OrderByDescending(o => o.OrderNum).FirstOrDefault().OrderNum + 1;
+            }
+              
             _context.Orders.Add(new Order()
             {
-                UserEmail = email,
+                UserEmail = _emailAddress,
                 OrderedDate = DateTime.Now,
                 DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
                 UserId = TempUser.Id,
                 TotalAmount = parsedTotalAmountToPay * _dollarCent,
                 SelectionDiscount = parsedSelectionDiscount,
                 PromotionId = -1,
+                OrderNum = _orderNumber,
             });
 
             await _context.SaveChangesAsync();
@@ -194,28 +209,12 @@ namespace ImpactWebsite.Controllers
 
             CreateOrderDetail(collection);
 
-            try
-            {
-                var newOrder = _context.Orders.SingleOrDefault(x => x.OrderId == _orderId);
-                ViewData["OrderId"] = newOrder.OrderId;
-
-                if (ViewData["OrderId"] == null)
-                {
-                    throw new ArgumentNullException();
-                }
-            }
-            catch (ArgumentNullException e)
-            {
-                Console.WriteLine("ArgumentNullException source: {0}", e.Source);
-            }
-
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
 
-            //ViewData["OrderId"] = _orderId;
-
-            List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
+            //List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
 
             ViewData["orderId"] = _orderId;
+            ViewData["OrderNumber"] = _orderNumber;
             return View(OrderDetails.ToList());
         }
 
@@ -370,7 +369,7 @@ namespace ImpactWebsite.Controllers
         }
 
         [HttpGet]
-        public IActionResult FileUpdaload()
+        public IActionResult FileCommentSubmit()
         {
             ViewData["Email"] = _emailAddress;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
@@ -378,7 +377,7 @@ namespace ImpactWebsite.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> FileUpdaload(ICollection<IFormFile> files)
+        public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files, string noteFromUser)
         {
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             DateTime dtNow = DateTime.Now;
@@ -402,6 +401,10 @@ namespace ImpactWebsite.Controllers
             }
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
             ViewData["orderId"] = _orderId;
+
+            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
+            await _context.SaveChangesAsync();
+
             return RedirectToAction("NewOrder");
         }
 

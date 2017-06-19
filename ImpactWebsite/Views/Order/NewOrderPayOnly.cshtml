@@ -43,7 +43,7 @@
     <div style="width: 250px; margin-left: 50%; text-align: center;">
         @if (SignInManager.IsSignedIn(User))
         {
-            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderId"] })" style="display: block; width: 250px; height: 100px; padding: 30px;" class="btn-lg btn-primary">
+            <a href="@Url.Action("Index", "Billing", new { @id = ViewData["LoggedinOrTempUserId"], @orderId = ViewData["orderId"] })" style="display: block; width: 250px; height: 100px; padding: 30px;" class="btn-lg btn-primary">
                 <i class="glyphicon glyphicon-align-center"></i> Request & Payment
             </a>
         }

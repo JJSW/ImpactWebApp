@@ -3,6 +3,8 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
+@{ string strSpacer = "&nbsp;"; }
+
 @if (User.IsInRole("Admin"))
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
@@ -12,27 +14,40 @@
                    aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
-                        <a class="dropdown-item nav-menu" asp-area="" asp-controller="Order" asp-action="Orders">Order</a>
+                        <a asp-area="" asp-controller="Order" asp-action="Orders">
+                            <i class="fa fa-list-ul" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Order
+                        </a>
+
                     </li>
                     <li>
                         <a asp-area="" asp-controller="ApplicationUser" asp-action="Index">
-                            <i class="fa fa-user" aria-hidden="true"></i> User
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)User
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="NewsletterUser" asp-action="Index">Newsletter User</a>
+                        <a asp-area="" asp-controller="NewsletterUser" asp-action="Index">
+                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Newsletter User
+                        </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Module" asp-action="Index">Module</a>
+                        <a asp-area="" asp-controller="Module" asp-action="Index">
+                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Module
+                        </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Promotion" asp-action="Index">
-                            <i class="fa fa-percent" aria-hidden="true"></i> Promotion
+                            <i class="fa fa-percent" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Promotion
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Discount" asp-action="Index">
-                            <i class="fa fa-percent" aria-hidden="true"></i> Discount
+                            <i class="fa fa-usd" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Discount
                         </a>
                     </li>
                     <li>
@@ -53,14 +68,21 @@ else if (SignInManager.IsSignedIn(User))
                    aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
-                        <a asp-controller="Billing" asp-action="PaymentHistory">Order Summary</a>
+                        <a asp-controller="Billing" asp-action="PaymentHistory">
+                            <i class="fa fa-list-ul" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Order Summary
+                        </a>
                     </li>
                     <li>
-                        <a asp-controller="Billing" asp-action="Index">Billing Info</a>
+                        <a asp-controller="Billing" asp-action="Index">
+                            <i class="fa fa-credit-card" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Billing Info
+                        </a>
                     </li>
                     <li>
                         <a asp-controller="Manage" asp-action="Index" title="Manage">
-                            <i class="fa fa-user" aria-hidden="true"></i> User Profile
+                            <i class="fa fa-user-circle" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)User Profile
                         </a>
                     </li>
                     <li>

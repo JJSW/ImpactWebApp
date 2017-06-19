@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170616024513_Init")]
-    partial class Init
+    [Migration("20170619154844_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -202,6 +202,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTime>("DeliveredDate");
 
+                    b.Property<bool>("IsPromotionCodeApplied");
+
                     b.Property<string>("NoteFromAdmin");
 
                     b.Property<string>("NoteFromUser");
@@ -211,6 +213,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("OrderStatus");
 
                     b.Property<DateTime>("OrderedDate");
+
+                    b.Property<int>("PromotionId");
 
                     b.Property<string>("SalesRep")
                         .HasMaxLength(160);
@@ -284,7 +288,7 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("Promotions");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.UnitPrice", b =>
+            modelBuilder.Entity("ImpactWebsite.Models.UnitPrice", b =>
                 {
                     b.Property<int>("UnitPriceId")
                         .ValueGeneratedOnAdd();
@@ -416,7 +420,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
                 {
-                    b.HasOne("ImpactWebsite.Models.OrderModels.UnitPrice", "UnitPrice")
+                    b.HasOne("ImpactWebsite.Models.UnitPrice", "UnitPrice")
                         .WithMany()
                         .HasForeignKey("UnitPriceId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -13,9 +13,9 @@
 
 <h2 style="text-align: center;">
     <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-    @Html.Raw(strSpacer)Order Number : @ViewData["orderId"]
+    @Html.Raw(strSpacer)Order Number : @ViewData["OrderNumber"]
 </h2>
-<table class="table table-responsive" style="margin: 30px auto; max-width:700px;">
+<table class="table table-responsive" style="margin:30px auto 10px auto; max-width:700px;">
     <thead>
         <tr>
             <th class="col-md-0">#</th>
@@ -135,76 +135,58 @@
             }
     </tr>
 
+    <tr>
+        <td style="border-top: none !important;"></td>
+        <td style="border-top: none !important;" colspan="2">
+            <p style="text-align:center; font-size: medium; font-weight: bold;">
+                <!--<b>Estimate Deliver Date: @ViewData["DeliverDate"]</b>-->
+            </p>
+
+            <div>
+                <a id="FileUpload"
+                   class="impact-btn neworder-btn pull-right">
+                    <i class="fa fa-file-o" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Input Investment Information
+                </a>
+            </div>
+        </td>
+    </tr>
+
 </table>
 
 
 
-<section style="width: 35%; margin: auto; text-align: center;">
-
-
-
-    <a id="FileUpload"
-       class="impact-btn neworder-btn">
-        <i class="fa fa-info" aria-hidden="true"></i>
-        @Html.Raw(strSpacer)Input Investment Information
-    </a>
-
-    @if (SignInManager.IsSignedIn(User))
+<table class="table" style="border:none; margin:30px auto 0px auto; max-width:700px;">
+    <tr>
+        <td>
+            @if (SignInManager.IsSignedIn(User))
             {
-        <a href="@Url.Action("Index", "Billing",
-                    new { @id = ViewData["LoggedinUserId"], @orderId = ViewData["orderId"] })"
-           class="impact-btn neworder-btn">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
-            @Html.Raw(strSpacer)Request & Payment
-        </a>
-    }
-    else
-    {
-        <button id="Charge"
-                asp-controller="Order"
-                asp-action="RegisterLogin"
-                asp-route-id="@ViewData["orderId"]"
-                class="impact-btn neworder-btn">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>
-            @Html.Raw(strSpacer)Request & Payment
-        </button>
-    }
+                <a href="@Url.Action("Index", "Billing",
+                    new { @id = ViewData["LoggedinOrTempUserId"], @orderId = ViewData["orderId"] })"
+                   class="impact-btn neworder-btn"
+                   style="max-width:260px;">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Request & Payment >>
+                </a>
+            }
+            else
+            {
+                <a id="Charge"
+                   asp-controller="Order"
+                   asp-action="RegisterLogin"
+                   asp-route-id="@ViewData["orderId"]"
+                   class="impact-btn neworder-btn"
+                   style="max-width:260px;">
+                    <i class="fa fa-credit-card" aria-hidden="true"></i>
+                    @Html.Raw(strSpacer)Request & Payment >>
+                </a>
+            }
+        </td>
+    </tr>
 
-</section>
-
-
-<br />
-<br />
-
-<div class="row">
-    <div class="col-lg-4 col-lg-offset-4">
-
-        <p style="font-size: small; font-weight: bold;">
-            Estimate Deliver Date: @ViewData["DeliverDate"]
-        </p>
-
-        <br />
-
-        <div class="input-group">
-            <textarea class="form-control custom-control" rows="5"></textarea>
-            <span class="input-group-addon btn btn-primary">Send</span>
-        </div>
-    </div>
-</div>
-
-<!--
-<p></p>
-<button class="UserNote btn btn-info"
-        value="@Model.">
-    Add Note
-</button>
-<span>@Html.Raw(strSpacer)Add note for your order</span>
-    -->
-
+</table>
 
 <div id="AddUserForm"></div>
-
-
 
 @section scripts
   {
@@ -238,27 +220,17 @@
             $("#AddUserForm").dialog({
             type: 'GET',
             autoOpen: true,
-            position: { my: "top", at: "top+150", of: window },
+            position: { my: "top", at: "top+100", of: window },
             width: 500,
-            height: 200,
-            resizable: false,
-            title: 'Upload Files',
+            height: 400,
+            resizable: true,
+            title: 'Upload files and add comments',
             modal: true,
             open: function () {
-                $(this).load('@Url.Action("FileUpdaload", "Order")');
+                $(this).load('@Url.Action("FileCommentSubmit", "Order")');
             },
         });
         return false;
     });
-    </script>
-
-
-
-    <!-- Not used -->
-    <script type="text/javascript">
-        $(document).ready(function () {
-            var promotionDiscountRate = (string)@TempData["PromotionDiscountRate"];
-            $('label[for="promotionDiscountRate"]').text(promotionDiscountRate);
-        });
     </script>
 }

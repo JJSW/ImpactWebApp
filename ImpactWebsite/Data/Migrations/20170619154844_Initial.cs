@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class Init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -130,11 +130,13 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DeliveredDate = table.Column<DateTime>(nullable: false),
+                    IsPromotionCodeApplied = table.Column<bool>(nullable: false),
                     NoteFromAdmin = table.Column<string>(nullable: true),
                     NoteFromUser = table.Column<string>(nullable: true),
                     OrderNum = table.Column<int>(nullable: false),
                     OrderStatus = table.Column<int>(nullable: false),
                     OrderedDate = table.Column<DateTime>(nullable: false),
+                    PromotionId = table.Column<int>(nullable: false),
                     SalesRep = table.Column<string>(maxLength: 160, nullable: true),
                     SelectionDiscount = table.Column<int>(nullable: false),
                     TotalAmount = table.Column<int>(nullable: false),

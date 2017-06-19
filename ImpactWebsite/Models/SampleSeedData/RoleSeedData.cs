@@ -49,7 +49,7 @@ namespace ImpactWebsite.Models
                 NewsletterRequired = true
             };
 
-            var member = new ApplicationUser
+            var temp = new ApplicationUser
             {
                 FirstName = "temp",
                 LastName = "temp",
@@ -61,7 +61,23 @@ namespace ImpactWebsite.Models
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                CompanyName = "Retailed Investor",
+                CompanyName = "Temporary User",
+                NewsletterRequired = true
+            };
+
+            var member = new ApplicationUser
+            {
+                FirstName = "test",
+                LastName = "test",
+                Email = "test@test.com",
+                NormalizedEmail = "TEST@TEST.COM",
+                UserName = "test@test.com",
+                NormalizedUserName = "TEST@TEST.COM",
+                PhoneNumber = "000-000-0000",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = Guid.NewGuid().ToString("D"),
+                CompanyName = "Test User",
                 NewsletterRequired = true
             };
 
@@ -73,18 +89,31 @@ namespace ImpactWebsite.Models
 
                 var userStore = new UserStore<ApplicationUser>(context);
                 var result = userStore.CreateAsync(admin);
+
+                await AssignRoles(isp, admin.Email, "Admin");
+            }
+
+            if (!context.Users.Any(u => u.UserName == temp.UserName))
+            {
+                var password = new PasswordHasher<ApplicationUser>();
+                var hashed = password.HashPassword(temp, "Password2!");
+                temp.PasswordHash = hashed;
+
+                var userStore = new UserStore<ApplicationUser>(context);
+                var result = userStore.CreateAsync(temp);
+
+                await AssignRoles(isp, temp.Email, "Temp");
             }
 
             if (!context.Users.Any(u => u.UserName == member.UserName))
             {
                 var password = new PasswordHasher<ApplicationUser>();
-                var hashed = password.HashPassword(member, "Password2!");
+                var hashed = password.HashPassword(member, "Password3!");
                 member.PasswordHash = hashed;
 
                 var userStore = new UserStore<ApplicationUser>(context);
                 var result = userStore.CreateAsync(member);
 
-                await AssignRoles(isp, admin.Email, "Admin");
                 await AssignRoles(isp, member.Email, "Member");
             }
 

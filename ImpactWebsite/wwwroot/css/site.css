@@ -9,8 +9,7 @@
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
 input,
-select,
-textarea {
+select {
     max-width: 280px;
 }
 
@@ -45,34 +44,6 @@ textarea {
         display: none;
     }
 }
-
-/* MVC Website */
-.btnAnalysis {
-    padding-top: 10%;
-    height: 700px;
-    text-align: center;
-    font-size: 50px;
-    font-weight: 900;
-    margin-bottom: 100px;
-}
-
-.input-symbol-can {
-    position: relative;
-}
-
-    .input-symbol-can input {
-        padding-left: 15px;
-    }
-
-    .input-symbol-can:before {
-        position: absolute;
-        top: -2px;
-        content: "$";
-        left: 5px;
-    }
-
-
-
 
 /* 
     Custom Style
@@ -250,11 +221,10 @@ footer {
 
 /* A variation of button style with buttons on new order page */
 .neworder-btn {
-    font-size: 14px !important;
-    padding: 15px 25px !important;
+    font-size: 15px !important;
+    padding: 10px 20px !important;
     display: block;
     cursor: pointer;
-    margin: 50px 20px 0px 20px;
 }
 
 /* A main button style */

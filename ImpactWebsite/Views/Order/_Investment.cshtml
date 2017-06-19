@@ -6,14 +6,30 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-<h2>Investment</h2>
-<form method="post" asp-action="FileUpdaload" asp-controller="Order" enctype="multipart/form-data">
-    <input type="hidden" name="email" value="@ViewData["Email"]" />
-    <div style="width: 400px; margin-left: 50px; margin-top: 20px;">
-        <div style="width: 300px; float: left;">
-            <input type="file" class="btn btn-primary" name="files" multiple />
+
+
+<div style="margin:10px;">
+
+    <form method="post" asp-action="FileCommentSubmit" asp-controller="Order" enctype="multipart/form-data">
+        <h4>Upload investment information</h4>
+
+        <div style="margin-top: 20px; text-align:center;">
+            <p>Browse or drag and drop files</p>
+
+            <input type="hidden" name="email" value="@ViewData["Email"]" />
+            <input style="margin:auto;" type="file" class="btn btn-primary" name="files" multiple />
         </div>
-        <input style="width: 100px;" type="submit" class="btn btn-default" value="Upload" />
-    </div>
-    
-</form>
+
+        <br />
+
+        <h4>Add comments</h4>
+        <div class="input-group" style="margin: 20px auto;">
+            <textarea name="noteFromUser" style="width:400px; display:table;" class="form-control" rows="3"></textarea>
+        </div>
+
+        <input style="width: 100px; margin:auto; display:table;" type="submit" class="btn btn-default" value="Upload" />
+    </form>
+</div>
+
+
+
