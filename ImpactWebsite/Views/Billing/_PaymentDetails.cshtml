@@ -1,18 +1,20 @@
 @using ImpactWebsite.Models.BillingModels
 @model IEnumerable<ImpactWebsite.Models.BillingModels.BillingDetailViewModel>
+
 @{
     ViewData["Title"] = "PaymentDetails";
 }
 
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<h3><i class="fa fa-check-square-o"></i>  Selected Modules</h3>
+<h3><i class="fa fa-check-square-o"></i>@Html.Raw(strSpacer)Selected Modules</h3>
 <br />
 @if (Model != null)
 {
     <table class="table">
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.OrderId)
+                @Html.DisplayNameFor(model => model.OrderNum)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.UserEmail)
@@ -35,7 +37,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
+                    @Html.DisplayFor(modelItem => item.OrderNum)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.UserEmail)

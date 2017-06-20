@@ -58,14 +58,14 @@ namespace WebApplication1.Data.Migrations
                 {
                     BillingAddressId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AddressLine1 = table.Column<string>(nullable: true),
-                    AddressLine2 = table.Column<string>(nullable: true),
+                    AddressLine1 = table.Column<string>(maxLength: 50, nullable: true),
+                    AddressLine2 = table.Column<string>(maxLength: 50, nullable: true),
                     BillingName = table.Column<string>(nullable: true),
-                    City = table.Column<string>(nullable: true),
+                    City = table.Column<string>(maxLength: 50, nullable: true),
                     Country = table.Column<string>(nullable: true),
                     State = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
-                    ZipCode = table.Column<string>(nullable: true)
+                    ZipCode = table.Column<string>(maxLength: 10, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -76,7 +76,7 @@ namespace WebApplication1.Data.Migrations
                 name: "Investments",
                 columns: table => new
                 {
-                    InvestmentId = table.Column<long>(nullable: false)
+                    InvestmentId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     EstimateValue = table.Column<decimal>(nullable: false),
                     ISIN = table.Column<string>(maxLength: 160, nullable: true),
@@ -93,7 +93,7 @@ namespace WebApplication1.Data.Migrations
                 name: "NewsletterUsers",
                 columns: table => new
                 {
-                    NewsletterUserId = table.Column<long>(nullable: false)
+                    NewsletterUserId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Email = table.Column<string>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
@@ -108,7 +108,7 @@ namespace WebApplication1.Data.Migrations
                 name: "Discounts",
                 columns: table => new
                 {
-                    DiscountId = table.Column<long>(nullable: false)
+                    DiscountId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     DiscountName = table.Column<string>(nullable: true),
@@ -130,6 +130,7 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
                     DeliveredDate = table.Column<DateTime>(nullable: false),
+                    InvestmentId = table.Column<int>(nullable: false),
                     IsPromotionCodeApplied = table.Column<bool>(nullable: false),
                     NoteFromAdmin = table.Column<string>(nullable: true),
                     NoteFromUser = table.Column<string>(nullable: true),
@@ -232,12 +233,6 @@ namespace WebApplication1.Data.Migrations
                         principalTable: "Modules",
                         principalColumn: "ModuleId",
                         onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_OrderDetails_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -265,11 +260,6 @@ namespace WebApplication1.Data.Migrations
                 name: "IX_OrderDetails_ModuleId",
                 table: "OrderDetails",
                 column: "ModuleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OrderDetails_OrderId",
-                table: "OrderDetails",
-                column: "OrderId");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_AspNetUsers_BillingAddresses_BillingAddressId",
@@ -299,6 +289,9 @@ namespace WebApplication1.Data.Migrations
                 name: "Discounts");
 
             migrationBuilder.DropTable(
+                name: "Orders");
+
+            migrationBuilder.DropTable(
                 name: "OrderDetails");
 
             migrationBuilder.DropTable(
@@ -306,9 +299,6 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Modules");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "UnitPrices");

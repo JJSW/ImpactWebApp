@@ -10,7 +10,7 @@ namespace ImpactWebsite.Models
     public class NewsletterUser : BaseEntity
     {
         [Key]
-        public Int64 NewsletterUserId { get; set; }
+        public Int32 NewsletterUserId { get; set; }
         
         [Required]
         [Display(Name = "Email")]
@@ -18,6 +18,7 @@ namespace ImpactWebsite.Models
         public string Email { get; set; }
 
         [Required]
+        [Display(Name = "Subscription")]
         public bool isSubscribed { get; set; } = true;
     }
 }

@@ -9,7 +9,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class Module
     {
         [Key]
-        public int ModuleId { get; set; }
+        public Int32 ModuleId { get; set; }
 
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
@@ -20,7 +20,7 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Module Description")]
         public string LongDescription { get; set; }
 
-        public int UnitPriceId { get; set; }
+        public Int32 UnitPriceId { get; set; }
 
         [Display(Name = "Unit Price")]
         public UnitPrice UnitPrice { get; set; }

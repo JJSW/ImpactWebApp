@@ -89,13 +89,16 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("BillingAddressId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("AddressLine1");
+                    b.Property<string>("AddressLine1")
+                        .HasMaxLength(50);
 
-                    b.Property<string>("AddressLine2");
+                    b.Property<string>("AddressLine2")
+                        .HasMaxLength(50);
 
                     b.Property<string>("BillingName");
 
-                    b.Property<string>("City");
+                    b.Property<string>("City")
+                        .HasMaxLength(50);
 
                     b.Property<string>("Country");
 
@@ -103,7 +106,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("UserId");
 
-                    b.Property<string>("ZipCode");
+                    b.Property<string>("ZipCode")
+                        .HasMaxLength(10);
 
                     b.HasKey("BillingAddressId");
 
@@ -112,7 +116,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactWebsite.Models.Investment", b =>
                 {
-                    b.Property<long>("InvestmentId")
+                    b.Property<int>("InvestmentId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<decimal>("EstimateValue");
@@ -135,7 +139,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactWebsite.Models.NewsletterUser", b =>
                 {
-                    b.Property<long>("NewsletterUserId")
+                    b.Property<int>("NewsletterUserId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email")
@@ -152,7 +156,7 @@ namespace WebApplication1.Data.Migrations
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Discount", b =>
                 {
-                    b.Property<long>("DiscountId")
+                    b.Property<int>("DiscountId")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
@@ -200,6 +204,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<string>("ApplicationUserId");
 
                     b.Property<DateTime>("DeliveredDate");
+
+                    b.Property<int>("InvestmentId");
 
                     b.Property<bool>("IsPromotionCodeApplied");
 
@@ -250,8 +256,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasKey("OrderDetailId");
 
                     b.HasIndex("ModuleId");
-
-                    b.HasIndex("OrderId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -437,11 +441,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasOne("ImpactWebsite.Models.OrderModels.Module", "Module")
                         .WithMany()
                         .HasForeignKey("ModuleId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ImpactWebsite.Models.OrderModels.Order")
-                        .WithMany("OrderDetails")
-                        .HasForeignKey("OrderId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

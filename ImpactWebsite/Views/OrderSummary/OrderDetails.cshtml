@@ -1,0 +1,50 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.OrderDetail>
+
+@{
+    ViewData["Title"] = "OrderDetails";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<h2><i class="fa fa-tasks" aria-hidden="true"></i>@Html.Raw(strSpacer)Order Details</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderDetailId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModuleId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ModuleName)
+        </th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.OrderDetailId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ModuleName)
+            </td>
+        </tr>
+    }
+</table>
+
+<a asp-controller="OrderSummary"
+   asp-action="Index"    
+   class="btn btn-default" role="button">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    @Html.Raw(strSpacer)Back to List
+</a>

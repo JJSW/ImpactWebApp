@@ -1,17 +1,17 @@
-@using ImpactWebsite.Models.OrderModels
 @model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
 
 @{
-    ViewData["Title"] = "PaymentHistory";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Order Complete";
 }
 
-<h2><i class="fa fa-file-o"></i>  Payment History</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<h2><i class="fa fa-file-o"></i>@Html.Raw(strSpacer)Payment Complete</h2>
 <br />
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.OrderId)
+            @Html.DisplayNameFor(model => model.OrderNum)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.OrderedDate)
@@ -25,23 +25,19 @@
         <th>
             @Html.DisplayNameFor(model => model.NoteFromUser)
         </th>
-        <th>Details</th>
     </tr>
 
     @foreach (var item in Model)
     {
-        var totalAmountDollar = item.TotalAmount / 100;
-        if (item.OrderStatus == OrderStatusList.Completed)
-        {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.OrderId)
+                @Html.DisplayFor(modelItem => item.OrderNum)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderedDate)
             </td>
             <td>
-                $ @totalAmountDollar
+                $@Html.DisplayFor(modelItem => item.TotalAmount)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.OrderStatus)
@@ -49,14 +45,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NoteFromUser)
             </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.OrderId">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-tasks"></span> Details
-                    </button>
-                </a> 
-            </td>
         </tr>
-        }
     }
 </table>
+
+<a asp-controller="Order"
+   asp-action="OrderSummary"
+   class="btn btn-default" role="button">
+    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+    @Html.Raw(strSpacer)Back to List
+</a>

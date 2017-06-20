@@ -9,8 +9,11 @@ namespace ImpactWebsite.Models.BillingModels
 {
     public class BillingDetailViewModel
     {
-        [Display(Name = "Order Number")]
+        [Display(Name = "Order Id")]
         public Int32 OrderId { get; set; }
+
+        [Display(Name = "Order Number")]
+        public Int32 OrderNum { get; set; }
 
         public string UserId { get; set; }
 
@@ -23,12 +26,10 @@ namespace ImpactWebsite.Models.BillingModels
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
 
-        [Display(Name = "Module Names")]
-        public string ModuleNames { get; set; }
-
         [Display(Name = "Module Price")]
         public int UnitPrice { get; set; }
 
+        [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
 
         [Display(Name = "Order Status")]

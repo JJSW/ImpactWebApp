@@ -35,7 +35,7 @@ namespace ImpactWebsite.Controllers
         private static string _promotionDiscountRate;
         private static PromotionStatusList _promotionStatus;
         private static int _promotionId;
-        private static int _orderId;
+        private static Int32 _orderId;
         private static int _orderNumber;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100; // $10.00 = 1000
@@ -67,7 +67,7 @@ namespace ImpactWebsite.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            List<TempOrder> tempOrders = new List<TempOrder>();
+            List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
 
             var moduleList = _context.Modules.Include(o => o.UnitPrice);
 
@@ -96,7 +96,7 @@ namespace ImpactWebsite.Controllers
 
             foreach (var module in moduleList)
             {
-                tempOrders.Add(new TempOrder()
+                tempOrders.Add(new TempOrderViewModel()
                 {
                     Modules = module
                 });
@@ -114,8 +114,8 @@ namespace ImpactWebsite.Controllers
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
-            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.PromotionStatus = _promotionStatus;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["orderId"] = _orderId;
@@ -146,8 +146,8 @@ namespace ImpactWebsite.Controllers
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
-            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.PromotionStatus = PromotionStatusList.Ready;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -247,7 +247,7 @@ namespace ImpactWebsite.Controllers
             var lists = collection["modules"];
             foreach (var list in lists)
             {
-                var jsonObj = JsonConvert.DeserializeObject<TempOrder>(list);
+                var jsonObj = JsonConvert.DeserializeObject<TempOrderViewModel>(list);
 
                 _context.OrderDetails.Add(new OrderDetail()
                 {
@@ -260,39 +260,12 @@ namespace ImpactWebsite.Controllers
             _context.SaveChanges();
         }
 
-        private void GetOrderId()
-        {
-
-        }
-
-
         // GET: Orders
         public async Task<IActionResult> Orders()
         {
             var applicationDbContext = _context.Orders;
             return View(await applicationDbContext.ToListAsync());
         }
-
-        // GET: Orders/OrderDetails/5
-        public async Task<IActionResult> OrderDetails(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var orderDetail = await _context.OrderDetails
-                .Include(o => o.Module)
-                .FirstOrDefaultAsync(m => m.OrderId == id);
-            if (orderDetail == null)
-            {
-                return NotFound();
-            }
-
-            return View(orderDetail);
-        }
-
-
 
         [HttpGet]
         public IActionResult SubmitPromoCode()
@@ -440,6 +413,7 @@ namespace ImpactWebsite.Controllers
 
             return View("RegisterLogin");
         }
+
         //
         // GET: /Account/_Register
         [HttpGet]
@@ -451,6 +425,7 @@ namespace ImpactWebsite.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
+
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]

@@ -9,7 +9,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class Discount
     {
         [Key]
-        public Int64 DiscountId { get; set; }
+        public Int32 DiscountId { get; set; }
        
         [Display(Name = "Discount Name")]
         public string DiscountName { get; set; }

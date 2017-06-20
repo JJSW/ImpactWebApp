@@ -104,7 +104,7 @@ else if (@ViewData["amount"] != null && (int)@ViewData["amount"] == 0)
 {
     var orderId = 0;
     foreach (var a in Model) { orderId = a.OrderId; }
-    <a class="impact-btn" href="@Url.Action("CompleteDefaultOrder", "Billing", new { orderId = @orderId})">
+    <a class="impact-btn" href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
         Complete Order
     </a>
 }

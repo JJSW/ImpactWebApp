@@ -21,7 +21,7 @@ namespace ImpactWebsite.Models.OrderModels
     {
         [Key]
         [Display(Name = "Order ID")]
-        public int OrderId { get; set; }
+        public Int32 OrderId { get; set; }
 
         [Display(Name = "Order Number")]
         public int OrderNum { get; set; }
@@ -30,6 +30,7 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Email")]
         public string UserEmail { get; set; }
 
+        [Display(Name = "User ID")]
         public string UserId { get; set; }
 
         [Display(Name = "Sales Rep")]
@@ -37,9 +38,11 @@ namespace ImpactWebsite.Models.OrderModels
         public string SalesRep { get; set; }
 
         [Display(Name = "Ordered Date")]
+        [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime OrderedDate { get; set; }
 
         [Display(Name = "Delivered Date")]
+        [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime DeliveredDate { get; set; }
 
         [Display(Name = "Order Status")]
@@ -57,13 +60,13 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
 
-        public List<OrderDetail> OrderDetails { get; set; }
-
-        public int PromotionId { get; set; }
+        [Display(Name = "Promotion ID")]
+        public Int32 PromotionId { get; set; }
 
         [Display(Name = "Promotion Code")]
         public bool IsPromotionCodeApplied { get; set; }
 
-        //public List<Investment> Investments { get; set; }
+        [Display(Name = "Investment ID")]
+        public Int32 InvestmentId { get; set; }
     }
 }

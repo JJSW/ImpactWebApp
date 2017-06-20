@@ -68,7 +68,7 @@ else if (SignInManager.IsSignedIn(User))
                    aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
-                        <a asp-controller="Billing" asp-action="PaymentHistory">
+                        <a asp-controller="OrderSummary" asp-action="Index">
                             <i class="fa fa-list-ul" aria-hidden="true"></i>
                             @Html.Raw(strSpacer)Order Summary
                         </a>
@@ -86,7 +86,10 @@ else if (SignInManager.IsSignedIn(User))
                         </a>
                     </li>
                     <li>
-                        <button type="submit" class="btn navbar-btn" style="margin-left:20px; margin-top:10px">Log out</button>
+                        <button type="submit" class="btn navbar-btn"
+                                style="margin-left:20px; margin-top:10px">
+                            Log out
+                        </button>
                     </li>
                 </ul>
             </li>

@@ -1,0 +1,69 @@
+@using ImpactWebsite.Models.OrderModels
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
+
+@{
+    ViewData["Title"] = "OrderSummary";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<h2><i class="fa fa-list-ul" aria-hidden="true"></i>@Html.Raw(strSpacer)Order Summary</h2>
+<br />
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderNum)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TotalAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.OrderStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NoteFromUser)
+        </th>
+        <th>Details</th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        var totalAmountDollar = item.TotalAmount / 100;
+
+        if (item.OrderStatus == OrderStatusList.Processing
+            || item.OrderStatus == OrderStatusList.Completed)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderNum)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderedDate)
+                </td>
+                <td>
+                    $@totalAmountDollar
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteFromUser)
+                </td>
+
+                <td>
+                    <a asp-controller="OrderSummary"
+                       asp-action="OrderDetails"
+                       asp-route-id="@item.OrderId"
+                       class="btn btn-default btn-sm" role="button">
+                        <i class="fa fa-tasks" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Details
+                    </a>
+                </td>
+            </tr>
+        }
+    }
+</table>

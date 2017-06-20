@@ -15,11 +15,14 @@ namespace ImpactWebsite.Models.BillingModels
         public string BillingName { get; set; }
 
         [Display(Name = "Address 1")]
+        [StringLength(50)]
         public string AddressLine1 { get; set; }
 
         [Display(Name = "Address 2")]
+        [StringLength(50)]
         public string AddressLine2 { get; set; }
 
+        [StringLength(10)]
         [Display(Name = "Zip Code")]
         public string ZipCode { get; set; }
 
@@ -27,12 +30,13 @@ namespace ImpactWebsite.Models.BillingModels
         public string State { get; set; }
 
         [Display(Name = "City")]
+        [StringLength(50)]
         public string City { get; set; }
 
         [Display(Name = "Country")]
         public string Country { get; set; }
 
-        [Display(Name = "User")]
+        [Display(Name = "User ID")]
         public string UserId { get; set; }
     }
 }

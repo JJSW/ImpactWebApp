@@ -9,13 +9,16 @@ namespace ImpactWebsite.Models
     public class UnitPrice
     {
         [Key]
-        public int UnitPriceId { get; set; }
+        public Int32 UnitPriceId { get; set; }
 
         [DataType(DataType.Currency)]
+        [Display(Name = "Price")]
         public int Price { get; set; }
 
+        [Display(Name = "Date Effect From")]
         public DateTime DateEffectFrom { get; set; }
 
+        [Display(Name = "Date Effect To")]
         public DateTime DateEffectTo { get; set; }
     }
 }

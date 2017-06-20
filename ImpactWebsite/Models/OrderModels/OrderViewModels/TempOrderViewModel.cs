@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
-    public class TempOrder
+    public class TempOrderViewModel
     {
         public bool IsChecked { get; set; }
 

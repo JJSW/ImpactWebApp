@@ -58,19 +58,20 @@ namespace ImpactWebsite.Controllers
             if (id != null)
             {
                 var billingDetails = (from u in _context.Users
-                                      join oh in _context.Orders on u.Id equals oh.UserId
-                                      join ol in _context.OrderDetails on oh.OrderId equals ol.OrderId
-                                      join m in _context.Modules on ol.ModuleId equals m.ModuleId
+                                      join o in _context.Orders on u.Id equals o.UserId
+                                      join od in _context.OrderDetails on o.OrderId equals od.OrderId
+                                      join m in _context.Modules on od.ModuleId equals m.ModuleId
                                       select new
                                       {
-                                          OrderId = oh.OrderId,
+                                          OrderId = o.OrderId,
+                                          OrderNum = o.OrderNum,
                                           UserId = u.Id,
                                           UserEmail = u.Email,
                                           ModuleId = m.ModuleId,
                                           ModuleName = m.ModuleName,
                                           UnitPrice = m.UnitPrice.Price,
-                                          TotalAmount = oh.TotalAmount,
-                                          OrderStatus = oh.OrderStatus,
+                                          TotalAmount = o.TotalAmount,
+                                          OrderStatus = o.OrderStatus,
                                       }).ToList();
 
                 var temps = billingDetails.Where(x => x.UserId == id).Where(y => y.OrderId == orderId).ToList();
@@ -80,6 +81,7 @@ namespace ImpactWebsite.Controllers
                     billingVM.Add(new BillingDetailViewModel()
                     {
                         OrderId = billing.OrderId,
+                        OrderNum = billing.OrderNum,
                         UserId = billing.UserId,
                         UserEmail = billing.UserEmail,
                         ModuleId = billing.ModuleId,
@@ -114,13 +116,9 @@ namespace ImpactWebsite.Controllers
             return View(billingVM);
         }
 
-        /// <summary>
         /// Get order when a user select the default module.
         /// Since the default module is free of charge, no need to go through payment process.
-        /// </summary>
-        /// <param name="orderId"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> CompleteDefaultOrder(int orderId)
+        public async Task<IActionResult> ChargeDefault(int orderId)
         {
             var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
 
@@ -134,22 +132,13 @@ namespace ImpactWebsite.Controllers
             return View(completedOrders);
         }
 
-        /// <summary>
         /// Execute Stripe API.  
         /// Create customer and charge tokens for request.
         /// After successful payment, the order's status set to completed.
-        /// </summary>
-        /// <param name="stripeEmail"></param>
-        /// <param name="stripeToken"></param>
-        /// <param name="orderId"></param>
-        /// <param name="bAddressId"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> Charge(
-            string stripeToken
-            , string stripeEmail
-            , int orderId
-            , int bAddressId
-            )
+        public async Task<IActionResult> Charge(string stripeToken,
+                                                string stripeEmail,
+                                                int orderId,
+                                                int bAddressId)
         {
             var customers = new StripeCustomerService();
             var charges = new StripeChargeService();
@@ -193,52 +182,12 @@ namespace ImpactWebsite.Controllers
             return View(completedOrders);
         }
 
-        /// <summary>
-        /// Display payment history. 
-        /// Filter order information only for completed payment 
-        /// since every module selections are stored to database for 
-        /// analysis consumer behavior.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<IActionResult> PaymentHistory()
-        {
-            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            var userId = user.Id;
-
-            return View(await _context.Orders.Where(m => m.UserId == userId).ToListAsync());
-        }
-
-        /// <summary>
-        /// Get details of each order
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var orderDetails = await _context.OrderDetails.Where(m => m.OrderId == id).ToListAsync();
-
-            if (orderDetails == null)
-            {
-                return NotFound();
-            }
-
-            return View(orderDetails);
-        }
-
         public IActionResult Error()
         {
             return View();
         }
 
-        /// <summary>
         /// Displays billing address for the logged in user.
-        /// </summary>
-        /// <returns></returns>
         public async Task<IActionResult> BillingAddress()
         {
             var userId = User.GetUserId();
@@ -248,13 +197,9 @@ namespace ImpactWebsite.Controllers
             return View(billingAddress);
         }
 
-        /// <summary>
         /// Get billing address for the logged in user.
         /// A user is able to have only one billing address, 
         /// so any updates will overwrite the previous address.
-        /// </summary>
-        /// <returns></returns>              
-        [HttpPost]
         public async Task<IActionResult> BillingAddress(BillingAddress billingAddress)
         {
             if (ModelState.IsValid)
