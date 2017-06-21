@@ -66,6 +66,9 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Promotion Code")]
         public bool IsPromotionCodeApplied { get; set; }
 
+        [Display(Name = "Uploaded File Name")]
+        public string UploadedFileName { get; set; }
+
         [Display(Name = "Investment ID")]
         public Int32 InvestmentId { get; set; }
     }

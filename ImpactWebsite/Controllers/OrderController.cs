@@ -236,12 +236,6 @@ namespace ImpactWebsite.Controllers
             return parsedResult;
         }
 
-        private double ParseStringToDouble()
-        {
-            return 0.0;
-        }
-
-
         private void CreateOrderDetail(IFormCollection collection)
         {
             var lists = collection["modules"];
@@ -354,22 +348,24 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             DateTime dtNow = DateTime.Now;
-            string UpdateDate = dtNow.ToString("ddMMyyyy");
-            string uploads = Path.Combine(_environment.WebRootPath, "uploads/" + UpdateDate + "/" + _emailAddress);
+            string uploadDate = dtNow.ToString("ddMMyyyy");
+            string uploadPath = Path.Combine(_environment.WebRootPath, "uploads/" + uploadDate + "/" + _emailAddress);
 
-            if (!Directory.Exists(uploads))
+            if (!Directory.Exists(uploadPath))
             {
-                Directory.CreateDirectory(uploads);
+                Directory.CreateDirectory(uploadPath);
             }
 
             foreach (var file in files)
             {
                 if (file.Length > 0)
                 {
-                    using (var fileStream = new FileStream(Path.Combine(uploads, file.FileName), FileMode.Create))
+                    using (var fileStream = new FileStream(Path.Combine(uploadPath, file.FileName), FileMode.Create))
                     {
                         await file.CopyToAsync(fileStream);
                     }
+
+                    _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName += file.FileName;
                 }
             }
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);

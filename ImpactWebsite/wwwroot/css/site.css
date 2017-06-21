@@ -268,6 +268,29 @@ footer {
     line-height: 38px;
 }
 
+.orderDetailTable{
+    table-layout:fixed;
+}
+
+.noOverFlowText{
+    overflow:hidden;
+    white-space:nowrap;
+}
+
+.displayFullNote {
+    table-layout: fixed;
+    width: 400px;
+    word-wrap: break-word;
+}
+
+.customHorizontalRule {
+    border: solid 1px Gainsboro !important;
+}
+
+
+
+
+
 /* For responsive design */
 @media all and (max-width:1150px) {
     nav {

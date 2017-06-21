@@ -15,13 +15,11 @@ namespace ImpactWebsite.Models.BillingModels
         [Display(Name = "Order Number")]
         public Int32 OrderNum { get; set; }
 
+        [Display(Name = "Ordered Date")]
+        [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime OrderedDate { get; set; }
+
         public string UserId { get; set; }
-
-        [Display(Name = "Email")]
-        public string UserEmail { get; set; }
-
-        [Display(Name = "Module Number")]
-        public Int32 ModuleId { get; set; }
 
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
@@ -31,6 +29,12 @@ namespace ImpactWebsite.Models.BillingModels
 
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
+
+        [Display(Name = "Note")]
+        public string NoteFromUser { get; set; }
+
+        [Display(Name = "Uploaded File Name")]
+        public string UploadedFileName { get; set; }
 
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }

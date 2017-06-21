@@ -65,13 +65,14 @@ namespace ImpactWebsite.Controllers
                                       {
                                           OrderId = o.OrderId,
                                           OrderNum = o.OrderNum,
+                                          OrderedDate = o.OrderedDate,
                                           UserId = u.Id,
-                                          UserEmail = u.Email,
-                                          ModuleId = m.ModuleId,
                                           ModuleName = m.ModuleName,
                                           UnitPrice = m.UnitPrice.Price,
                                           TotalAmount = o.TotalAmount,
                                           OrderStatus = o.OrderStatus,
+                                          NoteFromUser = o.NoteFromUser,
+                                          UploadedFileName = o.UploadedFileName,
                                       }).ToList();
 
                 var temps = billingDetails.Where(x => x.UserId == id).Where(y => y.OrderId == orderId).ToList();
@@ -82,13 +83,14 @@ namespace ImpactWebsite.Controllers
                     {
                         OrderId = billing.OrderId,
                         OrderNum = billing.OrderNum,
+                        OrderedDate = billing.OrderedDate,
                         UserId = billing.UserId,
-                        UserEmail = billing.UserEmail,
-                        ModuleId = billing.ModuleId,
                         ModuleName = billing.ModuleName,
                         UnitPrice = billing.UnitPrice,
                         TotalAmount = billing.TotalAmount,
-                        OrderStatus = billing.OrderStatus
+                        OrderStatus = billing.OrderStatus,
+                        NoteFromUser = billing.NoteFromUser,
+                        UploadedFileName = billing.UploadedFileName,
                     });
                 };
 
@@ -98,18 +100,18 @@ namespace ImpactWebsite.Controllers
                     totalAmount = billing.TotalAmount;
                 }
 
-                ViewBag.PaymentDetails = billingVM;
+                ViewBag.BillingDetails = billingVM;
 
-                ViewData["amount"] = totalAmount;
-                ViewData["amountDisplay"] = totalAmount / _dollarCent;
-                ViewData["moduleCount"] = moduleCount;
-                ViewData["orderId"] = orderId;
+                ViewData["Amount"] = totalAmount;
+                ViewData["AmountDisplay"] = totalAmount / _dollarCent;
+                ViewData["ModuleCount"] = moduleCount;
+                ViewData["OrderId"] = orderId;
             }
 
             var userId = await _userManager.GetUserIdAsync(user);
             var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.UserId == userId);
 
-            ViewData["billingAddressId"] = (billingAddress != null) ? (int)billingAddress.BillingAddressId : -1;
+            ViewData["BillingAddressId"] = (billingAddress != null) ? (int)billingAddress.BillingAddressId : -1;
             ViewBag.BillingAddress = billingAddress;
             _amountInt = totalAmount;
 

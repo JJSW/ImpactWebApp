@@ -9,27 +9,31 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
 <!--Display payment details as a partial view -->
-<h2><i class="fa fa-list"></i>  Billing Dashboard</h2>
+<h2>
+    <i class="fa fa-credit-card"></i>
+    @Html.Raw(strSpacer)Billing Infomation
+</h2>
 
-<hr />
-@Html.Partial("_PaymentDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.PaymentDetails)
-<br />
-<hr />
+<hr class="customHorizontalRule" />
 
-<!-- 
+<!--
     Display and connect to Stripe API
-    There are 3 conditions to be able to proceed the payment. 
+    There are 3 conditions to be able to proceed the payment.
     1. Total amount exists
     2. Total amount is not 0 (default module)
     3. The client has a billing address
 -->
-<h3><i class="fa fa-credit-card"></i>   Payment</h3>
-<br />
-@if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0)
+<h3>
+    <i class="fa fa-cc-stripe" aria-hidden="true"></i>
+    @Html.Raw(strSpacer)Payment
+</h3>
+@if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] != 0)
 {
     var orderId = 0;
-    var bAddressId = (int)@ViewData["billingAddressId"];
+    var bAddressId = (int)@ViewData["BillingAddressId"];
     foreach (var a in Model) { orderId = a.OrderId; }
 
     <!--
@@ -39,29 +43,37 @@
     -->
     <form action="/Billing/Charge" method="post">
 
-        <article>
-            <label>Amount: $@ViewData["amountDisplay"]</label>
-        </article>
+        <div class="list-group">
+            <h3 class="list-group-item" style="margin:30px; width:250px;">
+                <b>Total Amount: </b>$@ViewData["AmountDisplay"]
+            </h3>
+        </div>
 
         <input type="submit"
                id="StripePay"
-               value="Pay with Card"
-               class="impact-btn"
+               value="Pay with Card  >>"
+               class="impact-btn neworder-btn"
+               role="button"
                data-key='@Stripe.Value.PublishableKey'
-               data-amount="@ViewData["amount"]"
+               data-amount="@ViewData["Amount"]"
                data-currency="cad"
                data-name="Impact Website"
-               data-description="@ViewData["moduleCount"] Module(s)"
-               data-email="@ViewData["Email"]" 
+               data-description="@ViewData["ModuleCount"] Module(s)"
+               data-email="@ViewData["Email"]"
                data-billing-address="false"
                data-zip-code="false"
                data-locale="auto"
-               data-image="/images/favicon.png"
-               />
+               data-image="/images/favicon.png" />
 
-        <a href="javascript:history.back()" class="impact-btn">Cancel Payment</a>
+        <a asp-controller="Home"
+           asp-action="Index"
+           role="button"
+           class="impact-btn neworder-btn"
+           style="margin-top:15px; display:table;">
+            Cancel
+        </a>
 
-        <!-- 
+        <!--
             Creates Stripe tokens for custom payment process.
             In this case, deals with a specific order with a specific user billing address
         -->
@@ -95,26 +107,34 @@
 
 
 }
-else if (@ViewData["amount"] != null && (int)@ViewData["amount"] != 0 && (int)@ViewData["billingAddressId"] == -1)
-{
-    <p> Please add a new billing address </p>
-    <br />
-}
-else if (@ViewData["amount"] != null && (int)@ViewData["amount"] == 0)
+else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
 {
     var orderId = 0;
     foreach (var a in Model) { orderId = a.OrderId; }
-    <a class="impact-btn" href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
-        Complete Order
-    </a>
+
+    <div style="margin:30px 30px 0px 30px; display:table;">
+        <a class="impact-btn neworder-btn" 
+           href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
+            Complete Order
+        </a>
+    </div>
 }
 else
 {
-<p> No payment to make </p>
-    <br/>
+    <div style="margin:30px;">
+        <p> No payment to make </p>
+    </div>
 }
 
-<!--Display billing address details as a partial view -->
+<br />
+<hr />
+@Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
+
+
+
+<!--Display billing address details as a partial view
 <hr/>
 @Html.Partial("_BillingAddress", (BillingAddress)ViewBag.BillingAddress)
 <br />
+-->

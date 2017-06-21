@@ -7,6 +7,7 @@ using ImpactWebsite.Models;
 using ImpactWebsite.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ImpactWebsite.Models.OrderModels;
 
 namespace ImpactWebsite.Controllers
 {
@@ -30,22 +31,61 @@ namespace ImpactWebsite.Controllers
             return View(await _context.Orders.Where(m => m.UserId == userId).ToListAsync());
         }
 
-
-        public async Task<IActionResult> OrderDetails(int? id)
+        public async Task<IActionResult> OrderDetails(int orderId)
         {
-            if (id == null)
+            if (orderId == 0)
+            {
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
+            var userId = user.Id;
+
+            var orderDetails = (from u in _context.Users
+                                  join o in _context.Orders on u.Id equals o.UserId
+                                  join od in _context.OrderDetails on o.OrderId equals od.OrderId
+                                  join m in _context.Modules on od.ModuleId equals m.ModuleId
+                                  select new
+                                  {
+                                      OrderId = o.OrderId,
+                                      OrderNum = o.OrderNum,
+                                      UserId = u.Id,
+                                      OrderDetailId = od.OrderDetailId,
+                                      ModuleId = m.ModuleId,
+                                      ModuleName = m.ModuleName,
+                                      NoteFromUser = o.NoteFromUser,
+                                      NoteFromAdmin = o.NoteFromAdmin,
+                                      UploadedFileName = o.UploadedFileName,
+                                      TotalAmount = o.TotalAmount,
+                                  }).ToList();
+
+            var currentOrderDetails = orderDetails.Where(x => x.UserId == userId)
+                                                  .Where(y => y.OrderId == orderId)
+                                                  .ToList();
+
+            foreach (var orderDetail in currentOrderDetails)
+            {
+                orderDetailVM.Add(new OrderDetailViewModel()
+                {
+                    OrderId = orderDetail.OrderId,
+                    OrderNum = orderDetail.OrderNum,
+                    UserId = orderDetail.UserId,
+                    OrderDetailId = orderDetail.OrderDetailId,
+                    ModuleName = orderDetail.ModuleName,
+                    NoteFromUser = orderDetail.NoteFromUser,
+                    NoteFromAdmin = orderDetail.NoteFromAdmin,
+                    UploadedFileName = orderDetail.UploadedFileName,
+                    TotalAmount = orderDetail.TotalAmount,
+                });
+            };
+
+            if (orderDetailVM == null)
             {
                 return NotFound();
             }
 
-            var orderDetails = await _context.OrderDetails.Where(o => o.OrderId == id).ToListAsync();
-
-            if (orderDetails == null)
-            {
-                return NotFound();
-            }
-
-            return View(orderDetails);
+            return View(orderDetailVM);
         }
     }
 }

@@ -9,7 +9,7 @@
 
 <h2><i class="fa fa-check" aria-hidden="true"></i>@Html.Raw(strSpacer)Charge Complete</h2>
 <br />
-<table class="table">
+<table class="table orderDetailTable">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OrderNum)
@@ -44,15 +44,15 @@
             <td>
                 @Html.DisplayFor(modelItem => item.OrderStatus)
             </td>
-            <td>
+            <td class="noOverFlowText">
                 @Html.DisplayFor(modelItem => item.NoteFromUser)
             </td>
         </tr>
     }
 </table>
 
-<a asp-controller="Order"
-   asp-action="OrderSummary"
+<a asp-controller="OrderSummary"
+   asp-action="Index"
    class="btn btn-default" role="button">
     <i class="fa fa-chevron-left" aria-hidden="true"></i>
     @Html.Raw(strSpacer)Back to List

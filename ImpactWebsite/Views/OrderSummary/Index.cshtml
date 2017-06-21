@@ -3,13 +3,14 @@
 
 @{
     ViewData["Title"] = "OrderSummary";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
 <h2><i class="fa fa-list-ul" aria-hidden="true"></i>@Html.Raw(strSpacer)Order Summary</h2>
 <br />
-<table class="table">
+<table class="table orderDetailTable">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.OrderNum)
@@ -23,7 +24,7 @@
         <th>
             @Html.DisplayNameFor(model => model.OrderStatus)
         </th>
-        <th>
+        <th  >
             @Html.DisplayNameFor(model => model.NoteFromUser)
         </th>
         <th>Details</th>
@@ -49,15 +50,13 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.OrderStatus)
                 </td>
-
-                <td>
+                <td class="noOverFlowText">
                     @Html.DisplayFor(modelItem => item.NoteFromUser)
                 </td>
-
                 <td>
                     <a asp-controller="OrderSummary"
                        asp-action="OrderDetails"
-                       asp-route-id="@item.OrderId"
+                       asp-route-orderId="@item.OrderId"
                        class="btn btn-default btn-sm" role="button">
                         <i class="fa fa-tasks" aria-hidden="true"></i>
                         @Html.Raw(strSpacer)Details

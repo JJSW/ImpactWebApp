@@ -12,13 +12,13 @@ namespace ImpactWebsite.Models.OrderModels
         public Int32 OrderId { get; set; }
 
         [Display(Name = "Order Number")]
-        public int OrderNumber { get; set; }
+        public int OrderNum { get; set; }
 
         [Display(Name = "Order Detail Number")]
         public Int32 OrderDetailId { get; set; }
 
-        [Display(Name = "Module Number")]
-        public Int32 ModuleId { get; set; }
+        [Display(Name = "Module Name")]
+        public string ModuleName { get; set; }
 
         public string UserId { get; set; }
 
@@ -28,13 +28,17 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
 
+        [Display(Name = "Note")]
+        public string NoteFromUser { get; set; }
+
+        [Display(Name = "Note From Admin")]
+        public string NoteFromAdmin { get; set; }
+
+        [Display(Name = "Uploaded File Name")]
+        public string UploadedFileName { get; set; }
+
         [Display(Name = "Billing Address Number")]
         public Int32 BillingAddressId { get; set; }
 
-        public Module Module { get; set; }
-
-        public Promotion Promotion { get; set; }
-
-        public Investment Investment { get; set; }
     }
 }
