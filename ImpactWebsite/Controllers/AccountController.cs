@@ -123,7 +123,16 @@ namespace ImpactWebsite.Controllers
 
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, FirstName = model.FirstName, LastName = model.LastName, CompanyName = model.CompanyName, NewsletterRequired = model.NewsletterRequired };
+                var user = new ApplicationUser {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    CompanyName = model.CompanyName,
+                    PhoneNumber = model.PhoneNumber,
+                    NewsletterRequired = model.NewsletterRequired
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -133,6 +142,7 @@ namespace ImpactWebsite.Controllers
                     //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
                     //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
                     //   $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _userManager.AddToRoleAsync(user, "Member");
                     _logger.LogInformation(3, "User created a new account with password.");

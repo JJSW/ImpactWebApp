@@ -287,9 +287,9 @@ footer {
     border: solid 1px Gainsboro !important;
 }
 
-
-
-
+.userProfileTable {
+    max-width: 400px;
+}
 
 /* For responsive design */
 @media all and (max-width:1150px) {

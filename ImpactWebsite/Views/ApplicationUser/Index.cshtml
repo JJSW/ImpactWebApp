@@ -9,66 +9,67 @@
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Email)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.CompanyName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NewsletterRequired)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.IsTempUser)
-                </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CompanyName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NewsletterRequired)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsTempUser)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Email)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FirstName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CompanyName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NewsletterRequired)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.IsTempUser)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">
-                    <button type="button" class="btn btn-default btn-sm">
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NewsletterRequired)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsTempUser)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id"
+                       class="btn btn-default btn-sm"
+                       role="button">
                         <span class="glyphicon glyphicon-edit"></span> Edit
-                    </button>
-                </a>
-                <a asp-action="Details" asp-route-id="@item.Id">
-                    <button type="button" class="btn btn-default btn-sm">
+                    </a>
+                    <a asp-action="Details" asp-route-id="@item.Id"
+                        class="btn btn-default btn-sm"
+                        role="button">
                         <span class="glyphicon glyphicon-tasks"></span> Details
-                    </button>
-                </a>
-                <a asp-action="Delete" asp-route-id="@item.Id">
-                    <button type="button" class="btn btn-default btn-sm">
+                    </a>
+                    <a asp-action="Delete" asp-route-id="@item.Id"
+                        class="btn btn-default btn-sm"
+                        role="button">
                         <span class="glyphicon glyphicon-remove"></span> Delete
-                    </button>
-                </a>
-            </td>
-        </tr>
-}
+                    </a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

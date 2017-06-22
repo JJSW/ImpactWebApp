@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170620033738_Initial")]
-    partial class Initial
+    [Migration("20170622012602_InitialScheme")]
+    partial class InitialScheme
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -228,6 +228,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("SelectionDiscount");
 
                     b.Property<int>("TotalAmount");
+
+                    b.Property<string>("UploadedFileName");
 
                     b.Property<string>("UserEmail")
                         .IsRequired();

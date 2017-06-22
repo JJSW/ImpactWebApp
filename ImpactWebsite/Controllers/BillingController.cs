@@ -42,7 +42,7 @@ namespace ImpactWebsite.Controllers
         /// Return billing page with a data that contains information with order and module.
         /// Only displays the specific order of the logged in user.
         /// Billing address will be displayed in any circumstances.
-        public async Task<IActionResult> Index(string id, int orderId)
+        public async Task<IActionResult> Index(int? orderId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<BillingDetailViewModel> billingVM = new List<BillingDetailViewModel>();
@@ -55,7 +55,7 @@ namespace ImpactWebsite.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            if (id != null)
+            if (orderId != null)
             {
                 var billingDetails = (from u in _context.Users
                                       join o in _context.Orders on u.Id equals o.UserId
@@ -75,7 +75,7 @@ namespace ImpactWebsite.Controllers
                                           UploadedFileName = o.UploadedFileName,
                                       }).ToList();
 
-                var temps = billingDetails.Where(x => x.UserId == id).Where(y => y.OrderId == orderId).ToList();
+                var temps = billingDetails.Where(x => x.UserId == user.Id).Where(y => y.OrderId == orderId).ToList();
 
                 foreach (var billing in temps)
                 {
@@ -153,8 +153,6 @@ namespace ImpactWebsite.Controllers
                 SourceToken = stripeToken,
             });
 
-            var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.BillingAddressId == bAddressId);
-
             var charge = charges.Create(new StripeChargeCreateOptions
             {
                 Amount = _amountInt,
@@ -162,8 +160,10 @@ namespace ImpactWebsite.Controllers
                 Currency = "cad",
                 CustomerId = customer.Id,
             });
-
-            /*
+          
+            /* For further development
+             * 
+            var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.BillingAddressId == bAddressId);
             StripeAddress stripeAddress = new StripeAddress()
             {
                 Line1 = billingAddress.AddressLine1,

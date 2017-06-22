@@ -11,6 +11,8 @@ using ImpactWebsite.Models;
 using ImpactWebsite.Models.ManageViewModels;
 using ImpactWebsite.Services;
 using ImpactWebsite.Data;
+using ImpactWebsite.Controllers;
+using Microsoft.EntityFrameworkCore;
 
 namespace ImpactWebsite.Controllers
 {
@@ -62,6 +64,7 @@ namespace ImpactWebsite.Controllers
             {
                 return View("Error");
             }
+
             /*
             var model = new IndexViewModel
             {
@@ -72,15 +75,18 @@ namespace ImpactWebsite.Controllers
                 BrowserRemembered = await _signInManager.IsTwoFactorClientRememberedAsync(user)
             };*/
 
-
             var model = new ApplicationUser
             {
                 FirstName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).FirstName,
                 LastName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).LastName,
                 CompanyName = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).CompanyName,
+                Email = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).Email,
+                PhoneNumber = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).PhoneNumber,
+                PasswordHash = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).PasswordHash,
                 NewsletterRequired = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).NewsletterRequired,
                 Orders = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).Orders,
             };
+
             return View(model);
         }
 
@@ -102,6 +108,73 @@ namespace ImpactWebsite.Controllers
                 }
             }
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
+        }
+
+        // GET: Manage/EditUserInfo/5
+        public async Task<IActionResult> EditUserInfo()
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+
+            var applicationUser = await _context.ApplicationUsers.SingleOrDefaultAsync(m => m.Id == user.Id);
+
+            return View(applicationUser);
+        }
+
+        // POST: Manage/EditUserInfo/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUserInfo([Bind("FirstName,LastName,CompanyName,NewsletterRequired,UserName,NormalizedUserName,Email,EmailConfirmed,NormalizedEmail,LockoutEnabled,PhoneNumber,PhoneNumberConfirmed")] ApplicationUser applicationUser)
+        {
+            ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            var currentUserEmail = user.Email;
+            bool IsEmailChanged = false;
+
+            if (ModelState.IsValid)
+            {
+                var editedEmail = applicationUser.Email;                
+                var normalizedEmail = Normalization(editedEmail);
+
+                if(editedEmail != currentUserEmail)
+                {
+                    IsEmailChanged = true;
+                }
+
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).FirstName = applicationUser.FirstName;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).LastName = applicationUser.LastName;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).CompanyName = applicationUser.CompanyName;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).NewsletterRequired = applicationUser.NewsletterRequired;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).UserName = editedEmail;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).NormalizedUserName = normalizedEmail;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).Email = editedEmail;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).NormalizedEmail = normalizedEmail;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).EmailConfirmed = true;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).LockoutEnabled = applicationUser.LockoutEnabled;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).PhoneNumber = applicationUser.PhoneNumber;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
+
+                await _context.SaveChangesAsync();
+
+                if (IsEmailChanged)
+                {
+                    Logout();
+                }
+            }
+
+            return RedirectToAction("Index");
+        }
+
+        private string Normalization(string str)
+        {
+            return str.ToUpper();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync();
+            _logger.LogInformation(4, "User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
 
         //
@@ -354,6 +427,11 @@ namespace ImpactWebsite.Controllers
                 await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
             }
             return RedirectToAction(nameof(ManageLogins), new { Message = message });
+        }
+
+        private bool ApplicationUserExists(string id)
+        {
+            return _context.ApplicationUsers.Any(e => e.Id == id);
         }
 
         #region Helpers

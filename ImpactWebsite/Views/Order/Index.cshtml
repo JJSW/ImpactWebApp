@@ -49,10 +49,12 @@
                         </label>
                     </td>
                     <td>
-                        <a style="cursor:pointer" class="Detail"
+                        <a style="cursor:pointer" 
+                           class="Detail"
                            value="@Model.ElementAt(@i).Modules.ModuleId"
                            name="@Model.ElementAt(@i).Modules.ModuleName">
-                            <i class="fa fa-info-circle" aria-hidden="true"></i> Detail
+                            <i class="fa fa-info-circle" aria-hidden="true"></i> 
+                            Detail
                         </a>
                     </td>
                     <td>
@@ -180,33 +182,6 @@
     <script type="text/javascript">
          var idNum;
          $('.Detail').on('click', function () {
-
-             var idNum = $(this).attr('value');
-             var link = '@Url.Action("PartialModuleDetail", "Order", new { id = "-1" })';
-             var strTitle = $(this).attr('name');
-
-             link = link.replace("-1", idNum);
-
-             $("#AddUserForm").dialog({
-             type: 'GET',
-             autoOpen: true,
-             position: { my: "top", at: "top+150", of: window },
-             width: 600,
-             height: 200,
-             resizable: false,
-             title: strTitle,
-             modal: true,
-             open: function () {
-                 $(this).load(link);
-             },
-             });
-             return false;
-         });
-    </script>
-
-    <script type="text/javascript">
-         var idNum;
-         $('.UserNote').on('click', function () {
 
              var idNum = $(this).attr('value');
              var link = '@Url.Action("PartialModuleDetail", "Order", new { id = "-1" })';

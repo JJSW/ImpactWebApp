@@ -171,12 +171,9 @@ namespace ImpactWebsite.Controllers
                 _emailAddress = email;
             }
             ViewData["Email"] = _emailAddress;
-            ViewData["LoggedinOrTempUserId"] = TempUser.Id;
 
             parsedTotalAmountToPay = ParseStringToInt(_totalAmountToPay);
             parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
-
-            //_totalAmountToPay = (double)parsedTotalAmountToPay * (double)_dollarCent;
 
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
 
@@ -386,10 +383,10 @@ namespace ImpactWebsite.Controllers
         }
 
         [HttpGet]
-        public IActionResult PartialModuleDetail(string id)
+        public IActionResult ModuleDescription(string id)
         {
-            var DetailModules = _context.Modules.FirstOrDefault(m => m.ModuleId == Convert.ToInt32(id));
-            return PartialView("_PartialModuleDetail", DetailModules);
+            var module = _context.Modules.FirstOrDefault(m => m.ModuleId == Convert.ToInt32(id));
+            return PartialView("_ModuleDescription", module);
         }
 
         [HttpGet]

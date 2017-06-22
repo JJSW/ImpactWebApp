@@ -8,10 +8,13 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<h2><i class="fa fa-list-ul" aria-hidden="true"></i>@Html.Raw(strSpacer)Order Summary</h2>
+<h2>
+    <i class="fa fa-list-ul" aria-hidden="true"></i>
+    @Html.Raw(strSpacer)Order Summary
+</h2>
 <br />
 <table class="table orderDetailTable">
-    <tr>
+    <tr class="active">
         <th>
             @Html.DisplayNameFor(model => model.OrderNum)
         </th>
@@ -24,7 +27,7 @@
         <th>
             @Html.DisplayNameFor(model => model.OrderStatus)
         </th>
-        <th  >
+        <th>
             @Html.DisplayNameFor(model => model.NoteFromUser)
         </th>
         <th>Details</th>

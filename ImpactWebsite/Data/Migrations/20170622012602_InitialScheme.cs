@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class InitialScheme : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -141,6 +141,7 @@ namespace WebApplication1.Data.Migrations
                     SalesRep = table.Column<string>(maxLength: 160, nullable: true),
                     SelectionDiscount = table.Column<int>(nullable: false),
                     TotalAmount = table.Column<int>(nullable: false),
+                    UploadedFileName = table.Column<string>(nullable: true),
                     UserEmail = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },

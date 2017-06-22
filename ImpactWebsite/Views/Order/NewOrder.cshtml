@@ -162,7 +162,7 @@
             @if (SignInManager.IsSignedIn(User))
             {
                 <a href="@Url.Action("Index", "Billing",
-                    new { @id = ViewData["LoggedinOrTempUserId"], @orderId = ViewData["orderId"] })"
+                    new { @orderId = ViewData["orderId"] })"
                    class="impact-btn neworder-btn"
                    style="max-width:260px;">
                     <i class="fa fa-credit-card" aria-hidden="true"></i>

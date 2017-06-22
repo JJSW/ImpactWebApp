@@ -3,38 +3,88 @@
     ViewData["Title"] = "User Profile";
 }
 
-<h2>@ViewData["Title"]</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<h2>
+    <i class="fa fa-user-circle" aria-hidden="true"></i>
+    @Html.Raw(strSpacer)User Profile
+</h2>
+
+<br />
+
 <p class="text-success">@ViewData["StatusMessage"]</p>
 
-<div>
-    <h4>Details</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt style="margin-bottom:10px;">User Name </dt>
-        <dd>
-            @Html.DisplayFor(Model => Model.FirstName) @Html.DisplayFor(Model => Model.LastName)            
-        </dd>
+<table class="table userProfileTable">
 
-        <dt style="margin-bottom:10px;">Company Name </dt>
-        <dd>
+    <tr>
+        <th>@Html.DisplayNameFor(Model => Model.Email)</th>
+        <td>
+            @Html.DisplayFor(Model => Model.Email)
+        </td>
+    </tr>
+
+    <tr>
+        <th>Name</th>
+        <td>
+            @Html.DisplayFor(Model => Model.FirstName) @Html.DisplayFor(Model => Model.LastName)
+        </td>
+    </tr>
+
+    <tr>
+        <th>@Html.DisplayNameFor(Model => Model.CompanyName)</th>
+        <td>
             @Html.DisplayFor(Model => Model.CompanyName)
-        </dd>
+        </td>
+    </tr>
 
-        <dt style="margin-bottom:10px;">Subscription </dt>
-        <dd>
-            @Html.DisplayFor(Model => Model.NewsletterRequired)
-        </dd>
+    <tr>
+        <th>Phone Number</th>
+        <td>
+            @Html.DisplayFor(Model => Model.PhoneNumber)
+        </td>
+    </tr>
 
-        <dt style="margin-bottom:10px;">Password </dt>
-        <dd>
-            @if (Model.PasswordHash != null)
+    <tr>
+        <th>Newsletter Subscription</th>
+        <td>
+            @if (Model.NewsletterRequired)
             {
-                <a asp-controller="Manage" asp-action="ChangePassword" class="btn-bracketed">Change</a>
+                <span>Yes</span>
             }
             else
             {
-                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">Create</a>
+                <span>No</span>
             }
-        </dd>    
-    </dl>
-</div>
+        </td>
+    </tr>
+
+    <tr>
+        <th>Password</th>
+        <td>
+            @if (Model.PasswordHash != null)
+            {
+                <a asp-controller="Manage" asp-action="ChangePassword" class="btn btn-default">
+                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                    Change
+                </a>
+            }
+            else
+            {
+                <a asp-controller="Manage" asp-action="SetPassword" class="btn-bracketed">
+                    <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                    Create
+                </a>
+            }
+        </td>
+    </tr>
+
+</table>
+
+<br />
+
+<a asp-controller="Manage"
+   asp-action="EditUserInfo"
+   class="btn btn-default"
+   role="button">
+    <span class="glyphicon glyphicon-edit"></span> Edit
+</a>

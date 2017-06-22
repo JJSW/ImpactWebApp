@@ -3,7 +3,7 @@
     ViewData["Title"] = "Register";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 
 <form asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
     <h4>Create a new account</h4>
@@ -38,8 +38,22 @@
         </div>
     </div>
     <div class="form-group">
+        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+
+    </div>
+    <div class="form-group">
         <label asp-for="Password" class="col-md-2 control-label"></label>
         <div class="col-md-10">
+            <p>
+                Password Rules :<br />
+                the use of both upper-case and lower-case letters (case sensitivity)<br />
+                inclusion of one or more numerical digits<br />
+                inclusion of special characters<br />
+            </p>
             <input asp-for="Password" class="form-control" />
             <span asp-validation-for="Password" class="text-danger"></span>
         </div>
