@@ -1,86 +1,90 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
-    @{
+@{
     ViewData["Title"] = "Orders";
-    }
-    <h2>Orders</h2>
-    <p>
-    </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.OrderId)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.SalesRep)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OrderedDate)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.OrderStatus)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NoteFromUser)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.NoteFromAdmin)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.UserEmail)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.TotalAmount)
-                </th>
-
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderId)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.SalesRep)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderedDate)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.OrderStatus)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoteFromUser)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.NoteFromAdmin)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.UserEmail)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.TotalAmount)
-                    </td>
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.OrderId">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-edit"></span> Edit
-                            </button>
-                        </a>
-                        <a asp-controller="Order" asp-action="OrderDetails" asp-route-id="@item.OrderId">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-tasks"></span> Details
-                            </button>
-                        </a>
-                        <a asp-controller="Order"asp-action="Delete" asp-route-id="@item.OrderId">
-                            <button type="button" class="btn btn-default btn-sm">
-                                <span class="glyphicon glyphicon-remove"></span> Delete
-                            </button>
-                        </a>
-                    </td>
-                </tr>
 }
-        </tbody>
-    </table>
+
+<h2>Orders</h2>
+<p>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SalesRep)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoteFromUser)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NoteFromAdmin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var totalAmount = item.TotalAmount / 100;
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SalesRep)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderStatus)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteFromUser)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NoteFromAdmin)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UserEmail)
+                </td>
+                <td>
+                    $@totalAmount
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.OrderId">
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-edit"></span> Edit
+                        </button>
+                    </a>
+                    <a asp-controller="Order" asp-action="OrderDetails" asp-route-id="@item.OrderId">
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-tasks"></span> Details
+                        </button>
+                    </a>
+                    <a asp-controller="Order" asp-action="Delete" asp-route-id="@item.OrderId">
+                        <button type="button" class="btn btn-default btn-sm">
+                            <span class="glyphicon glyphicon-remove"></span> Delete
+                        </button>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

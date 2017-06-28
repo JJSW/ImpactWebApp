@@ -71,8 +71,8 @@ namespace ImpactWebsite.Controllers
 
             var moduleList = _context.Modules.Include(o => o.UnitPrice);
 
-            var activeDiscount1 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount1");
-            var activeDiscount2 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountName == "Discount2");
+            var activeDiscount1 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountId == 1);
+            var activeDiscount2 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountId == 2);
 
             if (activeDiscount1.Any() || activeDiscount1 != null)
             {
@@ -118,8 +118,9 @@ namespace ImpactWebsite.Controllers
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
+            ViewData["Email"] = _emailAddress;
 
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
             return View(OrderDetails.ToList());
@@ -210,7 +211,7 @@ namespace ImpactWebsite.Controllers
 
             //List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
 
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
             return View(OrderDetails.ToList());
         }
@@ -337,11 +338,12 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["Email"] = _emailAddress;
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
-            return PartialView("_Investment");
+            return PartialView("FileCommentSubmit");
         }
 
         [HttpPost]
-        public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files, string noteFromUser)
+        //public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files, string noteFromUser)
+            public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files)
         {
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
             DateTime dtNow = DateTime.Now;
@@ -353,6 +355,7 @@ namespace ImpactWebsite.Controllers
                 Directory.CreateDirectory(uploadPath);
             }
 
+            
             foreach (var file in files)
             {
                 if (file.Length > 0)
@@ -366,9 +369,9 @@ namespace ImpactWebsite.Controllers
                 }
             }
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
 
-            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
+            //_context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("NewOrder");
@@ -392,7 +395,7 @@ namespace ImpactWebsite.Controllers
         [HttpGet]
         public async Task<IActionResult> RegisterLogin(int id)
         {
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             string userEmail = _context.Orders.FirstOrDefault(o => o.OrderId == id).UserEmail;
 
             if (await _userManager.FindByEmailAsync(userEmail) == null)
@@ -414,7 +417,7 @@ namespace ImpactWebsite.Controllers
         public IActionResult PartialRegister(string returnUrl = null)
         {
             ViewData["Email"] = _emailAddress;
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -426,7 +429,7 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["Email"] = _emailAddress;
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             if (ModelState.IsValid)
             {
                 var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NewsletterRequired = model.NewsletterRequired };
@@ -454,7 +457,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> PartialLogin(string returnUrl = null)
         {
             ViewData["Email"] = _emailAddress;
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
 
@@ -471,7 +474,7 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["Email"] = _emailAddress;
-            ViewData["orderId"] = _orderId;
+            ViewData["OrderId"] = _orderId;
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout

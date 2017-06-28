@@ -2,8 +2,9 @@
 @using ImpactWebsite.Models.OrderModels
 
 @{
-    ViewData["Title"] = "NewOrder";
+    ViewData["Title"] = "New Order";
     IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -11,189 +12,299 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<h2 style="text-align: center;">
-    <i class="fa fa-chevron-circle-down" aria-hidden="true"></i>
-    @Html.Raw(strSpacer)Order Number : @ViewData["OrderNumber"]
-</h2>
-<table class="table table-responsive" style="margin:30px auto 10px auto; max-width:700px;">
-    <thead>
-        <tr>
-            <th class="col-md-0">#</th>
-            <th class="col-md-pull-6">Module Name</th>
-            <th class="col-md-2">Module Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count(); i++)
-        {
-            var moduleNum = @i + 1;
-            <tr>
-                <td>@moduleNum</td>
-                <td>@Model.ElementAt(@i).Module.ModuleName</td>
-                <td>@Model.ElementAt(@i).Module.UnitPrice.Price.ToString("C0", fp)</td>
-            </tr>
-        }
-    </tbody>
-    <tr>
-        <td></td>
-        <td class="text-right text-danger">
-            Saving
-        </td>
-        @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
-        {
-            <td class="text-danger">
-                -$@ViewBag.SelectionDiscount
-            </td>
-        }
-        else
-        {
-            <td class="text-danger">
-                0
-            </td>
-        }
-    </tr>
-    <tr>
-        <td></td>
-        <td class="text-right text-danger">
-            Promotion
-        </td>
+<!-- page heading start-->
+<div class="page-heading">
+    <h3>
+        Order number: @ViewData["OrderNumber"]
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            Analysis
+        </li>
+        <li class="active">Upload portfolio</li>
+    </ul>
+</div>
 
-        @if (!object.Equals((string)TempData["PromotionDiscountRate"], "0"))
-        {
-            <td class="text-danger">
-                @TempData["PromotionDiscountRate"]
-            </td>
-        }
-        else
-        {
-            <td class="text-danger">
-                0
-            </td>
-        }
-    </tr>
+<div class="wrapper">
 
-    <tr>
-        <td></td>
-        <td style="font-size: large; font-weight: bold;" align="right">
-            Total to pay :
-        </td>
-        @if (ViewData["TotalAmountToPay"] != null)
-        {
-            <td>
-                <b>
-                    <label style="font-size: large;">$@ViewData["TotalAmountToPay"]</label>
-                </b>
-            </td>
-        }
-        else
-        {
-            <td><b style="font-size: large;">0</b></td>
-        }
-    </tr>
+    <div class="row">
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Upload portffolio
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
 
-    <tr>
-        <td></td>
-        <td colspan="2">
-            @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
-            {
-                <button id="promoCode"
-                        asp-controller="Order"
-                        asp-action="SubmitPromoCode"
-                        class="impact-btn pull-right"
-                        style="margin-top:15px;">
+                    <form asp-action="FileCommentSubmit"
+                          asp-controller="Order" class="dropzone" method="post" enctype="multipart/form-data" id="dropzoneForm">
+                        <input type="hidden" name="email" value="@ViewData["Email"]" />
+                        <input name="file" type="file" multiple />
+                        <input type="submit" value="Upload" />
+                    </form>
 
-                    <i class="fa fa-barcode" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Promo Code
+                    <!--
+                    <form class="dropzone"
+                          id="dropzoneForm"
+                          method="post"
+                          asp-action="FileCommentSubmit"
+                          asp-controller="Order"
+                          enctype="multipart/form-data">
+                        <div class="fallback">
+                            <input type="hidden" name="email" value="@ViewData["Email"]" />
+                            <input name="file" type="file" multiple />
+                            <input type="submit" value="Upload" />
+                        </div>
+                    </form>
+                        -->
 
-                </button>
-            }
-            else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
-            {
-                <button class="impact-btn pull-right"
-                        style="margin-top:15px; pointer-events:none;">
+                    <form class="input-group"
+                          role="form"
+                          asp-action="FileCommentSubmit"
+                          asp-controller="Order"
+                          style="margin-top:20px;display:block;">
+                        <textarea name="noteFromUser"
+                                  class="form-control _margin-top-32 _margin-bottom-32"
+                                  placeholder="Add any additional comments"
+                                  rows="3"></textarea>
 
-                    <i class="fa fa-check" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Applied
+                    </form>
 
-                </button>
-            }
-            else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
-            {
-                <button id="promoCode"
-                        asp-controller="Order"
-                        asp-action="SubmitPromoCode"
-                        class="impact-btn pull-right"
-                        style="margin-top:15px;">
+                    <button class="btn btn-default" id="submitFileComment">Submit</button>
+                </div>
+            </section>
+        </div>
 
-                    <i class="fa fa-barcode" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Promo Code
+        <div class="col-md-6">
+            <section class="panel">
+                <header class="panel-heading">
+                    Order summary
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover general-table">
+                        <thead>
+                            <tr>
+                                <th class="col-md-1">#</th>
+                                <th class="col-md-4">Module Name</th>
+                                <th class="col-md-1">Module Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @{ var subTotal = 0;}
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var moduleNum = @i + 1;
+                                <tr>
+                                    <td>@moduleNum</td>
+                                    <td>@Model.ElementAt(@i).Module.ModuleName</td>
+                                    <td>@Model.ElementAt(@i).Module.UnitPrice.Price.ToString("C0", fp)</td>
 
-                </button>
-                <p style="text-align:center; margin-top:20px;" class="text-danger">
-                    The promotion code is already used
-                </p>
-            }
-    </tr>
+                                </tr>
+                                subTotal += Model.ElementAt(@i).Module.UnitPrice.Price;
+                            }
+                        </tbody>
 
-    <tr>
-        <td style="border-top: none !important;"></td>
-        <td style="border-top: none !important;" colspan="2">
-            <p style="text-align:center; font-size: medium; font-weight: bold;">
-                <!--<b>Estimate Deliver Date: @ViewData["DeliverDate"]</b>-->
-            </p>
-
-            <div>
-                <a id="FileUpload"
-                   class="impact-btn neworder-btn pull-right">
-                    <i class="fa fa-file-o" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Investment Information & Comment
-                </a>
-            </div>
-        </td>
-    </tr>
-
-</table>
+                        <tr>
+                            <td></td>
+                            <td class="text-right">
+                                Sub-total
+                            </td>
+                            <td>
+                                $@subTotal
+                            </td>
+                        </tr>
 
 
+                        <tr>
+                            <td></td>
+                            <td class="text-right text-danger">
+                                Saving
+                            </td>
+                            @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
+                            {
+                                <td class="text-danger">
+                                    -$@ViewBag.SelectionDiscount
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">
+                                    0
+                                </td>
+                            }
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td class="text-right text-danger">
+                                Promotion Discount
+                            </td>
 
-<table class="table" style="border:none; margin:30px auto 0px auto; max-width:700px;">
-    <tr>
-        <td>
-            @if (SignInManager.IsSignedIn(User))
-            {
-                <a href="@Url.Action("Index", "Billing",
-                    new { @orderId = ViewData["orderId"] })"
-                   class="impact-btn neworder-btn"
-                   style="max-width:260px;">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Request & Payment >>
-                </a>
-            }
-            else
-            {
-                <a id="Charge"
-                   asp-controller="Order"
-                   asp-action="RegisterLogin"
-                   asp-route-id="@ViewData["orderId"]"
-                   class="impact-btn neworder-btn"
-                   style="max-width:260px;">
-                    <i class="fa fa-credit-card" aria-hidden="true"></i>
-                    @Html.Raw(strSpacer)Request & Payment >>
-                </a>
-            }
-        </td>
-    </tr>
+                            @if (!object.Equals((string)TempData["PromotionDiscountRate"], "0"))
+                            {
+                                <td class="text-danger">
+                                    @TempData["PromotionDiscountRate"]
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-danger">
+                                    0
+                                </td>
+                            }
+                        </tr>
 
-</table>
+                        <tr>
+                            <td></td>
+                            <td style="font-size:medium; font-weight: bold;" align="right">
+                                Total to pay :
+                            </td>
+                            @if (ViewData["TotalAmountToPay"] != null)
+                            {
+                                <td>
+                                    <b>
+                                        <label style="font-size: large;">$@ViewData["TotalAmountToPay"]</label>
+                                    </b>
+                                </td>
+                            }
+                            else
+                            {
+                                <td><b style="font-size: large;">0</b></td>
+                            }
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td>
+                                @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
+                                {
+                                    <button id="promoCode"
+                                            asp-controller="Order"
+                                            asp-action="SubmitPromoCode"
+                                            class="btn btn-primary pull-left">
+
+                                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                                        @Html.Raw(strSpacer)Promotion Code
+
+                                    </button>
+                                }
+                                else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
+                                {
+                                    <button class="btn btn-primary pull-left" pointer-events:none;">
+
+                                        <i class="fa fa-check" aria-hidden="true"></i>
+                                        @Html.Raw(strSpacer)Applied
+
+                                    </button>
+                                }
+                                else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
+                                {
+                                    <button id="promoCode"
+                                            asp-controller="Order"
+                                            asp-action="SubmitPromoCode"
+                                            class="btn btn-primary pull-left">
+
+                                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                                        @Html.Raw(strSpacer)Promotion Code
+
+                                    </button>
+                                    <p style="text-align:center; margin-top:20px;" class="text-danger">
+                                        The promotion code is already used
+                                    </p>
+                                }
+                        </tr>
+
+
+
+                    </table>
+
+                    @if (SignInManager.IsSignedIn(User))
+                    {
+                        <a href="@Url.Action("Index", "Billing",
+                    new { @orderId = ViewData["OrderId"] })"
+                           class="btn btn-primary _margin-top-32 _margin-bottom-32"
+                           style="color:white;"
+                           role="button">
+                            Proceed to payment
+                        </a>
+                    }
+                    else
+                    {
+                        <a id="Charge"
+                           asp-controller="Order"
+                           asp-action="RegisterLogin"
+                           asp-route-id="@ViewData["OrderId"]"
+                           class="btn btn-primary"
+                           style="color:white; margin:32px;"
+                           role="button">
+                            Proceed to payment
+                        </a>
+                    }
+                </div>
+
+            </section>
+
+        </div>
+    </div>
+</div>
 
 <div id="AddUserForm"></div>
 
-@section scripts
-  {
+@section scripts{
 
-    <script src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-    <link rel="stylesheet" href="../lib/jquery-ui/themes/base/jquery-ui.css" />
+
+
+
+    <!--dropzone-->
+    <link href="~/lib/dropzone/dist/dropzone.css" rel="stylesheet" />
+    <script src="~/lib/dropzone/dist/dropzone.js"></script>
+
+    <link href="~/lib/jquery-ui/themes/base/jquery-ui.css" rel="stylesheet" />
+
+
+    <script type="text/javascript">
+
+        //File Upload response from the server
+        Dropzone.options.dropzoneForm = {
+            maxFiles: 2,
+            init: function () {
+                this.on("maxfilesexceeded", function (data) {
+                    var res = eval('(' + data.xhr.responseText + ')');
+
+                });
+                this.on("addedfile", function (file) {
+
+                    // Create the remove button
+                    var removeButton = Dropzone.createElement("<button>Remove file</button>");
+
+
+                    // Capture the Dropzone instance as closure.
+                    var _this = this;
+
+                    // Listen to the click event
+                    removeButton.addEventListener("click", function (e) {
+                        // Make sure the button click doesn't submit the form:
+                        e.preventDefault();
+                        e.stopPropagation();
+                        // Remove the file preview.
+                        _this.removeFile(file);
+                        // If you want to the delete the file on the server as well,
+                        // you can do the AJAX request here.
+                    });
+
+                    // Add the button to the file preview element.
+                    file.previewElement.appendChild(removeButton);
+                });
+            }
+        };
+    </script>
+
+
 
     <script type="text/javascript">
         $('#promoCode').on('click', function () {

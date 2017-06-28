@@ -6,7 +6,10 @@
     "jquery-validation": "1.16.0",
     "jquery-validation-unobtrusive": "3.2.6",
     "bootstrap": "v3.3.7",
-    "font-awesome": "Font-Awesome#v4.7.0"
+    "font-awesome": "Font-Awesome#v4.7.0",
+    "jquery.nicescroll": "jquery-nicescroll#v3.6.8-fix",
+    "iCheck": "1.0.2",
+    "dropzone": "v5.1.1"
   },
   "resolutions": {
     "jquery": "3.2.1",

@@ -15,43 +15,38 @@
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
                         <a asp-area="" asp-controller="Order" asp-action="Orders">
-                            <i class="fa fa-list-ul" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order
+                            Order
                         </a>
-
                     </li>
                     <li>
                         <a asp-area="" asp-controller="ApplicationUser" asp-action="Index">
-                            <i class="fa fa-user-circle" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User
+                            User
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="NewsletterUser" asp-action="Index">
-                            <i class="fa fa-file-text-o" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Newsletter User
+                            Newsletter User
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Module" asp-action="Index">
-                            <i class="fa fa-check-square-o" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Module
-                        </a>
-                    </li>
-                    <li>
-                        <a asp-area="" asp-controller="Promotion" asp-action="Index">
-                            <i class="fa fa-percent" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Promotion
+                            Module
                         </a>
                     </li>
                     <li>
                         <a asp-area="" asp-controller="Discount" asp-action="Index">
-                            <i class="fa fa-usd" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Discount
+                            Savings
                         </a>
                     </li>
                     <li>
-                        <button type="submit" class="btn navbar-btn" style="margin-left:20px; margin-top:10px">Log out</button>
+                        <a asp-area="" asp-controller="Promotion" asp-action="Index">
+                            Promotion
+                        </a>
+                    </li>
+                    <li>
+                        <button type="submit" class="btn btn-default nav-logout-btn">
+                            Log out
+                        </button>
                     </li>
                 </ul>
             </li>
@@ -69,25 +64,21 @@ else if (SignInManager.IsSignedIn(User))
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
                         <a asp-controller="OrderSummary" asp-action="Index">
-                            <i class="fa fa-list-ul" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Order Summary
+                            Order Summary
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Billing" asp-action="Index">
-                            <i class="fa fa-credit-card" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Billing Info
+                            Billing Info
                         </a>
                     </li>
                     <li>
                         <a asp-controller="Manage" asp-action="Index" title="Manage">
-                            <i class="fa fa-user-circle" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)User Profile
+                            User Profile
                         </a>
                     </li>
                     <li>
-                        <button type="submit" class="btn navbar-btn"
-                                style="margin-left:20px; margin-top:10px">
+                        <button type="submit" class="btn btn-default nav-logout-btn">
                             Log out
                         </button>
                     </li>
@@ -98,7 +89,7 @@ else if (SignInManager.IsSignedIn(User))
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right main-nav">
+    <ul class="nav navbar-nav navbar-right">
         <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-area="" asp-controller="Account" asp-action="Login">Log in</a></li>
     </ul>

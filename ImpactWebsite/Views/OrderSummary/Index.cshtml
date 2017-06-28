@@ -8,64 +8,84 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<h2>
-    <i class="fa fa-list-ul" aria-hidden="true"></i>
-    @Html.Raw(strSpacer)Order Summary
-</h2>
-<br />
-<table class="table orderDetailTable">
-    <tr class="active">
-        <th>
-            @Html.DisplayNameFor(model => model.OrderNum)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderedDate)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TotalAmount)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.NoteFromUser)
-        </th>
-        <th>Details</th>
-    </tr>
 
-    @foreach (var item in Model)
-    {
-        var totalAmountDollar = item.TotalAmount / 100;
+<div class="page-heading">
+    <h3>
+        <i class="fa fa-list-ul" aria-hidden="true"></i>
+        @Html.Raw(strSpacer)Order Summary
+    </h3>
+    <ul class="breadcrumb">
+        <li>
+            Admin account
+        </li>
+        <li class="active">
+            Order Summary
+        </li>
+    </ul>
+</div>
 
-        if (item.OrderStatus == OrderStatusList.Processing
-            || item.OrderStatus == OrderStatusList.Completed)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderNum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderedDate)
-                </td>
-                <td>
-                    $@totalAmountDollar
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderStatus)
-                </td>
-                <td class="noOverFlowText">
-                    @Html.DisplayFor(modelItem => item.NoteFromUser)
-                </td>
-                <td>
-                    <a asp-controller="OrderSummary"
-                       asp-action="OrderDetails"
-                       asp-route-orderId="@item.OrderId"
-                       class="btn btn-default btn-sm" role="button">
-                        <i class="fa fa-tasks" aria-hidden="true"></i>
-                        @Html.Raw(strSpacer)Details
-                    </a>
-                </td>
-            </tr>
-        }
-    }
-</table>
+<div class="wrapper">
+    <div class="row">
+        <div class="col-sm-12">
+            <section class="panel">
+                <header class="panel-heading">
+                    Summary of modules
+                    <span class="tools pull-right">
+                        <a href="javascript:;" class="fa fa-chevron-down"></a>
+                    </span>
+                </header>
+                <div class="panel-body">
+                    <table class="table table-hover general-table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OrderNum)
+                                </th>
+                                <th>
+                                    Modules
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OrderedDate)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.OrderStatus)
+                                </th>
+                                <th>Details / Edit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var totalAmountDollar = item.TotalAmount / 100;
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderNum)
+                                    </td>
+                                    <td>
+                                        111
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderedDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                                    </td>
+                                    <td>
+                                        <a asp-controller="OrderSummary"
+                                           asp-action="OrderDetails"
+                                           asp-route-orderId="@item.OrderId"
+                                           class="btn btn-default btn-sm" role="button">
+                                            <i class="fa fa-tasks" aria-hidden="true"></i>
+                                            @Html.Raw(strSpacer)Details / Edit
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>

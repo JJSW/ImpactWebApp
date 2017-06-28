@@ -13,6 +13,42 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="wwwroot\css\bootstrap-reset.css" />
+    <Content Include="wwwroot\css\bootstrap.min.js" />
+    <Content Include="wwwroot\css\site.css">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="wwwroot\css\style-responsive.css" />
+    <Content Include="wwwroot\css\style.css" />
+    <Content Include="wwwroot\images\404-error.png" />
+    <Content Include="wwwroot\images\500-error.png" />
+    <Content Include="wwwroot\images\alert.png" />
+    <Content Include="wwwroot\images\details_close.png" />
+    <Content Include="wwwroot\images\details_open.png" />
+    <Content Include="wwwroot\images\error.png" />
+    <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
+    <Content Include="wwwroot\images\input-spinner.gif" />
+    <Content Include="wwwroot\images\login-bg.jpg" />
+    <Content Include="wwwroot\images\minus.png" />
+    <Content Include="wwwroot\images\plus-white.png" />
+    <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\js\bootstrap.min.js" />
+    <Content Include="wwwroot\js\html5shiv.js" />
+    <Content Include="wwwroot\js\icheck-init.js" />
+    <Content Include="wwwroot\js\modernizr.min.js" />
+    <Content Include="wwwroot\js\respond.min.js" />
+    <Content Include="wwwroot\js\scripts.js" />
+    <Content Include="wwwroot\lib\dropzone\.bower.json" />
+    <Content Include="wwwroot\lib\dropzone\bower.json" />
+    <Content Include="wwwroot\lib\dropzone\dist\basic.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone-amd-module.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\dropzone.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\basic.min.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone-amd-module.min.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.css" />
+    <Content Include="wwwroot\lib\dropzone\dist\min\dropzone.min.js" />
+    <Content Include="wwwroot\lib\dropzone\dist\readme.md" />
     <Content Include="wwwroot\lib\jquery-ui\.bower.json" />
     <Content Include="wwwroot\lib\jquery-ui\.gitignore" />
     <Content Include="wwwroot\lib\jquery-ui\bower.json" />
