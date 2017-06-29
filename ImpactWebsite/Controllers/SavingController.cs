@@ -10,85 +10,85 @@ using ImpactWebsite.Models.OrderModels;
 
 namespace ImpactWebsite.Controllers
 {
-    public class DiscountController : Controller
+    public class SavingController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public DiscountController(ApplicationDbContext context)
+        public SavingController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Discount
+        // GET: Saving
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Discounts.ToListAsync());
+            return View(await _context.Savings.ToListAsync());
         }
 
-        // GET: Discount/Details/5
-        public async Task<IActionResult> Details(long? id)
+        // GET: Saving/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var discount = await _context.Discounts
-                .SingleOrDefaultAsync(m => m.DiscountId == id);
-            if (discount == null)
+            var saving = await _context.Savings
+                .SingleOrDefaultAsync(m => m.SavingId == id);
+            if (saving == null)
             {
                 return NotFound();
             }
 
-            return View(discount);
+            return View(saving);
         }
 
-        // GET: Discount/Create
+        // GET: Saving/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Discount/Create
+        // POST: Saving/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("DiscountId,DiscountName,DiscountRate,SelectFrom,SelectTo,Description,IsActive")] Discount discount)
+        public async Task<IActionResult> Create([Bind("SavingId,SavingName,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(discount);
+                _context.Add(saving);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(discount);
+            return View(saving);
         }
 
-        // GET: Discount/Edit/5
-        public async Task<IActionResult> Edit(long? id)
+        // GET: Saving/Edit/5
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var discount = await _context.Discounts.SingleOrDefaultAsync(m => m.DiscountId == id);
-            if (discount == null)
+            var saving = await _context.Savings.SingleOrDefaultAsync(m => m.SavingId == id);
+            if (saving == null)
             {
                 return NotFound();
             }
-            return View(discount);
+            return View(saving);
         }
 
-        // POST: Discount/Edit/5
+        // POST: Saving/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(long id, [Bind("DiscountId,DiscountName,DiscountRate,SelectFrom,SelectTo,Description,IsActive")] Discount discount)
+        public async Task<IActionResult> Edit(int id, [Bind("SavingId,SavingName,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
         {
-            if (id != discount.DiscountId)
+            if (id != saving.SavingId)
             {
                 return NotFound();
             }
@@ -97,12 +97,12 @@ namespace ImpactWebsite.Controllers
             {
                 try
                 {
-                    _context.Update(discount);
+                    _context.Update(saving);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!DiscountExists(discount.DiscountId))
+                    if (!SavingExists(saving.SavingId))
                     {
                         return NotFound();
                     }
@@ -113,41 +113,41 @@ namespace ImpactWebsite.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            return View(discount);
+            return View(saving);
         }
 
-        // GET: Discount/Delete/5
-        public async Task<IActionResult> Delete(long? id)
+        // GET: Saving/Delete/5
+        public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var discount = await _context.Discounts
-                .SingleOrDefaultAsync(m => m.DiscountId == id);
-            if (discount == null)
+            var saving = await _context.Savings
+                .SingleOrDefaultAsync(m => m.SavingId == id);
+            if (saving == null)
             {
                 return NotFound();
             }
 
-            return View(discount);
+            return View(saving);
         }
 
-        // POST: Discount/Delete/5
+        // POST: Saving/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(long id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var discount = await _context.Discounts.SingleOrDefaultAsync(m => m.DiscountId == id);
-            _context.Discounts.Remove(discount);
+            var saving = await _context.Savings.SingleOrDefaultAsync(m => m.SavingId == id);
+            _context.Savings.Remove(saving);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool DiscountExists(long id)
+        private bool SavingExists(int id)
         {
-            return _context.Discounts.Any(e => e.DiscountId == id);
+            return _context.Savings.Any(e => e.SavingId == id);
         }
     }
 }

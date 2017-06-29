@@ -18,6 +18,7 @@ using ImpactWebsite.Models.AccountViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
 
 namespace ImpactWebsite.Controllers
 {
@@ -36,7 +37,7 @@ namespace ImpactWebsite.Controllers
         private static PromotionStatusList _promotionStatus;
         private static int _promotionId;
         private static Int32 _orderId;
-        private static int _orderNumber;
+        private static string _orderNumber;
         private readonly string _externalCookieScheme;
         private int _dollarCent = 100; // $10.00 = 1000
 
@@ -71,8 +72,8 @@ namespace ImpactWebsite.Controllers
 
             var moduleList = _context.Modules.Include(o => o.UnitPrice);
 
-            var activeDiscount1 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountId == 1);
-            var activeDiscount2 = _context.Discounts.Where(w => w.IsActive == true).Where(x => x.DiscountId == 2);
+            var activeDiscount1 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 1);
+            var activeDiscount2 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 2);
 
             if (activeDiscount1.Any() || activeDiscount1 != null)
             {
@@ -80,7 +81,7 @@ namespace ImpactWebsite.Controllers
                 {
                     ViewBag.D1SelectFrom = active1.SelectFrom;
                     ViewBag.D1SelectTo = active1.SelectTo;
-                    ViewBag.D1DiscountRate = active1.DiscountRate;
+                    ViewBag.D1DiscountRate = active1.SavingRate;
                 }
             }
 
@@ -90,7 +91,7 @@ namespace ImpactWebsite.Controllers
                 {
                     ViewBag.D2SelectFrom = active2.SelectFrom;
                     ViewBag.D2SelectTo = active2.SelectTo;
-                    ViewBag.D2DiscountRate = active2.DiscountRate;
+                    ViewBag.D2DiscountRate = active2.SavingRate;
                 }
             }
 
@@ -182,23 +183,26 @@ namespace ImpactWebsite.Controllers
 
             if (ordersFromCurrentUser == null || !ordersFromCurrentUser.Any())
             {
-                _orderNumber = 1;
+                _orderNumber = CreateOrderPattern() + "001";
             }
             else
             {
-                _orderNumber = ordersFromCurrentUser.OrderByDescending(o => o.OrderNum).FirstOrDefault().OrderNum + 1;
+                var currentOrderNumber = ordersFromCurrentUser.OrderByDescending(o => o.OrderNum).FirstOrDefault().OrderNum;
+                var orderPattern = CreateOrderPattern();
+                var orderSequence = Convert.ToInt32(currentOrderNumber.Substring(7));
+                var nextOrderSequece = orderSequence + 1;
+                _orderNumber = orderPattern + nextOrderSequece.ToString("D3");
             }
-              
+
             _context.Orders.Add(new Order()
             {
                 UserEmail = _emailAddress,
                 OrderedDate = DateTime.Now,
-                DeliveredDate = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)),
                 UserId = TempUser.Id,
                 TotalAmount = parsedTotalAmountToPay * _dollarCent,
                 SelectionDiscount = parsedSelectionDiscount,
                 PromotionId = -1,
-                OrderNum = _orderNumber,
+                OrderNum = _orderNumber,                
             });
 
             await _context.SaveChangesAsync();
@@ -206,8 +210,9 @@ namespace ImpactWebsite.Controllers
             _orderId = _context.Orders.LastOrDefault(o => o.UserId == TempUser.Id).OrderId;
 
             CreateOrderDetail(collection);
+            CreateModuleIds();
 
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(o => o.Module.UnitPrice);
 
             //List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
 
@@ -249,6 +254,26 @@ namespace ImpactWebsite.Controllers
                     ModuleName = jsonObj.Modules.ModuleName
                 });
             }
+
+            _context.SaveChanges();        
+        }
+
+        private string CreateOrderPattern()
+        {
+            string today = DateTime.Today.ToString("MMdd");
+            return "IM" + today;
+        }
+
+        private void CreateModuleIds()
+        {
+            var moduleIdList = _context.OrderDetails.Where(od => od.OrderId == _orderId).Select(s => s.ModuleId);
+            var moduleIds = "";
+            foreach (var moduleId in moduleIdList)
+            {
+                moduleIds += moduleId + " ";
+            }
+
+            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).ModuleIds = moduleIds;
             _context.SaveChanges();
         }
 
@@ -276,9 +301,9 @@ namespace ImpactWebsite.Controllers
                 bool isPromotionCodeAppliedToOrder = _context.Orders.SingleOrDefault(s => s.OrderId == _orderId).IsPromotionCodeApplied;
 
                 var userId = _userManager.GetUserId(HttpContext.User);
-                var allOrdersFromCurrentUser = _context.Orders.Where(o=>o.UserId == userId);
-                bool isPromotionCodeAppliedToUser = allOrdersFromCurrentUser.Select(a=>a.PromotionId).Any(a => a.Equals(verfiedPromotionId));
-               
+                var allOrdersFromCurrentUser = _context.Orders.Where(o => o.UserId == userId);
+                bool isPromotionCodeAppliedToUser = allOrdersFromCurrentUser.Select(a => a.PromotionId).Any(a => a.Equals(verfiedPromotionId));
+
                 if (verfiedPromotion != null
                     && verfiedPromotion.DateFrom <= DateTime.Now
                     && verfiedPromotion.DateTo >= DateTime.Now
@@ -333,49 +358,57 @@ namespace ImpactWebsite.Controllers
             return View(promotion);
         }
 
-        [HttpGet]
-        public IActionResult FileCommentSubmit()
-        {
-            ViewData["Email"] = _emailAddress;
-            ViewData["TotalAmountToPay"] = _totalAmountToPay;
-            return PartialView("FileCommentSubmit");
-        }
-
         [HttpPost]
-        //public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files, string noteFromUser)
-            public async Task<IActionResult> FileCommentSubmit(ICollection<IFormFile> files)
+        public async Task<IActionResult> UploadFile(IFormFile file, string noteFromUser)
         {
             ViewData["TotalAmountToPay"] = _totalAmountToPay;
-            DateTime dtNow = DateTime.Now;
-            string uploadDate = dtNow.ToString("ddMMyyyy");
+            string uploadDate = DateTime.Now.ToString("ddMMyyyy");
             string uploadPath = Path.Combine(_environment.WebRootPath, "uploads/" + uploadDate + "/" + _emailAddress);
+            string uploadPathLink = HttpContext.Request.Scheme + "://" +
+                                    HttpContext.Request.Host +
+                                    "/uploads/" + uploadDate + "/" + _emailAddress + "/";
 
             if (!Directory.Exists(uploadPath))
             {
                 Directory.CreateDirectory(uploadPath);
             }
 
-            
-            foreach (var file in files)
+            if (file.Length > 0)
             {
-                if (file.Length > 0)
+                using (var fileStream = new FileStream(Path.Combine(uploadPath, file.FileName), FileMode.Create))
                 {
-                    using (var fileStream = new FileStream(Path.Combine(uploadPath, file.FileName), FileMode.Create))
-                    {
-                        await file.CopyToAsync(fileStream);
-                    }
-
-                    _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName += file.FileName;
+                    await file.CopyToAsync(fileStream);
                 }
+
+                _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFileName += file.FileName + " ";
             }
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+
+            if (noteFromUser != null)
+            {
+                _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
+            }
+
+            _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UploadedFilePath = uploadPathLink;
+
             ViewData["OrderId"] = _orderId;
 
-            //_context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
             await _context.SaveChangesAsync();
 
             return RedirectToAction("NewOrder");
         }
+
+        /*
+        [HttpPost]
+        public async void SubmitNote(string noteFromUser)
+        {
+            if (noteFromUser != null)
+            {
+                _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
+            }
+
+            await _context.SaveChangesAsync();
+        }
+        */
 
         [HttpGet]
         public IActionResult GoRegisterPartial()

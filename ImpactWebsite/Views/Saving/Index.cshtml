@@ -1,0 +1,71 @@
+@model IEnumerable<ImpactWebsite.Models.OrderModels.Saving>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.SavingId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SavingName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SavingRate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SelectFrom)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.SelectTo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IsActive)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SavingId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SavingName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SavingRate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SelectFrom)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.SelectTo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Description)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IsActive)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.SavingId">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.SavingId">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.SavingId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

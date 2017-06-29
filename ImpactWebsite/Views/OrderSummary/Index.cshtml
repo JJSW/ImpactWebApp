@@ -39,13 +39,19 @@
                         <thead>
                             <tr>
                                 <th>
+                                    #
+                                </th>
+                                <th>
                                     @Html.DisplayNameFor(model => model.OrderNum)
                                 </th>
                                 <th>
-                                    Modules
+                                    @Html.DisplayNameFor(model => model.OrderedDate)
                                 </th>
                                 <th>
-                                    @Html.DisplayNameFor(model => model.OrderedDate)
+                                    @Html.DisplayNameFor(model => model.ModuleIds)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.TotalAmount)
                                 </th>
                                 <th>
                                     @Html.DisplayNameFor(model => model.OrderStatus)
@@ -55,26 +61,33 @@
                         </thead>
                         <tbody>
 
-                            @foreach (var item in Model)
+                            @for (int i = 0; i < Model.Count(); i++)
                             {
-                                var totalAmountDollar = item.TotalAmount / 100;
+                                var totalAmountDollar = @Model.ElementAt(@i).TotalAmount / 100;
+                                var orderNum = @i + 1;
                                 <tr>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.OrderNum)
+                                        @orderNum
                                     </td>
                                     <td>
-                                        111
+                                        @Model.ElementAt(@i).OrderNum
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.OrderedDate)
+                                        @Model.ElementAt(@i).OrderedDate.ToString("yyyy-MM-dd")
                                     </td>
                                     <td>
-                                        @Html.DisplayFor(modelItem => item.OrderStatus)
+                                        @Model.ElementAt(@i).ModuleIds
+                                    </td>
+                                    <td>
+                                        $@totalAmountDollar
+                                    </td>
+                                    <td>
+                                        @Model.ElementAt(@i).OrderStatus
                                     </td>
                                     <td>
                                         <a asp-controller="OrderSummary"
                                            asp-action="OrderDetails"
-                                           asp-route-orderId="@item.OrderId"
+                                           asp-route-orderId="@Model.ElementAt(@i).OrderId"
                                            class="btn btn-default btn-sm" role="button">
                                             <i class="fa fa-tasks" aria-hidden="true"></i>
                                             @Html.Raw(strSpacer)Details / Edit

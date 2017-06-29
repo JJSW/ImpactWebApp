@@ -13,7 +13,7 @@ namespace ImpactWebsite.Models.BillingModels
         public Int32 OrderId { get; set; }
 
         [Display(Name = "Order Number")]
-        public Int32 OrderNum { get; set; }
+        public string OrderNum { get; set; }
 
         [Display(Name = "Ordered Date")]
         [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]

@@ -14,7 +14,7 @@
                    aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                     <li>
-                        <a asp-area="" asp-controller="Order" asp-action="Orders">
+                        <a asp-area="" asp-controller="OrderAdmin" asp-action="Index">
                             Order
                         </a>
                     </li>
@@ -34,7 +34,7 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="Discount" asp-action="Index">
+                        <a asp-area="" asp-controller="Saving" asp-action="Index">
                             Savings
                         </a>
                     </li>
@@ -62,6 +62,11 @@ else if (SignInManager.IsSignedIn(User))
                 <a class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" role="button" id="dropdownMenuButton"
                    aria-haspopup="true" aria-expanded="false">@UserManager.GetUserName(User)<span class="caret"></span></a>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li>
+                        <a asp-controller="Order" asp-action="Index">
+                            Start New Order
+                        </a>
+                    </li>
                     <li>
                         <a asp-controller="OrderSummary" asp-action="Index">
                             Order Summary

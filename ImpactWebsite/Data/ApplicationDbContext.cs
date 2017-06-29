@@ -32,7 +32,7 @@ namespace ImpactWebsite.Data
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Promotion> Promotions { get; set; }
-        public DbSet<Discount> Discounts { get; set; }
+        public DbSet<Saving> Savings { get; set; }
 
         public DbSet<Module> Modules { get; set; }
         public DbSet<UnitPrice> UnitPrices { get; set; }

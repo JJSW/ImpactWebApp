@@ -10,23 +10,22 @@ using ImpactWebsite.Models.OrderModels;
 
 namespace ImpactWebsite.Controllers
 {
-    public class ModuleController : Controller
+    public class OrderAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public ModuleController(ApplicationDbContext context)
+        public OrderAdminController(ApplicationDbContext context)
         {
             _context = context;    
         }
 
-        // GET: Module
+        // GET: OrderAdmin
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Modules.Include(o => o.UnitPrice);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Orders.ToListAsync());
         }
 
-        // GET: Module/Details/5
+        // GET: OrderAdmin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,42 +33,39 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderModule = await _context.Modules
-                .Include(o => o.UnitPrice)
-                .SingleOrDefaultAsync(m => m.ModuleId == id);
-            if (orderModule == null)
+            var order = await _context.Orders
+                .SingleOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(orderModule);
+            return View(order);
         }
 
-        // GET: Module/Create
+        // GET: OrderAdmin/Create
         public IActionResult Create()
         {
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId");
             return View();
         }
 
-        // POST: Module/Create
+        // POST: OrderAdmin/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,LongDescription,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Create([Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,SelectionDiscount,TotalAmount,PromotionId,IsPromotionCodeApplied,UploadedFileName,InvestmentId")] Order order)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(orderModule);
+                _context.Add(order);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
-            return View(orderModule);
+            return View(order);
         }
 
-        // GET: Module/Edit/5
+        // GET: OrderAdmin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -77,23 +73,22 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderModule = await _context.Modules.SingleOrDefaultAsync(m => m.ModuleId == id);
-            if (orderModule == null)
+            var order = await _context.Orders.SingleOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
-            return View(orderModule);
+            return View(order);
         }
 
-        // POST: Module/Edit/5
+        // POST: OrderAdmin/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,LongDescription,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Edit(int id, [Bind("OrderId,OrderNum,UserEmail,UserId,SalesRep,OrderedDate,DeliveredDate,OrderStatus,NoteFromUser,NoteFromAdmin,ModuleIds,SelectionDiscount,TotalAmount,PromotionId,IsPromotionCodeApplied,UploadedFileName,InvestmentId")] Order order)
         {
-            if (id != orderModule.ModuleId)
+            if (id != order.OrderId)
             {
                 return NotFound();
             }
@@ -102,12 +97,12 @@ namespace ImpactWebsite.Controllers
             {
                 try
                 {
-                    _context.Update(orderModule);
+                    _context.Update(order);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!OrderModuleExists(orderModule.ModuleId))
+                    if (!OrderExists(order.OrderId))
                     {
                         return NotFound();
                     }
@@ -118,11 +113,10 @@ namespace ImpactWebsite.Controllers
                 }
                 return RedirectToAction("Index");
             }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
-            return View(orderModule);
+            return View(order);
         }
 
-        // GET: Module/Delete/5
+        // GET: OrderAdmin/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -130,31 +124,30 @@ namespace ImpactWebsite.Controllers
                 return NotFound();
             }
 
-            var orderModule = await _context.Modules
-                .Include(o => o.UnitPrice)
-                .SingleOrDefaultAsync(m => m.ModuleId == id);
-            if (orderModule == null)
+            var order = await _context.Orders
+                .SingleOrDefaultAsync(m => m.OrderId == id);
+            if (order == null)
             {
                 return NotFound();
             }
 
-            return View(orderModule);
+            return View(order);
         }
 
-        // POST: Module/Delete/5
+        // POST: OrderAdmin/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var orderModule = await _context.Modules.SingleOrDefaultAsync(m => m.ModuleId == id);
-            _context.Modules.Remove(orderModule);
+            var order = await _context.Orders.SingleOrDefaultAsync(m => m.OrderId == id);
+            _context.Orders.Remove(order);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
         }
 
-        private bool OrderModuleExists(int id)
+        private bool OrderExists(int id)
         {
-            return _context.Modules.Any(e => e.ModuleId == id);
+            return _context.Orders.Any(e => e.OrderId == id);
         }
     }
 }

@@ -55,55 +55,55 @@ namespace ImpactWebsite.Models.SampleSeedData
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Overview and Financials",
-                    Description = "Overview and Financials",
+                    Description = "Short Overview and Financials",
                     LongDescription = "Long Overview and Financials",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 0).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Operational blueprint and asset-level data",
-                    Description = "Operational blueprint and asset-level data",
+                    Description = "Short Operational blueprint and asset-level data",
                     LongDescription = "Long Operational blueprint and asset-level data",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Social Impact metrics",
-                    Description = "Social Impact metrics",
+                    Description = "Short Social Impact metrics",
                     LongDescription = "Long Social Impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Environmental impact metrics",
-                    Description = "Environmental impact metrics",
+                    Description = "Short Environmental impact metrics",
                     LongDescription = "Long Environmental impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Governance and controversies",
-                    Description = "Governance and controversies",
+                    Description = "Short Governance and controversies",
                     LongDescription = "Long Governance and controversies",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Upstream and downstream supplier analysis",
-                    Description = "Upstream and downstream supplier analysis",
+                    Description = "Short Upstream and downstream supplier analysis",
                     LongDescription = "Long Upstream and downstream supplier analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Regulatory, climate-realted and other risk analysis",
-                    Description = "Regulatory, climate-realted and other risk analysis",
+                    Description = "Short Regulatory, climate-realted and other risk analysis",
                     LongDescription = "Long Regulatory, climate-realted and other risk analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 }); db.Modules.Add(new Module()
                 {
                     ModuleName = "Benchmarking and targets",
-                    Description = "Benchmarking and targets",
+                    Description = "Short Benchmarking and targets",
                     LongDescription = "Long Benchmarking and targets",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
@@ -113,21 +113,21 @@ namespace ImpactWebsite.Models.SampleSeedData
 
         public static void GetDiscounts(ApplicationDbContext db)
         {
-            if (!db.Discounts.Any())
+            if (!db.Savings.Any())
             {
-                db.Discounts.Add(new Discount()
+                db.Savings.Add(new Saving()
                 {
-                    DiscountName = "Discount1",
-                    DiscountRate = 10,
+                    SavingName = "Discount1",
+                    SavingRate = 10,
                     SelectFrom = 3,
                     SelectTo = 5,
                     Description = "Discount $10 for selections of 3 to 5"
                 });
 
-                db.Discounts.Add(new Discount()
+                db.Savings.Add(new Saving()
                 {
-                    DiscountName = "Discount2",
-                    DiscountRate = 20,
+                    SavingName = "Discount2",
+                    SavingRate = 20,
                     SelectFrom = 6,
                     SelectTo = 8,
                     Description = "Discount $20 for selections of 6 to 8"

@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170622012602_InitialScheme")]
-    partial class InitialScheme
+    [Migration("20170629051757_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -155,28 +155,6 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("NewsletterUsers");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Discount", b =>
-                {
-                    b.Property<int>("DiscountId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("DiscountName");
-
-                    b.Property<int>("DiscountRate");
-
-                    b.Property<bool>("IsActive");
-
-                    b.Property<int>("SelectFrom");
-
-                    b.Property<int>("SelectTo");
-
-                    b.HasKey("DiscountId");
-
-                    b.ToTable("Discounts");
-                });
-
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
                 {
                     b.Property<int>("ModuleId")
@@ -204,17 +182,19 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ApplicationUserId");
 
-                    b.Property<DateTime>("DeliveredDate");
+                    b.Property<DateTime?>("DeliveredDate");
 
                     b.Property<int>("InvestmentId");
 
                     b.Property<bool>("IsPromotionCodeApplied");
 
+                    b.Property<string>("ModuleIds");
+
                     b.Property<string>("NoteFromAdmin");
 
                     b.Property<string>("NoteFromUser");
 
-                    b.Property<int>("OrderNum");
+                    b.Property<string>("OrderNum");
 
                     b.Property<int>("OrderStatus");
 
@@ -230,6 +210,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("TotalAmount");
 
                     b.Property<string>("UploadedFileName");
+
+                    b.Property<string>("UploadedFilePath");
 
                     b.Property<string>("UserEmail")
                         .IsRequired();
@@ -292,6 +274,28 @@ namespace WebApplication1.Data.Migrations
                     b.HasKey("PromotionId");
 
                     b.ToTable("Promotions");
+                });
+
+            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Saving", b =>
+                {
+                    b.Property<int>("SavingId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Description");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("SavingName");
+
+                    b.Property<int>("SavingRate");
+
+                    b.Property<int>("SelectFrom");
+
+                    b.Property<int>("SelectTo");
+
+                    b.HasKey("SavingId");
+
+                    b.ToTable("Savings");
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.UnitPrice", b =>

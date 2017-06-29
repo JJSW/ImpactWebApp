@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class InitialScheme : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -105,36 +105,19 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Discounts",
-                columns: table => new
-                {
-                    DiscountId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    DiscountName = table.Column<string>(nullable: true),
-                    DiscountRate = table.Column<int>(nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
-                    SelectFrom = table.Column<int>(nullable: false),
-                    SelectTo = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Discounts", x => x.DiscountId);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
                     OrderId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicationUserId = table.Column<string>(nullable: true),
-                    DeliveredDate = table.Column<DateTime>(nullable: false),
+                    DeliveredDate = table.Column<DateTime>(nullable: true),
                     InvestmentId = table.Column<int>(nullable: false),
                     IsPromotionCodeApplied = table.Column<bool>(nullable: false),
+                    ModuleIds = table.Column<string>(nullable: true),
                     NoteFromAdmin = table.Column<string>(nullable: true),
                     NoteFromUser = table.Column<string>(nullable: true),
-                    OrderNum = table.Column<int>(nullable: false),
+                    OrderNum = table.Column<string>(nullable: true),
                     OrderStatus = table.Column<int>(nullable: false),
                     OrderedDate = table.Column<DateTime>(nullable: false),
                     PromotionId = table.Column<int>(nullable: false),
@@ -142,6 +125,7 @@ namespace WebApplication1.Data.Migrations
                     SelectionDiscount = table.Column<int>(nullable: false),
                     TotalAmount = table.Column<int>(nullable: false),
                     UploadedFileName = table.Column<string>(nullable: true),
+                    UploadedFilePath = table.Column<string>(nullable: true),
                     UserEmail = table.Column<string>(nullable: false),
                     UserId = table.Column<string>(nullable: true)
                 },
@@ -175,6 +159,24 @@ namespace WebApplication1.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Promotions", x => x.PromotionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Savings",
+                columns: table => new
+                {
+                    SavingId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    IsActive = table.Column<bool>(nullable: false),
+                    SavingName = table.Column<string>(nullable: true),
+                    SavingRate = table.Column<int>(nullable: false),
+                    SelectFrom = table.Column<int>(nullable: false),
+                    SelectTo = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Savings", x => x.SavingId);
                 });
 
             migrationBuilder.CreateTable(
@@ -287,9 +289,6 @@ namespace WebApplication1.Data.Migrations
                 name: "NewsletterUsers");
 
             migrationBuilder.DropTable(
-                name: "Discounts");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
@@ -297,6 +296,9 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Promotions");
+
+            migrationBuilder.DropTable(
+                name: "Savings");
 
             migrationBuilder.DropTable(
                 name: "Modules");

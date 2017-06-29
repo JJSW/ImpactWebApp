@@ -2,3 +2,8 @@
 .nav-logout-btn {
     margin: 10px 0 10px 20px;
 }
+
+.noOverFlowText {
+    overflow: hidden;
+    white-space: nowrap;
+}

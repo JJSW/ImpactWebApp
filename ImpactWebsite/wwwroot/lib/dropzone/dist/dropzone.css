@@ -174,7 +174,7 @@
   box-sizing: border-box; }
 
 .dropzone {
-    min-height: 250px;
+    min-height: 220px;
     border: 2px solid rgba(0, 0, 0, 0.3);
     background: rgba(0,0,0,0.02);
     padding: 20px 20px;

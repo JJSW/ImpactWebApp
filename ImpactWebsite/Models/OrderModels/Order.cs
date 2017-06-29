@@ -24,7 +24,7 @@ namespace ImpactWebsite.Models.OrderModels
         public Int32 OrderId { get; set; }
 
         [Display(Name = "Order Number")]
-        public int OrderNum { get; set; }
+        public string OrderNum { get; set; }
 
         [Required]
         [Display(Name = "Email")]
@@ -43,7 +43,7 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Delivered Date")]
         [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        public DateTime DeliveredDate { get; set; }
+        public DateTime? DeliveredDate { get; set; }
 
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
@@ -53,6 +53,9 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Note from admin")]
         public string NoteFromAdmin { get; set; }
+
+        [Display(Name = "Modules")]
+        public string ModuleIds { get; set; }
 
         [Display(Name = "Selection Discount")]
         public int SelectionDiscount { get; set; }
@@ -65,6 +68,9 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Promotion Code")]
         public bool IsPromotionCodeApplied { get; set; }
+
+        [Display(Name = "Uploaded File Path")]
+        public string UploadedFilePath { get; set; }
 
         [Display(Name = "Uploaded File Name")]
         public string UploadedFileName { get; set; }

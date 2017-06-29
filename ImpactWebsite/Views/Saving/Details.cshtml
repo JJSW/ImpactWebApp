@@ -1,29 +1,27 @@
-@model ImpactWebsite.Models.OrderModels.Discount
+@model ImpactWebsite.Models.OrderModels.Saving
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
+<h2>Details</h2>
 
-<h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>Discount</h4>
+    <h4>Saving</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="DiscountId" />
         <dt>
-            @Html.DisplayNameFor(model => model.DiscountName)
+            @Html.DisplayNameFor(model => model.SavingName)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DiscountName)
+            @Html.DisplayFor(model => model.SavingName)
         </dd>
         <dt>
-            @Html.DisplayNameFor(model => model.DiscountRate)
+            @Html.DisplayNameFor(model => model.SavingRate)
         </dt>
         <dd>
-            @Html.DisplayFor(model => model.DiscountRate)
+            @Html.DisplayFor(model => model.SavingRate)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.SelectFrom)
@@ -50,11 +48,8 @@
             @Html.DisplayFor(model => model.IsActive)
         </dd>
     </dl>
-    
-    <form asp-action="Delete">
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            <a asp-action="Index">Back to List</a>
-        </div>
-    </form>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.SavingId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
 </div>

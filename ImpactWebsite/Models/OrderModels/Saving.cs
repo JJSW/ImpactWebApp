@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
-    public class Discount
+    public class Saving
     {
         [Key]
-        public Int32 DiscountId { get; set; }
+        public Int32 SavingId { get; set; }
        
-        [Display(Name = "Discount Name")]
-        public string DiscountName { get; set; }
+        [Display(Name = "Saving Name")]
+        public string SavingName { get; set; }
 
-        [Display(Name = "Discount Rate")]
-        public int DiscountRate { get; set; }
+        [Display(Name = "Saving Rate")]
+        public int SavingRate { get; set; }
 
         [Display(Name = "Select From")]
         public int SelectFrom { get; set; }

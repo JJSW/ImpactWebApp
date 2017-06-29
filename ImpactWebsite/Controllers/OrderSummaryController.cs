@@ -57,6 +57,7 @@ namespace ImpactWebsite.Controllers
                                       NoteFromUser = o.NoteFromUser,
                                       NoteFromAdmin = o.NoteFromAdmin,
                                       UploadedFileName = o.UploadedFileName,
+                                      UploadedFilePath = o.UploadedFilePath,
                                       TotalAmount = o.TotalAmount,
                                   }).ToList();
 
@@ -72,10 +73,12 @@ namespace ImpactWebsite.Controllers
                     OrderNum = orderDetail.OrderNum,
                     UserId = orderDetail.UserId,
                     OrderDetailId = orderDetail.OrderDetailId,
+                    ModuleId = orderDetail.ModuleId,
                     ModuleName = orderDetail.ModuleName,
                     NoteFromUser = orderDetail.NoteFromUser,
                     NoteFromAdmin = orderDetail.NoteFromAdmin,
                     UploadedFileName = orderDetail.UploadedFileName,
+                    UploadedFilePath = orderDetail.UploadedFilePath,
                     TotalAmount = orderDetail.TotalAmount,
                 });
             };

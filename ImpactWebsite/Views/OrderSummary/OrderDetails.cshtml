@@ -11,6 +11,7 @@
 <h4>@Html.Raw(strSpacer)Order Number : @Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</h4>
 
 @{
+    var orderNum = Model.FirstOrDefault().OrderNum;
     var noteFromUser = Model.FirstOrDefault().NoteFromUser;
     var uploadedFileName = Model.FirstOrDefault().UploadedFileName;
 }
@@ -18,7 +19,7 @@
 <div class="row">
     <div class="col-md-6">
         <table class="table">
-            <tr class="active">
+            <tr>
                 <th>
                     #
                 </th>
@@ -43,6 +44,8 @@
 
     @if (uploadedFileName != null)
     {
+        var filePath = Model.FirstOrDefault().UploadedFilePath;
+        string fileLink = filePath + uploadedFileName;
         <div class="col-md-6">
             <table class="table">
                 <tr class="active">
@@ -53,7 +56,9 @@
 
                 <tr>
                     <td>
-                        @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                        <a href="@fileLink">
+                            @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                        </a>
                     </td>
                 </tr>
 
