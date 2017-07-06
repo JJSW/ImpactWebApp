@@ -5,8 +5,9 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
+<h2>Index</h2>
 
 <table class="table">
     <thead>
@@ -61,9 +62,26 @@
                     @Html.DisplayFor(modelItem => item.IsActive)
                 </td>
                 <td>
-                    <a asp-action="Edit" asp-route-id="@item.SavingId">Edit</a> |
-                    <a asp-action="Details" asp-route-id="@item.SavingId">Details</a> |
-                    <a asp-action="Delete" asp-route-id="@item.SavingId">Delete</a>
+                    <a asp-action="Edit"
+                       asp-route-orderId="@item.SavingId"
+                       class="btn btn-default btn-sm" role="button">
+                        <span class="glyphicon glyphicon-edit"></span>
+                        @Html.Raw(strSpacer)Edit
+                    </a>
+
+                    <a asp-action="Details"
+                       asp-route-orderId="@item.SavingId"
+                       class="btn btn-default btn-sm" role="button">
+                        <span class="glyphicon glyphicon-tasks"></span>
+                        @Html.Raw(strSpacer)Details
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-orderId="@item.SavingId"
+                       class="btn btn-default btn-sm" role="button">
+                        <span class="glyphicon glyphicon-remove"></span>
+                        @Html.Raw(strSpacer)Delete
+                    </a>
                 </td>
             </tr>
         }

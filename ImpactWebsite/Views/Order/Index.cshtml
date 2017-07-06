@@ -46,19 +46,18 @@
                                     <th class="col-md-0">
                                         #
                                     </th>
-                                    <th class="col-md-5">
+                                    <th class="col-md-4">
                                         @Html.DisplayNameFor(model => model.Modules.ModuleName)
                                     </th>
-                                    <th class="col-md-2">
+                                    <th class="col-md-6">
                                         Module Detail
                                     </th>
-                                    <th class="col-md-2">
+                                    <th class="col-md-1">
                                         @Html.DisplayNameFor(model => model.Modules.UnitPrice)
                                     </th>
                                     <th class="col-md-1">
                                         Select
                                     </th>
-                                    <th class="col-md-2"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -72,13 +71,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <a style="cursor:pointer"
-                                               class="Detail"
-                                               value="@Model.ElementAt(@i).Modules.ModuleId"
-                                               name="@Model.ElementAt(@i).Modules.ModuleName">
-                                                <i class="fa fa-info-circle" aria-hidden="true"></i>
-                                                Details
-                                            </a>
+                                            @Model.ElementAt(@i).Modules.LongDescription      
                                         </td>
                                         <td>
                                             <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
@@ -100,7 +93,6 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td><span class="label label-info label-mini">New</span></td>
                                     </tr>
                                 }
 

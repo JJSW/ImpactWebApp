@@ -24,11 +24,6 @@
                         </a>
                     </li>
                     <li>
-                        <a asp-area="" asp-controller="NewsletterUser" asp-action="Index">
-                            Newsletter User
-                        </a>
-                    </li>
-                    <li>
                         <a asp-area="" asp-controller="Module" asp-action="Index">
                             Module
                         </a>
@@ -44,9 +39,7 @@
                         </a>
                     </li>
                     <li>
-                        <button type="submit" class="btn btn-default nav-logout-btn">
-                            Log out
-                        </button>
+                        <a href="javascript:{}" onclick="document.getElementById('logoutForm').submit(); return false;">Log out</a>
                     </li>
                 </ul>
             </li>
@@ -73,19 +66,12 @@ else if (SignInManager.IsSignedIn(User))
                         </a>
                     </li>
                     <li>
-                        <a asp-controller="Billing" asp-action="Index">
-                            Billing Info
-                        </a>
-                    </li>
-                    <li>
                         <a asp-controller="Manage" asp-action="Index" title="Manage">
                             User Profile
                         </a>
                     </li>
                     <li>
-                        <button type="submit" class="btn btn-default nav-logout-btn">
-                            Log out
-                        </button>
+                        <a href="javascript:{}" onclick="document.getElementById('logoutForm').submit(); return false;">Log out</a>
                     </li>
                 </ul>
             </li>

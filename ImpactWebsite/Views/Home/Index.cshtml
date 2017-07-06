@@ -41,14 +41,8 @@
                         </a>
                         <br>
 
-                        <div class="form-group _margin-top-32 _margin-bottom-32">
-                            <label for="Newsletter">
-                                Get our quarterly newsletter:
-                            </label>
-                            <input id="email" name="Newsletter" asp-for="Email" />
-                            <input type="submit" value="Request" />
-                            <strong><span asp-validation-for="Email" class="text-danger"></span></strong>
-                        </div>
+                        Get our quarterly newsletter:
+                        <button type="submit" class="btn btn-link  _margin-top-32 _margin-bottom-32">Subscribe</button>
                     </div>
                 </section>
 
@@ -136,39 +130,4 @@
 </form>
     -->
 
-<div id="box" class=""></div>
-
-@section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-    <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
-    <script src="~/lib/jquery-ui/jquery-ui.js"></script>
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
-
-    @if (@ViewData["status"].Equals("success"))
-    {
-        <script>
-            var msg = $('#email').val();
-            $(document).ready(function () {
-                $('#box').dialog({
-                    autoOpen: true,
-                    position: { my: "top", at: "top+150", of: window },
-                    open: function () {
-                        var markup = msg + ' is Successfully added!';
-                        $(this).html(markup);
-                    },
-                    title: 'Message',
-                    width: 300,
-                    height: 150,
-                    resizable: false,
-                    modal: true,
-                    show: {
-                        effect: "blind",
-                        duration: 100
-                    },
-                });
-                $('#email').val('')
-            });
-        </script>
-    }
-}
 

@@ -55,56 +55,56 @@ namespace ImpactWebsite.Models.SampleSeedData
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Overview and Financials",
-                    Description = "Short Overview and Financials",
-                    LongDescription = "Long Overview and Financials",
+                    Description = "Short Description Overview and Financials",
+                    LongDescription = "Long Description Overview and Financials",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 0).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Operational blueprint and asset-level data",
-                    Description = "Short Operational blueprint and asset-level data",
-                    LongDescription = "Long Operational blueprint and asset-level data",
+                    Description = "Short Description Operational blueprint and asset-level data",
+                    LongDescription = "Long Description Operational blueprint and asset-level data",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Social Impact metrics",
-                    Description = "Short Social Impact metrics",
-                    LongDescription = "Long Social Impact metrics",
+                    Description = "Short Description Social Impact metrics",
+                    LongDescription = "Long Description Social Impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Environmental impact metrics",
-                    Description = "Short Environmental impact metrics",
-                    LongDescription = "Long Environmental impact metrics",
+                    Description = "Short Description Environmental impact metrics",
+                    LongDescription = "Long Description Environmental impact metrics",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Governance and controversies",
-                    Description = "Short Governance and controversies",
-                    LongDescription = "Long Governance and controversies",
+                    Description = "Short Description Governance and controversies",
+                    LongDescription = "Long Description Governance and controversies",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Upstream and downstream supplier analysis",
-                    Description = "Short Upstream and downstream supplier analysis",
-                    LongDescription = "Long Upstream and downstream supplier analysis",
+                    Description = "Short Description Upstream and downstream supplier analysis",
+                    LongDescription = "Long Description Upstream and downstream supplier analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Regulatory, climate-realted and other risk analysis",
-                    Description = "Short Regulatory, climate-realted and other risk analysis",
-                    LongDescription = "Long Regulatory, climate-realted and other risk analysis",
+                    Description = "Short Description Regulatory, climate-realted and other risk analysis",
+                    LongDescription = "Long Description Regulatory, climate-realted and other risk analysis",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 }); db.Modules.Add(new Module()
                 {
                     ModuleName = "Benchmarking and targets",
-                    Description = "Short Benchmarking and targets",
-                    LongDescription = "Long Benchmarking and targets",
+                    Description = "Short Description Benchmarking and targets",
+                    LongDescription = "Long Description Benchmarking and targets",
                     UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
                 });
                 db.SaveChanges();

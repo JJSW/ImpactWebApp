@@ -13,9 +13,9 @@
     <meta name="description" content="Helping investors understand impact.">
 
     <!-- Library -->
-    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css"/>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css"/>
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
 
     <!-- Custom CSS -->
     <link rel="stylesheet" href="~/css/style.css">
@@ -62,16 +62,16 @@
 
         <!--body wrapper start-->
         <div class="wrapper">
-            @RenderBody()
+            <div class="body-content">
+                @RenderBody()
+            </div>
         </div>
         <!--body wrapper end-->
-
         <!--footer section start-->
         <footer class="sticky-footer">
             &copy; 2017 ImpactLeap
         </footer>
         <!--footer section end-->
-
         <!-- Modal -->
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
             <div class="modal-dialog">
@@ -91,13 +91,12 @@
     </section>
 
     <!-- Placed js at the end of the document so the pages load faster -->
-
     <!-- Library -->
     <script type="text/javascript" src="~/lib/jquery/dist/jquery.js"></script>
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
     <script type="text/javascript" src="~/lib/jquery.nicescroll/jquery.nicescroll.js"></script>
     <script type="text/javascript" src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
-    
+
     <!-- Custom js -->
     <script type="text/javascript" src="~/js/scripts.js"></script>
     <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
