@@ -101,11 +101,22 @@ else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
     var orderId = 0;
     foreach (var a in Model) { orderId = a.OrderId; }
 
-    <div style="margin:30px 30px 0px 30px; display:table;">
-        <a class="btn btn-primary"
+    <div class="btn-center">
+        <a class="btn btn-primary btn-lg"
            href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
             Complete Order
         </a>
+
+        <span>
+            <a asp-controller="Billing"
+               asp-action="Cancel"
+               asp-route-id="@ViewData["OrderId"]"
+               role="button"
+               class="btn btn-default btn-lg"
+               style="margin-left:15px;">
+                Cancel
+            </a>
+        </span>
     </div>
 }
 else

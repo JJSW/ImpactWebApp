@@ -16,7 +16,7 @@
 <div class="page-heading">
     <h3 class="inv-col">
         Order number:<span>@Html.Raw(strSpacer)@ViewData["OrderNumber"] </span>
-</h3>
+    </h3>
     <ul class="breadcrumb">
         <li>
             Analysis
@@ -49,14 +49,24 @@
                         </div>
                     </form>
 
-                    <textarea id="noteFromUser"
-                              class="form-control"
-                              placeholder="Add any additional comments"
-                              rows="3"
-                              style="margin-top:20px; margin-bottom:20px;"></textarea>
+                    <form id="noteFromUserForm" method="post" role="form">
+                        <div class="form-group">
+                            <textarea id="noteFromUser"
+                                      name="noteFromUser"
+                                      class="form-control"
+                                      placeholder="Add any additional comments"
+                                      rows="3"
+                                      style="margin-top:20px; margin-bottom:20px;"></textarea>
+                        </div>
+                    </form>
 
-                    <input role="button" id="submitFileComment" class="btn btn-primary input-icon"                           
-                           value="&#xf093;@Html.Raw(strSpacer)Upload file and comment " />
+                    <button id="submitFileComment" type="submit" value="Submit"
+                            class="btn btn-primary input-icon">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Upload file and comment
+                    </button>
+
+                    <div id="submitResult"></div>
 
                 </div>
             </section>
@@ -83,8 +93,7 @@
                             @{ var subTotal = 0;}
                             @for (int i = 0; i < Model.Count(); i++)
                             {
-                                <tr>
-                                </tr>
+                                <tr></tr>
                                 subTotal += Model.ElementAt(@i).Module.UnitPrice.Price;
                             }
                         </tbody>
@@ -197,7 +206,7 @@
                                     </p>
                                 }
 
-                                </td>
+                            </td>
                             <td></td>
                         </tr>
                     </table>
@@ -244,6 +253,29 @@
     <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>
 
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#submitFileComment").on("click", function () {
+                if ($("#noteFromUser").val() != "") {
+
+                    var noteFromUser = { noteFromUser: $("#noteFromUser").val() }
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/Order/SubmitNote",
+                        data: noteFromUser,
+                        dataType: "json",
+                        success: function (result, status, xhr) {
+                            $("#submitResult").text(result);
+                            $("#submitResult").html(status);
+                            alert(result);
+                        },
+                    });
+                }
+            });
+        });
+    </script>
 
     <script type="text/javascript">
 
@@ -297,9 +329,6 @@
         }
     </script>
 
-
-
-
     <script type="text/javascript">
         $('#promoCode').on('click', function () {
             $("#AddUserForm").dialog({
@@ -317,25 +346,5 @@
         });
         return false;
         });
-    </script>
-
-    <script type="text/javascript">
-        $('#FileUpload').on('click', function () {
-
-            $("#AddUserForm").dialog({
-            type: 'GET',
-            autoOpen: true,
-            position: { my: "top", at: "top+100", of: window },
-            width: 500,
-            height: 400,
-            resizable: true,
-            title: 'Upload files and add comments',
-            modal: true,
-            open: function () {
-                $(this).load('@Url.Action("FileCommentSubmit", "Order")');
-            },
-        });
-        return false;
-    });
     </script>
 }

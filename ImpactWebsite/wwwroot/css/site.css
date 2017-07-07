@@ -42,10 +42,15 @@
     height: 100%;
 }
 
+.center-column{
+    float:none;
+    margin: auto;
+}
+
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    margin: 20px;
+    margin: 25px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -61,6 +66,18 @@ select {
 
 .main-nav-left {
     margin-left: 50px !important;
+}
+
+
+/*-------------------------------
+            LOGIN STYLES
+-------------------------------*/
+
+.form-signin .form-signin-heading .sign-title,
+.form-signin .checkbox,
+.form-signin .forgot-password
+{
+    color: #7a7676 !important;
 }
 
 

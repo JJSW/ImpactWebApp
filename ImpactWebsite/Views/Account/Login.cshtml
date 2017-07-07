@@ -8,81 +8,78 @@
     ViewData["Title"] = "Log in";
 }
 
-<div class="darker-background">
-    <div class="container">
-        <form class="form-signin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div class="form-signin-heading text-center">
-                <h1 class="sign-title">Log In</h1>
-                <img src="~/images/ImpactLeap-logo-gray-bg-blue.png" alt="" />
-            </div>
-
-            <div asp-validation-summary="All" class="text-danger"></div>
-
-            <div class="login-wrap form-group">
-                <input type="text" asp-for="Email" class="form-control" placeholder="Email" autofocus>
-
-                <input type="password" asp-for="Password" class="form-control" placeholder="Password">
-
-                <button class="btn btn-lg btn-login btn-block" type="submit">
-                    <i class="fa fa-check"></i>
-                </button>
-                <div class="registration">
-                    Not a member yet?
-                    <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">
-                        Signup
-                    </a>
-                </div>
-                <label class="checkbox">
-                    <input type="checkbox" asp-for="RememberMe" value="remember-me">
-                    @Html.DisplayNameFor(m => m.RememberMe)
-                    <span class="pull-right">
-                        <a data-toggle="modal" href="#myModal"> Forgot Password?</a>
-                    </span>
-                </label>
-            </div>
-        </form>
-
-        <!-- Modal -->
-
-        <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Forgot Password ?</h4>
-                    </div>
-
-                    <form asp-controller="Account" asp-action="ForgotPassword" method="post">
-
-                        <div class="modal-body">
-                            <p>Enter your e-mail address below to reset your password.</p>
-
-                            <div asp-validation-summary="All" class="text-danger"></div>
-
-                            <input type="text" asp-for="Email" name="email" placeholder="Email"
-                                   autocomplete="off" class="form-control placeholder-no-fix">
-                        </div>
-
-
-                        <br />
-                        <br />
-                        <div class="modal-footer">
-                            <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </form>
-
-                </div>
-            </div>
-
+<div class="container">
+    <form class="form-signin" asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+        <div class="form-signin-heading text-center">
+            <h1 class="sign-title">Log In</h1>
+            <img src="~/images/ImpactLeap-logo-gray-bg-blue.png" alt="" />
         </div>
 
-        <!-- modal -->
+        <div asp-validation-summary="All" class="text-danger"></div>
 
-        @section Scripts {
-            @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
-        }
+        <div class="login-wrap form-group">
+            <input type="text" asp-for="Email" class="form-control" placeholder="Email" autofocus>
+
+            <input type="password" asp-for="Password" class="form-control" placeholder="Password">
+
+            <button class="btn btn-lg btn-login btn-block" type="submit">
+                <i class="fa fa-check"></i>
+            </button>
+            <div class="registration">
+                Not a member yet?
+                <a asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">
+                    Signup
+                </a>
+            </div>
+            <label class="checkbox">
+                <input type="checkbox" asp-for="RememberMe" value="remember-me">
+                @Html.DisplayNameFor(m => m.RememberMe)
+                <span class="pull-right">
+                    <a class="forgot-password" data-toggle="modal" href="#myModal"> Forgot Password?</a>
+                </span>
+            </label>
+        </div>
+    </form>
+
+    <!-- Modal -->
+
+    <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title">Forgot Password ?</h4>
+                </div>
+
+                <form asp-controller="Account" asp-action="ForgotPassword" method="post">
+
+                    <div class="modal-body">
+                        <p>Enter your e-mail address below to reset your password.</p>
+
+                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                        <input type="text" asp-for="Email" name="email" placeholder="Email"
+                               autocomplete="off" class="form-control placeholder-no-fix">
+                    </div>
+
+
+                    <br />
+                    <br />
+                    <div class="modal-footer">
+                        <button data-dismiss="modal" class="btn btn-default" type="button">Cancel</button>
+                        <button class="btn btn-primary" type="submit">Submit</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
 
     </div>
+
+    <!-- modal -->
+
+    @section Scripts {
+        @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    }
 
 </div>

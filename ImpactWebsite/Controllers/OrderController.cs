@@ -214,8 +214,6 @@ namespace ImpactWebsite.Controllers
 
             var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(o => o.Module.UnitPrice);
 
-            //List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
-
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
             return View(OrderDetails.ToList());
@@ -396,19 +394,19 @@ namespace ImpactWebsite.Controllers
 
             return RedirectToAction("NewOrder");
         }
-
-        /*
+      
         [HttpPost]
-        public async void SubmitNote(string noteFromUser)
+        public string SubmitNote(string noteFromUser)
         {
             if (noteFromUser != null)
             {
                 _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).NoteFromUser = noteFromUser;
             }
 
-            await _context.SaveChangesAsync();
-        }
-        */
+            _context.SaveChanges();
+
+            return "Saved";
+        }        
 
         [HttpGet]
         public IActionResult GoRegisterPartial()
