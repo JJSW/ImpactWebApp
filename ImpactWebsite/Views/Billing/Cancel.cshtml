@@ -1,13 +1,14 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.Order>
 
 @{
-    ViewData["Title"] = "Order Complete";
+    ViewData["Title"] = "Order Cancel";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<h2><i class="fa fa-check" aria-hidden="true"></i>@Html.Raw(strSpacer)Payment Complete</h2>
+<h2><i class="fa fa-ban" aria-hidden="true"></i>
+@Html.Raw(strSpacer)Order Cancelled</h2>
 <br />
 <table class="table orderDetailTable">
     <tr>

@@ -4,130 +4,108 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!-- page heading start-->
-<div class="page-heading">
-    <h3>
-        Start your analysis
-    </h3>
-    <ul class="breadcrumb">
-        <li>
-            Analysis
-        </li>
-        <li class="active">Index</li>
-    </ul>
-</div>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<div class="wrapper">
-
-    <form asp-action="Index">
-        <div class="row">
-            <div class="col-md-6">
-                <section class="panel">
-                    <header class="panel-heading">
-                        Application index
-                    </header>
-                    <div class="panel-body">
-                        Choose modules and upload portfolio:
-                        <a asp-controller="Order" asp-action="Index"
-                           class="btn btn-link _margin-top-32 _margin-bottom-32">
-                            Start analysis
-                        </a>
-                        <br>
-
-                        Return to website index:
-                        <a asp-controller="Home" asp-action="Index"
-                           class="btn btn-link _margin-top-32 _margin-bottom-32">
-                            Homepage
-                        </a>
-                        <br>
-
-                        Get our quarterly newsletter:
-                        <button type="submit" class="btn btn-link  _margin-top-32 _margin-bottom-32">Subscribe</button>
-                    </div>
-                </section>
-
-                <div class="col-md-6">
-                </div>
-
-            </div>
-        </div>
-    </form>
-
-    <div id="box" class=""></div>
-
+<form asp-action="Index">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-8 col-md-offset-2">
+
+            <!-- page heading start-->
+            <div class="page-heading">
+                <h3>
+                    Start your analysis
+                </h3>
+                <ul class="breadcrumb">
+                    <li>
+                        Analysis
+                    </li>
+                    <li class="active">Index</li>
+                </ul>
+            </div>
+            <br />
             <section class="panel">
-                <div class="carousel slide auto panel-body" id="c-slide">
-                    <ol class="carousel-indicators out">
-                        <li data-target="#c-slide" data-slide-to="0" class="active"></li>
-                        <li data-target="#c-slide" data-slide-to="1" class=""></li>
-                        <li data-target="#c-slide" data-slide-to="2" class=""></li>
-                    </ol>
-                    <div class="carousel-inner">
-                        <div class="item text-center active">
-                            <h3>Modular analysis</h3>
-                            <p>Choose the exact solution you need</p>
-                            <small class="text-muted">Customize your impact analysis and modelling solutions</small>
-                        </div>
-                        <div class="item text-center">
-                            <h3>On-demand analysis</h3>
-                            <p>Easy, 2-step process for analysis</p>
-                            <small class="text-muted">Choose your modules and upload your portfolio</small>
-                        </div>
-                        <div class="item text-center">
-                            <h3>Unrivalled insight</h3>
-                            <p>Impact analysis and modelling</p>
-                            <small class="text-muted">Leverage ImpactLeap's analysis to improve performance</small>
+                <header class="panel-heading">
+                    Application index
+                </header>
+                <div class="panel-body">
+
+                    <div class="well">
+                        <h4 class="text-center">
+                            <strong>
+                                Select modules and upload portfolio:
+                            </strong>
+                        </h4>
+                        <br>
+
+                        <div class="text-center">
+                            <a asp-controller="Order"
+                               asp-action="Index"
+                               class="btn btn-primary btn-lg ">
+                                Start analysis
+                            </a>
                         </div>
                     </div>
-                    <a class="left carousel-control" href="#c-slide" data-slide="prev">
-                        <i class="fa fa-angle-left"></i>
-                    </a>
-                    <a class="right carousel-control" href="#c-slide" data-slide="next">
-                        <i class="fa fa-angle-right"></i>
-                    </a>
+
+                    <div class="panel panel-default col-sm-6">
+                        <div class="panel-body">
+                            Return to website index : @Html.Raw(strSpacer)
+                            <a href="http://www.fairbankfinancial.com/"
+                               class="btn btn-default">
+                                <i class="fa fa-home" aria-hidden="true"></i>
+                                @Html.Raw(strSpacer)Homepage
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="panel panel-default col-sm-6">
+                        <div class="panel-body">
+                            Get our quarterly newsletter : @Html.Raw(strSpacer)
+                            <a href="http://www.fairbankfinancial.com/"
+                               class="btn btn-default">
+                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
+                                @Html.Raw(strSpacer)Subscribe
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
-
-        <div class="col-md-6">
-        </div>
     </div>
-
-</div>
-
-
-<!--
-<form asp-action="Index">
-
-    <div class="header__carousel--caption">
-        <h2 class="header__slider--subtitle">We help investors understand their impact.</h2>
-        <p class="header__slider--text">START ANALYSIS AND GET REPORTING SOLUTIONS</p>
-        <a class="header__slider--cta" id="Test" asp-controller="Order" asp-action="Index">
-            Start Analysis
-            <div class="arrow-left"></div>
-            <div class="arrow-right"></div>
-        </a>
-
-        <h2 class="newsletter-text">Subscribe our news letter :</h2>
-        <table class="newsletter-table">
-            <tr>
-                <td><input id="email" asp-for="Email" class="form-control newsletter-input" /></td>
-                <td>
-                    <input type="submit" value="Request" class="impact-btn newsletter-btn" />
-                </td>
-            </tr>
-            <tr>
-                <td colspan="3">
-                    <strong><span asp-validation-for="Email" class="text-danger"></span></strong>
-                </td>
-            </tr>
-
-        </table>
-    </div>
-
 </form>
-    -->
 
-
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <section class="panel">
+            <div class="carousel slide auto panel-body" id="c-slide">
+                <ol class="carousel-indicators out">
+                    <li data-target="#c-slide" data-slide-to="0" class="active"></li>
+                    <li data-target="#c-slide" data-slide-to="1" class=""></li>
+                    <li data-target="#c-slide" data-slide-to="2" class=""></li>
+                </ol>
+                <div class="carousel-inner">
+                    <div class="item text-center active">
+                        <h3>Modular analysis</h3>
+                        <p>Choose the exact solution you need</p>
+                        <small class="text-muted">Customize your impact analysis and modelling solutions</small>
+                    </div>
+                    <div class="item text-center">
+                        <h3>On-demand analysis</h3>
+                        <p>Easy, 2-step process for analysis</p>
+                        <small class="text-muted">Choose your modules and upload your portfolio</small>
+                    </div>
+                    <div class="item text-center">
+                        <h3>Unrivalled insight</h3>
+                        <p>Impact analysis and modelling</p>
+                        <small class="text-muted">Leverage ImpactLeap's analysis to improve performance</small>
+                    </div>
+                </div>
+                <a class="left carousel-control" href="#c-slide" data-slide="prev">
+                    <i class="fa fa-angle-left"></i>
+                </a>
+                <a class="right carousel-control" href="#c-slide" data-slide="next">
+                    <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+        </section>
+    </div>
+</div>

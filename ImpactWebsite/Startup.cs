@@ -47,8 +47,17 @@ namespace ImpactWebsite
             // Use in memory database for unit testing
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseInMemoryDatabase());
-            
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+
+            services.AddIdentity<ApplicationUser, IdentityRole>(identity =>
+            {
+                // Configure identity options
+                identity.Password.RequireDigit = false;
+                identity.Password.RequireLowercase = false;
+                identity.Password.RequireUppercase = false;
+                identity.Password.RequireNonAlphanumeric = false;
+                identity.Password.RequiredLength = 6;
+            })
+
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
 
@@ -56,7 +65,7 @@ namespace ImpactWebsite
             services.AddMemoryCache();
             services.AddSession();
             services.AddMvc();
-            
+
             // Add application services.
             services.AddTransient<IEmailSender, AuthMessageSender>();
             services.AddTransient<ISmsSender, AuthMessageSender>();

@@ -16,13 +16,14 @@
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
-        Select modules
+        <i class="fa fa-check-square-o" aria-hidden="true"></i>
+        @Html.Raw(strSpacer)Select modules
     </h3>
     <ul class="breadcrumb">
         <li>
             Analysis
         </li>
-        <li class="active">Choose modules</li>
+        <li class="active">Select modules</li>
     </ul>
 </div>
 
@@ -79,7 +80,7 @@
                                             </label>
                                         </td>
                                         <td>
-                                            <div class="flat-blue single-row">
+                                            <div class="flat-green single-row">
                                                 <div class="radio _margin-top-0 _margin-bottom-0">
                                                     @if (@i == 0)
                                                     {
@@ -111,8 +112,8 @@
                         <table class="table table-hover general-table">
                             <thead>
                                 <tr>
-                                    <th>Order total</th>
-                                    <th>Total</th>
+                                    <th class="inv-col"><span>Order total</span></th>
+                                    <th class="inv-col"><span>Total</span></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -154,8 +155,11 @@
                         {
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
-                        <div class="form-group" style="margin-top:50px;">
-                            <button type="submit" class="btn btn-primary _margin-top-32 _margin-bottom-32">Next step</button>
+                        <div class="form-group" style="margin-top:60px;">
+                            <button type="submit" class="btn btn-primary btn-lg _margin-top-32">
+                            Next step&nbsp;
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
                         </div>
                     </div>
                 </section>
@@ -173,7 +177,7 @@
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css"/>
 
     <!--icheck-->
-    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/blue.css" >
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css" >
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
     <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
 
@@ -222,32 +226,5 @@
         }
 
 
-    </script>
-
-    <script type="text/javascript">
-         var idNum;
-         $('.Detail').on('click', function () {
-
-             var idNum = $(this).attr('value');
-             var link = '@Url.Action("ModuleDescription", "Order", new { id = "-1" })';
-             var strTitle = $(this).attr('name');
-
-             link = link.replace("-1", idNum);
-
-             $("#AddUserForm").dialog({
-             type: 'GET',
-             autoOpen: true,
-             position: { my: "top", at: "top+150", of: window },
-             width: 600,
-             height: 200,
-             resizable: false,
-             title: strTitle,
-             modal: true,
-             open: function () {
-                 $(this).load(link);
-             },
-             });
-             return false;
-         });
     </script>
 }

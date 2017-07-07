@@ -14,9 +14,9 @@
 
 <!-- page heading start-->
 <div class="page-heading">
-    <h3>
-        Order number: @ViewData["OrderNumber"]
-    </h3>
+    <h3 class="inv-col">
+        Order number:<span>@Html.Raw(strSpacer)@ViewData["OrderNumber"] </span>
+</h3>
     <ul class="breadcrumb">
         <li>
             Analysis
@@ -55,8 +55,8 @@
                               rows="3"
                               style="margin-top:20px; margin-bottom:20px;"></textarea>
 
-                    <input role="button" id="submitFileComment" class="btn btn-primary"
-                           value="Upload file and comment" />
+                    <input role="button" id="submitFileComment" class="btn btn-primary input-icon"                           
+                           value="&#xf093;@Html.Raw(strSpacer)Upload file and comment " />
 
                 </div>
             </section>
@@ -205,11 +205,12 @@
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <a href="@Url.Action("Index", "Billing", new { @orderId = ViewData["OrderId"] })"
-                           class="btn btn-primary"
+                           class="btn btn-primary btn-lg"
                            style="color:white; margin:15px 0 5px 5px;"
                            role="button"
                            id="charge">
-                            Proceed to payment
+                            Proceed to payment&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     }
                     else
@@ -218,10 +219,11 @@
                            asp-controller="Order"
                            asp-action="RegisterLogin"
                            asp-route-id="@ViewData["OrderId"]"
-                           class="btn btn-primary"
+                           class="btn btn-primary btn-lg"
                            style="color:white; margin:15px 0 5px 5px;"
                            role="button">
-                            Proceed to payment
+                            Proceed to payment&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     }
                 </div>

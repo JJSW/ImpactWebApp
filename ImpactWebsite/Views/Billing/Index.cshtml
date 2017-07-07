@@ -11,25 +11,15 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<!--Display payment details as a partial view -->
-<h2>
-    <i class="fa fa-credit-card"></i>
-    @Html.Raw(strSpacer)Billing Infomation
-</h2>
-
-<hr class="customHorizontalRule" />
+@Html.Partial("_BillingInvoice", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
 
 <!--
     Display and connect to Stripe API
     There are 3 conditions to be able to proceed the payment.
     1. Total amount exists
     2. Total amount is not 0 (default module)
-    3. The client has a billing address
+    3. The client has a billing address (optional)
 -->
-<h3>
-    <i class="fa fa-cc-stripe" aria-hidden="true"></i>
-    @Html.Raw(strSpacer)Payment
-</h3>
 @if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] != 0)
 {
     var orderId = 0;
@@ -43,35 +33,34 @@
     -->
     <form action="/Billing/Charge" method="post">
 
-        <div class="list-group">
-            <h3 class="list-group-item" style="margin:30px; width:250px;">
-                <b>Total Amount: </b>$@ViewData["AmountDisplay"]
-            </h3>
+        <div class="btn-center">
+            <input type="submit"
+                   id="StripePay"
+                   value="Pay with card"
+                   class="btn btn-primary btn-lg"
+                   role="button"
+                   data-key='@Stripe.Value.PublishableKey'
+                   data-amount="@ViewData["Amount"]"
+                   data-currency="cad"
+                   data-name="Impact Website"
+                   data-description="@ViewData["ModuleCount"] Module(s)"
+                   data-email="@ViewData["Email"]"
+                   data-billing-address="false"
+                   data-zip-code="false"
+                   data-locale="auto"
+                   data-image="/images/favicon.png" />
+
+            <span>
+                <a asp-controller="Billing"
+                   asp-action="Cancel"
+                   asp-route-id="@ViewData["OrderId"]"
+                   role="button"
+                   class="btn btn-default btn-lg"
+                   style="margin-left:15px;">
+                    Cancel
+                </a>
+            </span>
         </div>
-
-        <input type="submit"
-               id="StripePay"
-               value="Pay with Card  >>"
-               class="btn btn-primary"
-               role="button"
-               data-key='@Stripe.Value.PublishableKey'
-               data-amount="@ViewData["Amount"]"
-               data-currency="cad"
-               data-name="Impact Website"
-               data-description="@ViewData["ModuleCount"] Module(s)"
-               data-email="@ViewData["Email"]"
-               data-billing-address="false"
-               data-zip-code="false"
-               data-locale="auto"
-               data-image="/images/favicon.png" />
-
-        <a asp-controller="Home"
-           asp-action="Index"
-           role="button"
-           class="impact-btn neworder-btn"
-           style="margin-top:15px; display:table;">
-            Cancel
-        </a>
 
         <!--
             Creates Stripe tokens for custom payment process.
@@ -113,7 +102,7 @@ else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
     foreach (var a in Model) { orderId = a.OrderId; }
 
     <div style="margin:30px 30px 0px 30px; display:table;">
-        <a class="btn btn-primary" 
+        <a class="btn btn-primary"
            href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
             Complete Order
         </a>
@@ -126,12 +115,12 @@ else
     </div>
 }
 
-<br />
-<hr />
+<br /><br />
+
+<!--Display payment details as a partial view -->
 @Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
 
-
-
+<br /><br />
 
 <!--Display billing address details as a partial view
 <hr/>

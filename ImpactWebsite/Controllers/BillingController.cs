@@ -160,7 +160,7 @@ namespace ImpactWebsite.Controllers
                 Currency = "cad",
                 CustomerId = customer.Id,
             });
-          
+
             /* For further development
              * 
             var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.BillingAddressId == bAddressId);
@@ -175,13 +175,30 @@ namespace ImpactWebsite.Controllers
             };
             */
 
-            foreach (var order in completedOrders) { order.OrderStatus = OrderStatusList.Processing; }
+            foreach (var order in completedOrders)
+            {
+                order.OrderStatus = OrderStatusList.Processing;
+            }
 
             _context.Orders.SingleOrDefault(o => o.OrderId == orderId).IsPromotionCodeApplied = true;
 
             await _context.SaveChangesAsync();
 
             return View(completedOrders);
+        }
+
+        public async Task<IActionResult> Cancel(int id)
+        {
+            var orders = _context.Orders.Where(x => x.OrderId == id);
+
+            foreach (var order in orders)
+            {
+                order.OrderStatus = OrderStatusList.Cancelled;
+            }
+
+            await _context.SaveChangesAsync();
+
+            return View(orders);
         }
 
         public IActionResult Error()

@@ -76,13 +76,13 @@
                                         @Model.ElementAt(@i).OrderedDate.ToString("yyyy-MM-dd")
                                     </td>
                                     <td>
-                                        @Model.ElementAt(@i).ModuleIds
+                                        @Html.DisplayFor(Model => Model.ElementAt(@i).ModuleIds)
                                     </td>
                                     <td>
                                         $@totalAmountDollar
                                     </td>
                                     <td>
-                                        @Model.ElementAt(@i).OrderStatus
+                                        @Html.DisplayFor(Model => Model.ElementAt(@i).OrderStatus)                                        
                                     </td>
                                     <td>
                                         <a asp-controller="OrderSummary"

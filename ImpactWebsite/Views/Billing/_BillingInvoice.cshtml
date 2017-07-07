@@ -1,0 +1,50 @@
+@using ImpactWebsite.Models.BillingModels
+@model IEnumerable<ImpactWebsite.Models.BillingModels.BillingDetailViewModel>
+
+@{
+    ViewData["Title"] = "BillingDetails";
+}
+
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+@if (Model != null)
+{
+    <div class="panel">
+        <div class="panel-body invoice">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-0 col-sm-4 col-sm-offset-0">
+                    <h1 class="invoice-title">invoice</h1>
+                </div>
+                <div class="col-md-4 col-md-offset-3 col-sm-4 col-sm-offset-3">
+                    <img class="inv-logo" src="~/images/ImpactLeap-logo-gray-bg-blue.png" alt="" />
+                    <p>
+                        422 Richard Street, Vancouver <br />
+                        V6G 1B5 CANADA <br />
+                        Phone : 000-0000-0000
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="invoice-address" style="margin:auto;">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-0 col-sm-4 col-sm-offset-0">
+                    <h4 class="inv-to">Invoice To</h4>
+                    <h2 class="corporate-id">Impact Leap</h2>
+                    <p>
+                        422 Richard Street, Vancouver<br>
+                        Vancouver CANADA<br>
+                        Phone: 000-0000-0000, Email : email@email.com
+                    </p>
+                </div>
+                <div class="col-md-4 col-md-offset-3 col-sm-4 col-sm-offset-3">
+                    <div class="inv-col"><span>Order Number : </span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</div>
+                    <div class="inv-col"><span>Order Date :  </span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate)</div>
+                    <div class="inv-col"><span>Order Status :</span>@Html.Raw(strSpacer)@Html.DisplayFor(Model => Model.FirstOrDefault().OrderStatus)</div>
+                    <h1 class="t-due">TOTAL DUE</h1>
+                    <h2 class="amnt-value">$@ViewData["AmountDisplay"]</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+}

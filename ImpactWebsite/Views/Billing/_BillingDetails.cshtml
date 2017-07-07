@@ -16,97 +16,91 @@
     }
 }
 
-<h3><i class="fa fa-check-square-o"></i>@Html.Raw(strSpacer)Order Details</h3>
+
 @if (Model != null)
 {
-    <div style="margin-top:20px; margin-bottom:20px;">
-        <h5>@Html.Raw(strSpacer)<b>Order Number : </b>@Html.DisplayFor(Model => Model.FirstOrDefault().OrderNum)</h5>
-        <h5>@Html.Raw(strSpacer)<b>Ordered Date : </b>@Html.DisplayFor(Model => Model.FirstOrDefault().OrderedDate)</h5>
-        <h5>@Html.Raw(strSpacer)<b>Order Status : </b>@Html.DisplayFor(Model => Model.FirstOrDefault().OrderStatus)</h5>
-    </div>
+    <div class="panel">
+        <div class="row">
+            <div class="col-md-6">
+                <table class="table table-bordered table-invoice table-invoice-detail">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>@Html.DisplayNameFor(model => model.ModuleName)</th>
+                            <th class="text-center">Unit Price</th>
+                        </tr>
+                    </thead>
 
-    <div class="row">
-        <div class="col-md-6">
-            <table class="table table-bordered" style="max-width:500px;">
-                <tr>
-                    <th>
-                        #
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.ModuleName)
-                    </th>
-                    <th>
-                        @Html.DisplayNameFor(model => model.UnitPrice)
-                    </th>
-                </tr>
-
-                @for (int i = 0; i < Model.Count(); i++)
+                    <tbody>
+                        @for (int i = 0; i < Model.Count(); i++)
                 {
                     var moduleNum = @i + 1;
-                    <tr>
-                        <td>
-                            @moduleNum
-                        </td>
-                        <td>
-                            @Model.ElementAt(@i).ModuleName
-                        </td>
-                        <td>
-                            $@Model.ElementAt(@i).UnitPrice
-                        </td>
-                    </tr>
-                }
-            </table>
+                            <tr>
+                                <td>@moduleNum</td>
+                                <td>@Model.ElementAt(@i).ModuleName</td>
+                                <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+            @if (uploadedFileName != null)
+                {
+                <div class="col-md-6">
+                    <table class="table table-bordered table-invoice table-invoice-detail">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.UploadedFileName)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
+
+            @if (noteFromUser != null)
+                {
+                <div class="col-md-6">
+                    <table class="table table-bordered table-invoice table-invoice-detail displayFullNote">
+                        <thead>
+                            <tr>
+                                <th>
+                                    Note
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            }
         </div>
-
-        @if (uploadedFileName != null)
-        {
-            <div class="col-md-6">
-                <table class="table table-bordered" style="max-width:500px;">
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.UploadedFileName)
-                        </th>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(Model => Model.FirstOrDefault().UploadedFileName)
-                        </td>
-                    </tr>
-
-                </table>
-            </div>
-        }
-
-        @if (noteFromUser != null)
-        {
-            <div class="col-md-6">
-                <table class="table displayFullNote table-bordered" style="max-width:500px;">
-                    <tr>
-                        <th>
-                            Note
-                        </th>
-                    </tr>
-
-                    <tr>
-                        <td>
-                            @Html.DisplayFor(Model => Model.FirstOrDefault().NoteFromUser)
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        }
-
     </div>
-
 }
+
 else
 {
-    <div style="margin:30px;">
-        <p>You haven't selected module(s) yet. </p>
-    </div>
-    <a class="impact-btn" id="Test" asp-controller="Order" asp-action="Index">
-        Start Analysis
-    </a>
+    <div class="panel">
+        <div style="margin:30px;">
+            <p>You haven't selected module(s) yet. </p>
+        </div>
+        <a class="impact-btn" id="Test" asp-controller="Order" asp-action="Index">
+            Start Analysis
+        </a>
         <br />
+    </div>
 }

@@ -48,7 +48,7 @@
                     <a asp-area=""
                        asp-controller="Home"
                        asp-action="Index"
-                       class="navbar-brand">
+                       class="navbar-brand main-nav-left">
                         <img src="~/images/ImpactLeap-logo-gray-bg-blue.png" alt="logo">
                     </a>
                 </div>
@@ -61,17 +61,17 @@
         </nav>
 
         <!--body wrapper start-->
-        <div class="wrapper">
-            <div class="body-content">
-                @RenderBody()
-            </div>
+        <div class="body-content">
+            @RenderBody()
         </div>
         <!--body wrapper end-->
+
         <!--footer section start-->
         <footer class="sticky-footer">
             &copy; 2017 ImpactLeap
         </footer>
         <!--footer section end-->
+
         <!-- Modal -->
         <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
             <div class="modal-dialog">
@@ -101,8 +101,6 @@
     <script type="text/javascript" src="~/js/scripts.js"></script>
     <script type="text/javascript" src="~/js/site.js" asp-append-version="true"></script>
     <script type="text/javascript" src="~/js/modernizr.min.js"></script>
-
-
 
 
     @RenderSection("Scripts", required: false)
