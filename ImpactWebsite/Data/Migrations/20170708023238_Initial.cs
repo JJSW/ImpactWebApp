@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class init : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -31,7 +31,6 @@ namespace WebApplication1.Data.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "FirstName",
                 table: "AspNetUsers",
-                maxLength: 160,
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
@@ -43,7 +42,6 @@ namespace WebApplication1.Data.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
                 table: "AspNetUsers",
-                maxLength: 160,
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
@@ -87,21 +85,6 @@ namespace WebApplication1.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Investments", x => x.InvestmentId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "NewsletterUsers",
-                columns: table => new
-                {
-                    NewsletterUserId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Email = table.Column<string>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    isSubscribed = table.Column<bool>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_NewsletterUsers", x => x.NewsletterUserId);
                 });
 
             migrationBuilder.CreateTable(
@@ -284,9 +267,6 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Investments");
-
-            migrationBuilder.DropTable(
-                name: "NewsletterUsers");
 
             migrationBuilder.DropTable(
                 name: "Orders");

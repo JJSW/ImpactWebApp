@@ -23,29 +23,7 @@ namespace ImpactWebsite.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            ViewData["status"] = "get";
-            NewsletterUser nlUser = new NewsletterUser();
-            return View(nlUser);
-        }
-
-        [HttpPost]        
-        public async Task<IActionResult> Index(NewsletterUser model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (_context.NewsletterUsers.Any(a => a.Email == model.Email))
-                {
-                    ModelState.AddModelError("Email", "Email " + model.Email + " is already in use.");
-                    ViewData["status"] = "fail";
-                    return View(model);
-                }
-                model.ModifiedDate = DateTime.Now;
-                _context.Add(model);
-                await _context.SaveChangesAsync();
-                ViewData["status"] = "success";
-                return View(model);
-            }
-            return View(model);
+            return View();
         }
 
         public IActionResult About()

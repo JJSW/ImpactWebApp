@@ -22,7 +22,6 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
 
-
         public Module Module { get; set; }
     }
 }

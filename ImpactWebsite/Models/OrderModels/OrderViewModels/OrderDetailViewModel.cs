@@ -46,5 +46,8 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Billing Address Number")]
         public Int32 BillingAddressId { get; set; }
 
+        [Display(Name = "Promotion")]
+        public Promotion Promotion { get; set; }
+
     }
 }

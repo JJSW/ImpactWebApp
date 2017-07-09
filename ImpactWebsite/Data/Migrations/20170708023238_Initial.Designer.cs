@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170629051757_init")]
-    partial class init
+    [Migration("20170708023238_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -38,13 +38,11 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName")
-                        .HasMaxLength(160);
+                    b.Property<string>("FirstName");
 
                     b.Property<bool>("IsTempUser");
 
-                    b.Property<string>("LastName")
-                        .HasMaxLength(160);
+                    b.Property<string>("LastName");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -136,23 +134,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasKey("InvestmentId");
 
                     b.ToTable("Investments");
-                });
-
-            modelBuilder.Entity("ImpactWebsite.Models.NewsletterUser", b =>
-                {
-                    b.Property<int>("NewsletterUserId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Email")
-                        .IsRequired();
-
-                    b.Property<DateTime>("ModifiedDate");
-
-                    b.Property<bool>("isSubscribed");
-
-                    b.HasKey("NewsletterUserId");
-
-                    b.ToTable("NewsletterUsers");
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>

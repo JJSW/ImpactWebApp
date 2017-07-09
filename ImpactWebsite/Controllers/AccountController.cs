@@ -127,10 +127,7 @@ namespace ImpactWebsite.Controllers
                     UserName = model.Email,
                     Email = model.Email,
                     EmailConfirmed = true,
-                    FirstName = model.FirstName,
-                    LastName = model.LastName,
                     CompanyName = model.CompanyName,
-                    PhoneNumber = model.PhoneNumber,
                     NewsletterRequired = model.NewsletterRequired
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);

@@ -45,7 +45,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> Index(int? orderId)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            List<BillingDetailViewModel> billingVM = new List<BillingDetailViewModel>();
+            List<BillingDetailViewModel> billingVMs = new List<BillingDetailViewModel>();
             var totalAmount = 0;
             var moduleCount = 0;
 
@@ -79,7 +79,7 @@ namespace ImpactWebsite.Controllers
 
                 foreach (var billing in temps)
                 {
-                    billingVM.Add(new BillingDetailViewModel()
+                    billingVMs.Add(new BillingDetailViewModel()
                     {
                         OrderId = billing.OrderId,
                         OrderNum = billing.OrderNum,
@@ -94,13 +94,13 @@ namespace ImpactWebsite.Controllers
                     });
                 };
 
-                foreach (var billing in billingVM)
+                foreach (var billing in billingVMs)
                 {
                     moduleCount += 1;
                     totalAmount = billing.TotalAmount;
                 }
 
-                ViewBag.BillingDetails = billingVM;
+                ViewBag.BillingDetails = billingVMs;
 
                 ViewData["Amount"] = totalAmount;
                 ViewData["AmountDisplay"] = totalAmount / _dollarCent;
@@ -115,7 +115,7 @@ namespace ImpactWebsite.Controllers
             ViewBag.BillingAddress = billingAddress;
             _amountInt = totalAmount;
 
-            return View(billingVM);
+            return View(billingVMs);
         }
 
         /// Get order when a user select the default module.

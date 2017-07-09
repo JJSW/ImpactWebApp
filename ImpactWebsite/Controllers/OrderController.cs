@@ -103,8 +103,6 @@ namespace ImpactWebsite.Controllers
                 });
             }
 
-
-
             return View(tempOrders);
         }
 
@@ -123,7 +121,8 @@ namespace ImpactWebsite.Controllers
             ViewData["OrderNumber"] = _orderNumber;
             ViewData["Email"] = _emailAddress;
 
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId)
+                .Include(o => o.Module.UnitPrice);
             return View(OrderDetails.ToList());
         }
 
@@ -202,7 +201,7 @@ namespace ImpactWebsite.Controllers
                 TotalAmount = parsedTotalAmountToPay * _dollarCent,
                 SelectionDiscount = parsedSelectionDiscount,
                 PromotionId = -1,
-                OrderNum = _orderNumber,                
+                OrderNum = _orderNumber,
             });
 
             await _context.SaveChangesAsync();
@@ -212,7 +211,8 @@ namespace ImpactWebsite.Controllers
             CreateOrderDetail(collection);
             CreateModuleIds();
 
-            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(o => o.Module.UnitPrice);
+            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId)
+                .Include(o => o.Module.UnitPrice);
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
@@ -253,7 +253,7 @@ namespace ImpactWebsite.Controllers
                 });
             }
 
-            _context.SaveChanges();        
+            _context.SaveChanges();
         }
 
         private string CreateOrderPattern()
@@ -394,7 +394,7 @@ namespace ImpactWebsite.Controllers
 
             return RedirectToAction("NewOrder");
         }
-      
+
         [HttpPost]
         public string SubmitNote(string noteFromUser)
         {
@@ -406,7 +406,7 @@ namespace ImpactWebsite.Controllers
             _context.SaveChanges();
 
             return "Saved";
-        }        
+        }
 
         [HttpGet]
         public IActionResult GoRegisterPartial()
@@ -424,21 +424,21 @@ namespace ImpactWebsite.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> RegisterLogin(int id)
+        public async Task<IActionResult> CheckTempUser(int id)
         {
             ViewData["OrderId"] = _orderId;
             string userEmail = _context.Orders.FirstOrDefault(o => o.OrderId == id).UserEmail;
 
             if (await _userManager.FindByEmailAsync(userEmail) == null)
             {
-                ViewData["checkUser"] = "NeedRegister";
+                ViewData["CheckUser"] = "NeedRegister";
             }
             else
             {
-                ViewData["checkUser"] = "NeedLogin";
+                ViewData["CheckUser"] = "NeedLogin";
             }
 
-            return View("RegisterLogin");
+            return View("CheckTempUser");
         }
 
         //
@@ -456,14 +456,21 @@ namespace ImpactWebsite.Controllers
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> PartialRegister(PartialRegisterViewModel model, string returnUrl = null)
+        public async Task<IActionResult> PartialRegister(RegisterViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["Email"] = _emailAddress;
             ViewData["OrderId"] = _orderId;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, NewsletterRequired = model.NewsletterRequired };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    CompanyName = model.CompanyName,
+                    NewsletterRequired = model.NewsletterRequired
+                };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

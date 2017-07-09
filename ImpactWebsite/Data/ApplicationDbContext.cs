@@ -26,7 +26,6 @@ namespace ImpactWebsite.Data
         // User models
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public DbSet<BillingAddress> BillingAddresses { get; set; }
-        public DbSet<NewsletterUser> NewsletterUsers { get; set; }
 
         // Order models
         public DbSet<Order> Orders { get; set; }

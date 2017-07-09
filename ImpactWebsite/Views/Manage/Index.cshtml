@@ -5,24 +5,18 @@
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
+<div class="col-md-5 center-column">
+    <div class="page-heading">
+        <h3>User Profile</h3>
+        <ul class="breadcrumb">
+            <li>
+                Admin account
+            </li>
+            <li class="active">User Profile</li>
+        </ul>
+    </div>
 
-<div class="page-heading">
-    <h3>
-        <i class="fa fa-user" aria-hidden="true"></i>
-        @Html.Raw(strSpacer)User Profile
-    </h3>
-    <ul class="breadcrumb">
-        <li>
-            Admin account
-        </li>
-        <li class="active">User Profile</li>
-    </ul>
-</div>
-
-<p class="text-success">@ViewData["StatusMessage"]</p>
-
-<div class="wrapper">
-    <div class="col-md-5">
+    <div class="wrapper">
         <div class="panel">
             <div class="panel-body">
                 <ul class="p-info">
@@ -39,7 +33,7 @@
                         <div class="desk">@Html.DisplayFor(Model => Model.CompanyName)</div>
                     </li>
                     <li>
-                        <div class="title">@Html.DisplayNameFor(Model => Model.PhoneNumber)</div>
+                        <div class="title">Phone Number</div>
                         <div class="desk">@Html.DisplayFor(Model => Model.PhoneNumber)</div>
                     </li>
                     <li>
@@ -76,13 +70,13 @@
                     </li>
                 </ul>
             </div>
+            <a asp-controller="Manage"
+               asp-action="EditUserInfo"
+               class="btn btn-primary btn-margin-15"
+               role="button">
+                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                @Html.Raw(strSpacer)Edit
+            </a>
         </div>
     </div>
 </div>
-
-<a asp-controller="Manage"
-   asp-action="EditUserInfo"
-   class="btn btn-default"
-   role="button">
-    <span class="glyphicon glyphicon-edit"></span>@Html.Raw(strSpacer)Edit
-</a>

@@ -31,7 +31,7 @@
         <div class="col-md-6">
             <section class="panel">
                 <header class="panel-heading">
-                    Upload portffolio
+                    Upload portfolio
                     <span class="tools pull-right">
                         <a href="javascript:;" class="fa fa-chevron-down"></a>
                     </span>
@@ -84,9 +84,8 @@
                     <table class="table table-hover general-table">
                         <thead>
                             <tr>
-                                <td class="col-sm-0"></td>
-                                <td class="col-sm-1"></td>
-                                <td class="col-sm-11"></td>
+                                <td class="col-sm-4"></td>
+                                <td class="col-sm-8"></td>
                             </tr>
                         </thead>
                         <tbody>
@@ -99,7 +98,6 @@
                         </tbody>
 
                         <tr>
-                            <td></td>
                             <td class="text-left">
                                 Sub-total
                             </td>
@@ -110,9 +108,8 @@
 
 
                         <tr>
-                            <td></td>
                             <td class="text-left text-danger">
-                                Saving
+                                Multiple module saving
                             </td>
                             @if (!object.Equals(ViewBag.SelectionDiscount, "0"))
                             {
@@ -128,7 +125,6 @@
                             }
                         </tr>
                         <tr>
-                            <td></td>
                             <td class="text-left text-danger">
                                 Promotion Discount
                             </td>
@@ -148,7 +144,6 @@
                         </tr>
 
                         <tr>
-                            <td></td>
                             <td style="font-size:medium; font-weight: bold;" align="left">
                                 Total to pay :
                             </td>
@@ -165,71 +160,62 @@
                                 <td><b style="font-size: large;">0</b></td>
                             }
                         </tr>
-
-                        <tr>
-                            <td></td>
-                            <td>
-                                @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
-                                {
-                                    <button id="promoCode"
-                                            asp-controller="Order"
-                                            asp-action="SubmitPromoCode"
-                                            class="btn btn-success pull-left">
-
-                                        <i class="fa fa-barcode" aria-hidden="true"></i>
-                                        @Html.Raw(strSpacer)Promotion Code
-
-                                    </button>
-                                }
-                                else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
-                                {
-                                    <button class="btn btn-default pull-left" pointer-events:none;">
-
-                                        <i class="fa fa-check" aria-hidden="true"></i>
-                                        @Html.Raw(strSpacer)Applied
-
-                                    </button>
-                                }
-                                else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
-                                {
-                                    <button id="promoCode"
-                                            asp-controller="Order"
-                                            asp-action="SubmitPromoCode"
-                                            class="btn btn-default pull-left">
-
-                                        <i class="fa fa-barcode" aria-hidden="true"></i>
-                                        @Html.Raw(strSpacer)Promotion Code
-
-                                    </button>
-                                    <p style="text-align:center; margin-top:20px;" class="text-danger">
-                                        The promotion code is already used
-                                    </p>
-                                }
-
-                            </td>
-                            <td></td>
-                        </tr>
                     </table>
 
+
+                    @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
+                    {
+                        <button id="promoCode"
+                                asp-controller="Order"
+                                asp-action="SubmitPromoCode"
+                                class="btn btn-success">
+                            <i class="fa fa-barcode" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Promotion Code
+                        </button>
+                    }
+                    else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
+                    {
+                        <button class="btn btn-success disabled" pointer-events:none;">
+
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Applied
+
+                        </button>
+                    }
+                    else if (ViewBag.PromotionStatus == PromotionStatusList.Used)
+                    {
+                        <button id="promoCode"
+                                asp-controller="Order"
+                                asp-action="SubmitPromoCode"
+                                class="btn btn-success">
+
+                            <i class="fa fa-barcode" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Promotion Code
+
+                        </button>
+                        <p style="text-align:center; margin-top:20px;" class="text-danger">
+                            The promotion code is already used
+                        </p>
+                    }
+
+                    <br />
                     @if (SignInManager.IsSignedIn(User))
                     {
                         <a href="@Url.Action("Index", "Billing", new { @orderId = ViewData["OrderId"] })"
-                           class="btn btn-primary btn-lg"
-                           style="color:white; margin:15px 0 5px 5px;"
+                           class="btn btn-primary btn-new-order"
                            role="button"
-                           id="charge">
+                           id="proceedButton">
                             Proceed to payment&nbsp;
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
                         </a>
                     }
                     else
                     {
-                        <a id="charge"
+                        <a id="proceedButton"
                            asp-controller="Order"
-                           asp-action="RegisterLogin"
+                           asp-action="CheckTempUser"
                            asp-route-id="@ViewData["OrderId"]"
-                           class="btn btn-primary btn-lg"
-                           style="color:white; margin:15px 0 5px 5px;"
+                           class="btn btn-primary btn-new-order"
                            role="button">
                             Proceed to payment&nbsp;
                             <i class="fa fa-arrow-right" aria-hidden="true"></i>
@@ -243,7 +229,7 @@
     </div>
 </div>
 
-<div id="AddUserForm"></div>
+<div id="addUserForm"></div>
 
 @section scripts{
 
@@ -253,6 +239,7 @@
     <script type="text/javascript" src="~/lib/dropzone/dist/dropzone.js"></script>
 
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
     <script type="text/javascript">
         $(document).ready(function () {
@@ -330,21 +317,36 @@
     </script>
 
     <script type="text/javascript">
-        $('#promoCode').on('click', function () {
-            $("#AddUserForm").dialog({
-            type: 'GET',
-            autoOpen: true,
-            position: { my: "top", at: "top+150", of: window },
-            width: 400,
-            height: 150,
-            resizable: true,
-            title: 'Enter your promotional code',
-            modal: true,
-            open: function () {
-                $(this).load('@Url.Action("SubmitPromoCode", "Order")');
-            },
-        });
+        $("#promoCode").on("click", function () {
+            $("#addUserForm").dialog({
+                type: "GET",
+                autoOpen: true,
+                resizable: true,
+                modal: true,
+                draggable: false,
+                title: "Enter your promotion code",
+                position: { my: "top", at: "top+50", of: window },
+                show: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                hide: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                width: 600,
+                height: 200,
+
+                open: function () {
+                    $(this).load('@Url.Action("SubmitPromoCode", "Order")');
+                },
+            });
         return false;
+        });
+    </script>
+
+    <script type="text/javascript">
+        $("#proceedButton").on("click", function () {
+            if ($("#noteFromUser").val() != null) {
+            }
         });
     </script>
 }

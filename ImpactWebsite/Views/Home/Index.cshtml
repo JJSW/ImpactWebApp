@@ -1,6 +1,4 @@
-﻿@model ImpactWebsite.Models.NewsletterUser
-
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -8,7 +6,7 @@
 
 <form asp-action="Index">
     <div class="row">
-        <div class="col-md-7 center-column" >
+        <div class="col-md-8 center-column" >
 
             <!-- page heading start-->
             <div class="page-heading">
@@ -49,10 +47,8 @@
                     <div class="panel panel-default col-md-6 left">
                         <div class="panel-body">
                             Return to website index : @Html.Raw(strSpacer)
-                            <a href="http://www.fairbankfinancial.com/"
-                               class="btn btn-default">
-                                <i class="fa fa-home" aria-hidden="true"></i>
-                                @Html.Raw(strSpacer)Homepage
+                            <a href="http://www.fairbankfinancial.com/">
+                                Homepage
                             </a>
                         </div>
                     </div>
@@ -60,10 +56,8 @@
                     <div class="panel panel-default col-md-6 right">
                         <div class="panel-body">
                             Get our quarterly newsletter : @Html.Raw(strSpacer)
-                            <a href="http://www.fairbankfinancial.com/"
-                               class="btn btn-default">
-                                <i class="fa fa-newspaper-o" aria-hidden="true"></i>
-                                @Html.Raw(strSpacer)Subscribe
+                            <a href="">
+                               Subscribe
                             </a>
                         </div>
                     </div>
@@ -72,40 +66,3 @@
         </div>
     </div>
 </form>
-
-<div class="row">
-    <div class="col-md-7 center-column">
-        <section class="panel">
-            <div class="carousel slide auto panel-body" id="c-slide">
-                <ol class="carousel-indicators out">
-                    <li data-target="#c-slide" data-slide-to="0" class="active"></li>
-                    <li data-target="#c-slide" data-slide-to="1" class=""></li>
-                    <li data-target="#c-slide" data-slide-to="2" class=""></li>
-                </ol>
-                <div class="carousel-inner">
-                    <div class="item text-center active">
-                        <h3>Modular analysis</h3>
-                        <p>Choose the exact solution you need</p>
-                        <small class="text-muted">Customize your impact analysis and modelling solutions</small>
-                    </div>
-                    <div class="item text-center">
-                        <h3>On-demand analysis</h3>
-                        <p>Easy, 2-step process for analysis</p>
-                        <small class="text-muted">Choose your modules and upload your portfolio</small>
-                    </div>
-                    <div class="item text-center">
-                        <h3>Unrivalled insight</h3>
-                        <p>Impact analysis and modelling</p>
-                        <small class="text-muted">Leverage ImpactLeap's analysis to improve performance</small>
-                    </div>
-                </div>
-                <a class="left carousel-control" href="#c-slide" data-slide="prev">
-                    <i class="fa fa-angle-left"></i>
-                </a>
-                <a class="right carousel-control" href="#c-slide" data-slide="next">
-                    <i class="fa fa-angle-right"></i>
-                </a>
-            </div>
-        </section>
-    </div>
-</div>

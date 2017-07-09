@@ -4,13 +4,13 @@
     ViewData["Title"] = "Investment";
 }
 
-<form id="form" asp-action="SubmitPromoCode" asp-controller="Order" method="post" role="form">
-    <div style="width: 350px; margin-left: 10px; margin-top: 20px;">
-        <div style="width: 250px; float: left;">
-            <input asp-for="PromotionCode" class="form-control" />
+<form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Order" method="post" role="form">    
+    <div class="form-group">
+        <div class="col-sm-6 col-sm-offset-3">
+            <input asp-for="PromotionCode" class="form-control" placeholder="promotion code" />
             <span asp-validation-for="PromotionCode" class="text-danger"></span>
-        </div>
-        <input style="width: 90px; margin-left: 10px; " type="submit" value="Apply" class="btn btn-primary" />
+        </div> 
+        <input style="width: 70px; margin-top: 60px; margin-right:20px; float:right;" type="submit" class="btn btn-primary" value="Apply" />
     </div>
 </form>
 
@@ -19,21 +19,19 @@
 <script>
     $('#form').on('submit', function (e) {
         e.preventDefault();
-        if ($(this).valid()) { // This checks if the form is valid
+        if ($(this).valid()) {
             $.ajax({
                 url: this.action,
                 type: this.method,
                 data: $(this).serialize(),
                 success: function (result) {
                     if (result.success == false) {
-                        alert('Promotion Code is not available');
+                        alert('The promotion code is not available');
                     } else {
                         window.location = 'NewOrder';
                     }
                 },
             });
         };
-
     });
-
 </script>
