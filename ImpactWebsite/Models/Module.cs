@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
-    public class Module
+    public class Module : BaseEntity
     {
         [Key]
         public Int32 ModuleId { get; set; }

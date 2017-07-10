@@ -13,8 +13,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot/images\background_1.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\css\bootstrap-reset.css" />
-    <Content Include="wwwroot\css\Jquery-ui-modal.css" />
     <Content Include="wwwroot\css\site.css">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
@@ -23,21 +26,37 @@
     <Content Include="wwwroot\images\404-error.png" />
     <Content Include="wwwroot\images\500-error.png" />
     <Content Include="wwwroot\images\alert.png" />
+    <Content Include="wwwroot\images\back_disabled.png" />
+    <Content Include="wwwroot\images\back_enabled.png" />
+    <Content Include="wwwroot\images\back_enabled_hover.png" />
     <Content Include="wwwroot\images\details_close.png" />
     <Content Include="wwwroot\images\details_open.png" />
     <Content Include="wwwroot\images\error.png" />
+    <Content Include="wwwroot\images\forward_disabled.png" />
+    <Content Include="wwwroot\images\forward_enabled.png" />
+    <Content Include="wwwroot\images\forward_enabled_hover.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
     <Content Include="wwwroot\images\input-spinner.gif" />
-    <Content Include="wwwroot\images\login-bg.jpg" />
     <Content Include="wwwroot\images\minus.png" />
     <Content Include="wwwroot\images\plus-white.png" />
     <Content Include="wwwroot\images\plus.png" />
+    <Content Include="wwwroot\images\sort_asc.png" />
+    <Content Include="wwwroot\images\sort_asc_disabled.png" />
+    <Content Include="wwwroot\images\sort_both.png" />
+    <Content Include="wwwroot\images\sort_desc copy.png" />
+    <Content Include="wwwroot\images\sort_desc.png" />
+    <Content Include="wwwroot\images\sort_desc_disabled.png" />
     <Content Include="wwwroot\js\bootstrap.min.js" />
+    <Content Include="wwwroot\js\dynamic_table_init.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
     <Content Include="wwwroot\js\html5shiv.js" />
     <Content Include="wwwroot\js\icheck-init.js" />
     <Content Include="wwwroot\js\modernizr.min.js" />
     <Content Include="wwwroot\js\respond.min.js" />
     <Content Include="wwwroot\js\scripts.js" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_asc.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_both.png" />
+    <Content Include="wwwroot\lib\datatables\media\images\sort_desc.png" />
     <Content Include="wwwroot\lib\dropzone\.bower.json" />
     <Content Include="wwwroot\lib\dropzone\bower.json" />
     <Content Include="wwwroot\lib\dropzone\dist\basic.css" />

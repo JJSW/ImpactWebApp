@@ -17,7 +17,7 @@ namespace ImpactWebsite.Models.OrderModels
         Cancelled = 3,       
     }
 
-    public class Order
+    public class Order : BaseEntity
     {
         [Key]
         [Display(Name = "Order ID")]

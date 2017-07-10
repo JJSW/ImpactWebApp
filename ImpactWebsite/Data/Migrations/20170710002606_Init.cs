@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace WebApplication1.Data.Migrations
 {
-    public partial class Initial : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -25,12 +25,12 @@ namespace WebApplication1.Data.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "CompanyName",
                 table: "AspNetUsers",
-                maxLength: 160,
                 nullable: true);
 
             migrationBuilder.AddColumn<string>(
                 name: "FirstName",
                 table: "AspNetUsers",
+                maxLength: 20,
                 nullable: true);
 
             migrationBuilder.AddColumn<bool>(
@@ -42,7 +42,14 @@ namespace WebApplication1.Data.Migrations
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
                 table: "AspNetUsers",
+                maxLength: 20,
                 nullable: true);
+
+            migrationBuilder.AddColumn<DateTime>(
+                name: "ModifiedDate",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
             migrationBuilder.AddColumn<bool>(
                 name: "NewsletterRequired",
@@ -61,6 +68,7 @@ namespace WebApplication1.Data.Migrations
                     BillingName = table.Column<string>(nullable: true),
                     City = table.Column<string>(maxLength: 50, nullable: true),
                     Country = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     State = table.Column<string>(nullable: true),
                     UserId = table.Column<string>(nullable: true),
                     ZipCode = table.Column<string>(maxLength: 10, nullable: true)
@@ -97,6 +105,7 @@ namespace WebApplication1.Data.Migrations
                     DeliveredDate = table.Column<DateTime>(nullable: true),
                     InvestmentId = table.Column<int>(nullable: false),
                     IsPromotionCodeApplied = table.Column<bool>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleIds = table.Column<string>(nullable: true),
                     NoteFromAdmin = table.Column<string>(nullable: true),
                     NoteFromUser = table.Column<string>(nullable: true),
@@ -152,6 +161,7 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     IsActive = table.Column<bool>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     SavingName = table.Column<string>(nullable: true),
                     SavingRate = table.Column<int>(nullable: false),
                     SelectFrom = table.Column<int>(nullable: false),
@@ -170,6 +180,7 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     DateEffectFrom = table.Column<DateTime>(nullable: false),
                     DateEffectTo = table.Column<DateTime>(nullable: false),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     Price = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -185,6 +196,7 @@ namespace WebApplication1.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
                     LongDescription = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
                     UnitPriceId = table.Column<int>(nullable: false)
                 },
@@ -312,6 +324,10 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "LastName",
+                table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "ModifiedDate",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(

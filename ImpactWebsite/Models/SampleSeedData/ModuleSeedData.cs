@@ -13,7 +13,8 @@ namespace ImpactWebsite.Models.SampleSeedData
         {
             GetUnitPrice(db);
             GetModules(db);
-            GetDiscounts(db);
+            GetSavings(db);
+            GetPromotions(db);
         }
 
         public static void GetUnitPrice(ApplicationDbContext db)
@@ -111,7 +112,7 @@ namespace ImpactWebsite.Models.SampleSeedData
             }
         }
 
-        public static void GetDiscounts(ApplicationDbContext db)
+        public static void GetSavings(ApplicationDbContext db)
         {
             if (!db.Savings.Any())
             {
@@ -134,6 +135,24 @@ namespace ImpactWebsite.Models.SampleSeedData
                 });
 
                 db.SaveChanges();
+            }
+        }
+
+        public static void GetPromotions(ApplicationDbContext db)
+        {
+            if (!db.Promotions.Any())
+            {
+                db.Promotions.Add(new Promotion()
+                {
+                    PromotionName = "Promotion Sample - Fixed",
+                    PromotionCode = "AAAAAAAA",
+                    DiscountMethod = DiscountMethodList.Fixed,
+                    DiscountRate = 10,
+                    DateFrom = DateTime.Today,
+                    DateTo = DateTime.Today.AddYears(1),
+                    IsActive = true,
+                    Description = "Sample Promotion - fixed discount rate - 10"
+                });
             }
         }
     }

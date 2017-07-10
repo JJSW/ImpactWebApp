@@ -88,8 +88,10 @@
 .pagination > li > span:focus,
 .pagination > li.active > a,
 .pagination > li.active > a:hover,
+.pagination > li.active > a:focus,
 
-.pager li > a:hover, .pager li > a:focus{
+.pager li > a:hover, 
+.pager li > a:focus {
     background-color: #65CEA7;
     border-color: #65CEA7;
     color: #fff;

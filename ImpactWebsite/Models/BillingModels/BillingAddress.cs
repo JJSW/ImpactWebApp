@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.BillingModels
 {
-    public class BillingAddress
+    public class BillingAddress : BaseEntity
     {
         [Key]
         public Int32 BillingAddressId { get; set; }

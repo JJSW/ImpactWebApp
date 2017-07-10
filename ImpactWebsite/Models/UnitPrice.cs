@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models
 {
-    public class UnitPrice
+    public class UnitPrice : BaseEntity
     {
         [Key]
         public Int32 UnitPriceId { get; set; }

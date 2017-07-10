@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.BillingModels
 {
-    public class Invoice
+    public class Invoice : BaseEntity
     {
 
         public int? AmountDue { get; set; }

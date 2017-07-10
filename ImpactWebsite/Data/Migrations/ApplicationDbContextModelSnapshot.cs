@@ -48,6 +48,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<bool>("NewsletterRequired");
 
                     b.Property<string>("NormalizedEmail")
@@ -101,6 +103,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("State");
 
                     b.Property<string>("UserId");
@@ -145,6 +149,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("LongDescription");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("ModuleName");
 
                     b.Property<int>("UnitPriceId");
@@ -168,6 +174,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("InvestmentId");
 
                     b.Property<bool>("IsPromotionCodeApplied");
+
+                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<string>("ModuleIds");
 
@@ -219,13 +227,9 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int>("OrderId");
 
-                    b.Property<int?>("PromotionId");
-
                     b.HasKey("OrderDetailId");
 
                     b.HasIndex("ModuleId");
-
-                    b.HasIndex("PromotionId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -270,6 +274,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("SavingName");
 
                     b.Property<int>("SavingRate");
@@ -291,6 +297,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<DateTime>("DateEffectFrom");
 
                     b.Property<DateTime>("DateEffectTo");
+
+                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<int>("Price");
 
@@ -434,10 +442,6 @@ namespace WebApplication1.Data.Migrations
                         .WithMany()
                         .HasForeignKey("ModuleId")
                         .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ImpactWebsite.Models.OrderModels.Promotion", "Promotion")
-                        .WithMany()
-                        .HasForeignKey("PromotionId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>

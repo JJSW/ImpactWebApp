@@ -17,6 +17,18 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Order Detail Number")]
         public Int32 OrderDetailId { get; set; }
 
+        [Display(Name = "Ordered Date")]
+        [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime OrderedDate { get; set; }
+
+        [Display(Name = "Delivered Date")]
+        [DisplayFormat(DataFormatString = "{0: yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+        public DateTime? DeliveredDate { get; set; }
+
+        [Display(Name = "Order Status")]
+        public OrderStatusList OrderStatus { get; set; }
+
+
         [Display(Name = "Module ID")]
         public Int32 ModuleId { get; set; }
 
@@ -30,6 +42,8 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
+
+
 
         [Display(Name = "Note")]
         public string NoteFromUser { get; set; }

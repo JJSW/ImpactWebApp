@@ -1,8 +1,34 @@
 ﻿
-.input-icon {
-    font-family: 'FontAwesome', 'Open Sans', sans-serif;
+/*-------------------------------
+             General
+-------------------------------*/
+
+/* Wrapping element */
+/* Set some basic padding to keep content from hitting the edges */
+.body-content {
+    margin: 30px;
 }
 
+/* Set widths on the form inputs since otherwise they're 100% wide */
+input,
+select {
+    max-width: 280px;
+}
+
+/* Styling for main navigation bar */
+.main-nav-right {
+    margin-right: 50px;
+}
+
+.main-nav-left {
+    margin-left: 50px !important;
+}
+
+
+
+/*-------------------------------
+            Table
+-------------------------------*/
 .noOverFlowText {
     overflow: hidden;
     white-space: nowrap;
@@ -17,31 +43,25 @@
     word-wrap: break-word;
 }
 
-.customHorizontalRule {
-    border: solid 1px Gainsboro !important;
-}
-
 .userProfileTable {
     max-width: 400px;
 }
 
-.btn-center{
-    text-align:center;
-    margin:auto;
-}
-
 .table-invoice-detail {
-    border:thin !important;
-    margin:0 !important;
+    border: thin !important;
+    margin: 0 !important;
 }
 
-.center-column{
-    float:none;
+.center-column {
+    float: none;
     margin: auto;
 }
 
+/*-------------------------------
+           Sign in
+-------------------------------*/
 .form-signin {
-   margin: 70px auto !important;
+    margin: 70px auto !important;
 }
 
 .form-signin-heading {
@@ -57,30 +77,43 @@
     max-width: 330px;
 }
 
-.btn-new-order{
+.form-signin .form-signin-heading .sign-title,
+.form-signin .checkbox,
+.form-signin .forgot-password {
+    color: #7a7676 !important;
+}
+
+/*-------------------------------
+           Button
+-------------------------------*/
+.btn-new-order {
     margin-top: 30px;
+}
+
+.btn-anchor {
+    color:white !important;
 }
 
 .btn-promo-code {
     margin-top: -20px;
 }
 
-.checkbox-remember-me{
+.checkbox-remember-me {
     padding: 0 !important;
 }
 
-ul.p-info .title {
-    width: 50% !important;
+.btn-margin-15 {
+    margin: 15px;
 }
 
-ul.p-info .desk {
-    width: 50% !important;
+.btn-center {
+    text-align: center;
+    margin: auto;
 }
 
-.btn-margin-15{
-    margin:15px;
-}
-
+/*-------------------------------
+            Jquery UI
+-------------------------------*/
 .ui-dialog .ui-dialog-titlebar {
     padding: 15px !important;
     margin: 0;
@@ -108,41 +141,101 @@ ul.p-info .desk {
     outline: none !important;
 }
 
-
-
-/* Wrapping element */
-/* Set some basic padding to keep content from hitting the edges */
-.body-content {
-    margin: 25px;
+ul.p-info .title {
+    width: 50% !important;
 }
 
-/* Set widths on the form inputs since otherwise they're 100% wide */
-input,
-select {
-    max-width: 280px;
+ul.p-info .desk {
+    width: 50% !important;
 }
 
-/* Styling for main navigation bar */
-.main-nav-right {    
+/*-------------------------------
+            Data table
+-------------------------------*/
+div.dataTables_paginate {
+    float: right;
+    margin-right: 20px;
+}
+
+div.dataTables_length label {
+    float: left;
+    text-align: left;
+    padding-bottom: 10px;
+    line-height: 30px;
+}
+
+div.dataTables_length select {
+    width: 75px;
+    display: inline-block;
+}
+
+div.dataTables_info {
+    margin: 10px;
+}
+
+div.dataTables_filter label {
+    float: left;
+}
+
+div.dataTables_filter input {
+    min-width: 300px;
     margin-right: 50px;
 }
 
-.main-nav-left {
-    margin-left: 50px !important;
+table.table thead .sorting,
+table.table thead .sorting_asc,
+table.table thead .sorting_desc,
+table.table thead .sorting_asc_disabled,
+table.table thead .sorting_desc_disabled {
+    cursor: pointer;
+    *cursor: hand;
 }
 
+table.table thead .sorting {
+    background: url('../images/sort_both.png') no-repeat center right;
+}
+
+table.table thead .sorting_asc {
+    background: url('../images/sort_asc.png') no-repeat center right;
+}
+
+table.table thead .sorting_desc {
+    background: url('../images/sort_desc.png') no-repeat center right;
+}
+
+table.table thead .sorting_asc_disabled {
+    background: url('../images/sort_asc_disabled.png') no-repeat center right;
+}
+
+table.table thead .sorting_desc_disabled {
+    background: url('../images/sort_desc_disabled.png') no-repeat center right;
+}
+
+table.dataTable th:active {
+    outline: none;
+}
 
 /*-------------------------------
-            LOGIN STYLES
+             Misc
 -------------------------------*/
 
-.form-signin .form-signin-heading .sign-title,
-.form-signin .checkbox,
-.form-signin .forgot-password
-{
-    color: #7a7676 !important;
+.input-icon {
+    font-family: 'FontAwesome', 'Open Sans', sans-serif;
 }
 
+.customHorizontalRule {
+    border: solid 1px Gainsboro !important;
+}
+
+.alert-custom {
+    margin-left:15px; 
+    padding-top:5px; 
+    padding-bottom: 7px; 
+}
+
+/*-------------------------------
+       Responsive design
+-------------------------------*/
 
 /* For responsive design */
 @media all and (max-width:1150px) {

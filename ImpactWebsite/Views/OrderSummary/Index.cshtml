@@ -26,76 +26,91 @@
         <div class="col-sm-12">
             <section class="panel">
                 <header class="panel-heading">
-                    Summary of modules
+                    Summary of orders
                     <span class="tools pull-right">
                         <a href="javascript:;" class="fa fa-chevron-down"></a>
                     </span>
                 </header>
                 <div class="panel-body">
-                    <table class="table table-hover general-table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    #
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.OrderNum)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.OrderedDate)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.ModuleIds)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.TotalAmount)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.OrderStatus)
-                                </th>
-                                <th>Details / Edit</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @for (int i = 0; i < Model.Count(); i++)
-                            {
-                                var totalAmountDollar = @Model.ElementAt(@i).TotalAmount / 100;
-                                var orderNum = @i + 1;
+                    <div class="adv-table">
+                        <table class="display table table-hover table-striped general-table" id="dynamic-table">
+                            <thead>
                                 <tr>
-                                    <td>
-                                        @orderNum
-                                    </td>
-                                    <td>
-                                        @Model.ElementAt(@i).OrderNum
-                                    </td>
-                                    <td>
-                                        @Model.ElementAt(@i).OrderedDate.ToString("yyyy-MM-dd")
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(Model => Model.ElementAt(@i).ModuleIds)
-                                    </td>
-                                    <td>
-                                        $@totalAmountDollar
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(Model => Model.ElementAt(@i).OrderStatus)                                        
-                                    </td>
-                                    <td>
-                                        <a asp-controller="OrderSummary"
-                                           asp-action="OrderDetails"
-                                           asp-route-orderId="@Model.ElementAt(@i).OrderId"
-                                           class="btn btn-default btn-sm" role="button">
-                                            <i class="fa fa-tasks" aria-hidden="true"></i>
-                                            @Html.Raw(strSpacer)Details / Edit
-                                        </a>
-                                    </td>
+                                    <th>
+                                        #
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.OrderNum)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.OrderedDate)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.ModuleIds)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.TotalAmount)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.OrderStatus)
+                                    </th>
+                                    <th>Details / Edit</th>
                                 </tr>
-                            }
-                        </tbody>
-                    </table>
+                            </thead>
+                            <tbody>
+
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    var totalAmountDollar = @Model.ElementAt(@i).TotalAmount / 100;
+                                    var orderNum = @i + 1;
+                                    <tr>
+                                        <td>
+                                            @orderNum
+                                        </td>
+                                        <td>
+                                            @Model.ElementAt(@i).OrderNum
+                                        </td>
+                                        <td>
+                                            @Model.ElementAt(@i).OrderedDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(Model => Model.ElementAt(@i).ModuleIds)
+                                        </td>
+                                        <td>
+                                            $@totalAmountDollar
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(Model => Model.ElementAt(@i).OrderStatus)
+                                        </td>
+                                        <td>
+                                            <a asp-controller="OrderSummary"
+                                               asp-action="OrderDetails"
+                                               asp-route-id="@Model.ElementAt(@i).OrderId"
+                                               class="btn btn-primary btn-anchor"
+                                               role="button">
+                                                Details
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </section>
         </div>
     </div>
 </div>
+
+@section scripts
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init.js"></script>
+
+}

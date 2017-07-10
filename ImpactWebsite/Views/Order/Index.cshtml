@@ -15,7 +15,8 @@
 
 <!-- page heading start-->
 <div class="page-heading">
-    <h3>Select modules
+    <h3>
+        Select modules
     </h3>
     <ul class="breadcrumb">
         <li>
@@ -39,66 +40,67 @@
                     </header>
 
                     <div class="panel-body">
-                        <table class="table table-hover general-table">
-                            <thead>
-                                <tr>
-                                    <th class="col-md-0">
-                                        #
-                                    </th>
-                                    <th class="col-md-4">
-                                        @Html.DisplayNameFor(model => model.Modules.ModuleName)
-                                    </th>
-                                    <th class="col-md-6">
-                                        Module Detail
-                                    </th>
-                                    <th class="col-md-1">
-                                        @Html.DisplayNameFor(model => model.Modules.UnitPrice)
-                                    </th>
-                                    <th class="col-md-1">
-                                        Select
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @for (int i = 0; i < Model.Count(); i++)
-                                {
+                        <div class="adv-table">
+                            <table class="display table table-hover general-table" id="dynamic-table">
+                                <thead>
                                     <tr>
-                                        <td>@Model.ElementAt(@i).Modules.ModuleId</td>
-                                        <td>
-                                            <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
-                                                @Model.ElementAt(@i).Modules.ModuleName
-                                            </label>
-                                        </td>
-                                        <td>
-                                            @Model.ElementAt(@i).Modules.LongDescription      
-                                        </td>
-                                        <td>
-                                            <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
-                                                @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C0", fp)
-                                            </label>
-                                        </td>
-                                        <td>
-                                            <div class="flat-green single-row">
-                                                <div class="radio _margin-top-0 _margin-bottom-0">
-                                                    @if (@i == 0)
-                                                    {
-                                                        <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
-                                                        <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
-                                                    }
-                                                    else
-                                                    {
-                                                        <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
-                                                    }
-                                                </div>
-                                            </div>
-                                        </td>
+                                        <th style="width:5%">
+                                            #
+                                        </th>
+                                        <th style="width:30%">
+                                            @Html.DisplayNameFor(model => model.Modules.ModuleName)
+                                        </th>
+                                        <th style="width:45%">
+                                            Module Detail
+                                        </th>
+                                        <th style="width:10%">
+                                            @Html.DisplayNameFor(model => model.Modules.UnitPrice)
+                                        </th>
+                                        <th style="width:10%">
+                                            Select
+                                        </th>
                                     </tr>
-                                }
+                                </thead>
+                                <tbody>
+                                    @for (int i = 0; i < Model.Count(); i++)
+                                    {
+                                        <tr>
+                                            <td>@Model.ElementAt(@i).Modules.ModuleId</td>
+                                            <td>
+                                                <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                    @Model.ElementAt(@i).Modules.ModuleName
+                                                </label>
+                                            </td>
+                                            <td>
+                                                @Model.ElementAt(@i).Modules.LongDescription
+                                            </td>
+                                            <td>
+                                                <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
+                                                    @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C0", fp)
+                                                </label>
+                                            </td>
+                                            <td>
+                                                <div class="flat-green single-row">
+                                                    <div class="radio _margin-top-0 _margin-bottom-0">
+                                                        @if (@i == 0)
+                                                        {
+                                                            <input type="checkbox" checked="checked" disabled="disabled" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                            <input type="hidden" name="modules" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name="modules" class="chkBox" value='@Html.Raw(Json.Serialize(Model.ElementAt(@i)))' />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    }
 
-                            </tbody>
-                        </table>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
-
                 </section>
             </div>
         </div>
@@ -154,8 +156,8 @@
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
                         <div class="form-group" style="margin-top:60px; margin-bottom: 0;">
-                            <button type="submit" class="btn btn-primary">
-                            Next step&nbsp;
+                            <button type="submit" class="btn btn-primary btn-new-order">
+                                Next step&nbsp;
                                 <i class="fa fa-arrow-right" aria-hidden="true"></i>
                             </button>
                         </div>
@@ -172,17 +174,26 @@
 {
     @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
 
-    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css"/>
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
 
     <!--icheck-->
-    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css" >
+    <link rel="stylesheet" href="~/lib/iCheck/skins/flat/green.css">
     <script type="text/javascript" src="~/js/icheck-init.js"></script>
     <script type="text/javascript" src="~/lib/iCheck/icheck.js"></script>
+
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init_modules.js"></script>
+
+
 
     <script type="text/javascript">
 
         $(document).ready(function () {
-            $('input').on('ifChanged', function () {
+            $("input").on("ifChanged", function () {
                 calculateTotal();
             });
         });
@@ -192,13 +203,13 @@
             selectionDiscount = 0;
             totalAmountToPay = 0;
 
-            $(':checkbox:checked.chkBox').each(function () {
+            $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
                 totalPrice += +jsonObj.modules.unitPrice.price;
             });
 
-            var selectedModules = $(':checkbox:checked').length;
+            var selectedModules = $(':checkbox:checked.chkBox').length;
 
             if (selectedModules >= '@ViewBag.D1SelectFrom' && selectedModules <= '@ViewBag.D1SelectTo' ) {
                 selectionDiscount = '@ViewBag.D1DiscountRate';
@@ -222,7 +233,6 @@
                 $('span[name=totalAmountToPayDisplay]').text('$' + totalAmountToPay);
             }
         }
-
-
     </script>
+
 }

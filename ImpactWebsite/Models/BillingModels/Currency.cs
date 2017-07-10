@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.BillingModels
 {
-    public class Currency
+    public class Currency : BaseEntity
     {
         public string CurrencyEnglishName { get; set; }
 

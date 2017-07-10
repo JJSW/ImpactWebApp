@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170708023238_Initial")]
-    partial class Initial
+    [Migration("20170710002606_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -27,8 +27,7 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int?>("BillingAddressId");
 
-                    b.Property<string>("CompanyName")
-                        .HasMaxLength(160);
+                    b.Property<string>("CompanyName");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -38,15 +37,19 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("IsTempUser");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .HasMaxLength(20);
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
+
+                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<bool>("NewsletterRequired");
 
@@ -101,6 +104,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("Country");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("State");
 
                     b.Property<string>("UserId");
@@ -145,6 +150,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("LongDescription");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("ModuleName");
 
                     b.Property<int>("UnitPriceId");
@@ -168,6 +175,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<int>("InvestmentId");
 
                     b.Property<bool>("IsPromotionCodeApplied");
+
+                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<string>("ModuleIds");
 
@@ -266,6 +275,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<DateTime>("ModifiedDate");
+
                     b.Property<string>("SavingName");
 
                     b.Property<int>("SavingRate");
@@ -287,6 +298,8 @@ namespace WebApplication1.Data.Migrations
                     b.Property<DateTime>("DateEffectFrom");
 
                     b.Property<DateTime>("DateEffectTo");
+
+                    b.Property<DateTime>("ModifiedDate");
 
                     b.Property<int>("Price");
 

@@ -29,6 +29,9 @@ namespace ImpactWebsite.Models
         [Display(Name = "Temp User")]
         public bool IsTempUser { get; set; }
 
+        [Display(Name = "Modified Date")]
+        public DateTime ModifiedDate { get; set; }
+
         public List<Order> Orders { get; set; }
 
         public BillingAddress BillingAddress { get; set; }

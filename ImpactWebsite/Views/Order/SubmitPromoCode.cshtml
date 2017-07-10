@@ -1,7 +1,7 @@
 @model Promotion
 @using ImpactWebsite.Models.OrderModels
 @{
-    ViewData["Title"] = "Investment";
+    ViewData["Title"] = "Promotion";
 }
 
 <form id="promoCodeForm" asp-action="SubmitPromoCode" asp-controller="Order" method="post" role="form">    
@@ -17,7 +17,7 @@
 <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
 <script>
-    $('#form').on('submit', function (e) {
+    $('#promoCodeForm').on('submit', function (e) {
         e.preventDefault();
         if ($(this).valid()) {
             $.ajax({
