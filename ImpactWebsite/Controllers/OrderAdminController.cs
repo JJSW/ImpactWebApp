@@ -16,7 +16,7 @@ namespace ImpactWebsite.Controllers
 
         public OrderAdminController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: OrderAdmin
@@ -78,6 +78,7 @@ namespace ImpactWebsite.Controllers
             {
                 return NotFound();
             }
+
             return View(order);
         }
 
@@ -95,25 +96,12 @@ namespace ImpactWebsite.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(order);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderExists(order.OrderId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
+                _context.Update(order);
+                _context.Orders.SingleOrDefault(o => o.OrderId == id).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+
             }
-            return View(order);
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: OrderAdmin/Delete/5

@@ -62,10 +62,15 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> Create([Bind("PromotionId,PromotionName,PromotionCode,DiscountMethod,DiscountRate,DateFrom,DateTo,Description,IsActive,ModifiedDate")] Promotion promotion)
         {
             if (ModelState.IsValid)
-            {
-                promotion.ModifiedDate = DateTime.Now;
+            {                
                 _context.Add(promotion);
                 await _context.SaveChangesAsync();
+
+                var tempPromotionId = promotion.PromotionId;
+
+                _context.Promotions.SingleOrDefault(p => p.PromotionId == tempPromotionId).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
             return View(promotion);
@@ -107,6 +112,7 @@ namespace ImpactWebsite.Controllers
                     if (_prePromoCode.Equals(promotion.PromotionCode))
                     {
                         _context.Update(promotion);
+                        _context.Promotions.SingleOrDefault(p => p.PromotionId == id).ModifiedDate = DateTime.Now;
                         await _context.SaveChangesAsync();
                     }  else {
 

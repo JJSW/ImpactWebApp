@@ -98,6 +98,7 @@ namespace ImpactWebsite.Controllers
                 try
                 {
                     _context.Update(saving);
+                    _context.Savings.SingleOrDefault(p => p.SavingId == id).ModifiedDate = DateTime.Now;
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)

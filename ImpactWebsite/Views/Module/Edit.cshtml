@@ -4,53 +4,67 @@
     ViewData["Title"] = "Edit";
 }
 
-<h2>Edit</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
 <form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Module</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ModuleId" />
-        <div class="form-group">
-            <label asp-for="ModuleName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ModuleName" class="form-control" />
-                <span asp-validation-for="ModuleName" class="text-danger"></span>
-            </div>
+    <div class="admin-margin">
+        <div class="page-heading">
+            <h3>Module Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.ModuleName)</h3>
         </div>
-        <div class="form-group">
-            <label asp-for="Description" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
+
+        <input type="hidden" asp-for="ModuleId" />
+        <input type="hidden" asp-for="ModuleName" />
+        <input type="hidden" asp-for="Description" />
+        <input type="hidden" asp-for="UnitPriceId" />
+        <input type="hidden" asp-for="UnitPrice" />
+
+        <div>
+            <dl class="dl-horizontal admin-margin-detail">
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModuleId)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ModuleId)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModuleName)
+                </dt>
+                <dd class="form-group form-no-max-width">
+                    <input asp-for="ModuleName" class="form-control" />
+                    <span asp-validation-for="ModuleName" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd class="form-group form-no-max-width">
+                    <textarea asp-for="Description" class="form-control">@Html.DisplayFor(model => model.Description)</textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UnitPriceId)
+                </dt>
+                <dd class="form-group">
+                    <input asp-for="UnitPriceId" class="form-control" />
+                    <span asp-validation-for="UnitPriceId" class="text-danger"></span>
+                </dd>
+
+            </dl>
+
+            <a asp-action="Details" asp-route-id="@Model.ModuleId"
+               role="button" class="btn btn-default">
+                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+            </a>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
         </div>
-        <div class="form-group">
-            <label asp-for="LongDescription" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="LongDescription" class="form-control" />
-                <span asp-validation-for="LongDescription" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UnitPriceId" class="control-label col-md-2"></label>
-            <div class="col-md-10">
-                <select asp-for="UnitPriceId" class="form-control" asp-items="ViewBag.UnitPriceId"></select>
-                <span asp-validation-for="UnitPriceId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
+
     </div>
 </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}

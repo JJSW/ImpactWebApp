@@ -16,7 +16,7 @@ namespace ImpactWebsite.Controllers
 
         public ModuleController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Module
@@ -57,12 +57,18 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,LongDescription,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,UnitPriceId")] Module orderModule)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(orderModule);
                 await _context.SaveChangesAsync();
+
+                var tempModuleId = orderModule.ModuleId;
+
+                _context.Modules.SingleOrDefault(m => m.ModuleId == tempModuleId).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction("Index");
             }
             ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
@@ -91,7 +97,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,LongDescription,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,UnitPriceId")] Module orderModule)
         {
             if (id != orderModule.ModuleId)
             {
@@ -100,26 +106,14 @@ namespace ImpactWebsite.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(orderModule);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!OrderModuleExists(orderModule.ModuleId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
+
+                _context.Update(orderModule);
+                _context.Modules.SingleOrDefault(o => o.ModuleId == id).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
+
             }
             ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
-            return View(orderModule);
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: Module/Delete/5

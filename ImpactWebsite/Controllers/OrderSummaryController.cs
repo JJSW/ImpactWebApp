@@ -123,8 +123,8 @@ namespace ImpactWebsite.Controllers
             if (ModelState.IsValid)
             {
                 _context.Orders.SingleOrDefault(o => o.OrderNum == OrderNum).NoteFromUser = NoteFromUser;
+                _context.Orders.SingleOrDefault(o => o.OrderNum == OrderNum).ModifiedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
-
             }
 
             var id = _context.Orders.SingleOrDefault(o => o.OrderNum == OrderNum).OrderId;

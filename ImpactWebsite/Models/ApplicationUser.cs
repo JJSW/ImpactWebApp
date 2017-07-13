@@ -26,7 +26,7 @@ namespace ImpactWebsite.Models
         [Display(Name = "Newsletter")]
         public bool NewsletterRequired { get; set; }
 
-        [Display(Name = "Temp User")]
+        [Display(Name = "User Type")]
         public bool IsTempUser { get; set; }
 
         [Display(Name = "Modified Date")]

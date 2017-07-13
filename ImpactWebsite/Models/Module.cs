@@ -9,6 +9,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class Module : BaseEntity
     {
         [Key]
+        [Display(Name = "Module ID")]
         public Int32 ModuleId { get; set; }
 
         [Display(Name = "Module Name")]
@@ -16,9 +17,6 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Display(Name = "Module Description")]
         public string Description { get; set; }
-
-        [Display(Name = "Module Description")]
-        public string LongDescription { get; set; }
 
         public Int32 UnitPriceId { get; set; }
 

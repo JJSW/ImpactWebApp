@@ -14,7 +14,7 @@ Website:
 
 ### Extra API
 
-- Strip API v2
+- Stripe API v2
 
 - Bootstrap 3.3.7
 - JQuery 3.2.1

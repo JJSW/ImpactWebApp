@@ -147,8 +147,6 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("Description");
 
-                    b.Property<string>("LongDescription");
-
                     b.Property<DateTime>("ModifiedDate");
 
                     b.Property<string>("ModuleName");

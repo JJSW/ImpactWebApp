@@ -4,72 +4,83 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<p>
-    <a asp-action="Create">
-        <button type="button" class="btn btn-default btn-sm">
-            <span class="glyphicon glyphicon-plus"></span> Create
-        </button>
-    </a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ModuleId)
-            </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.ModuleName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Description)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LongDescription)
-                </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UnitPrice)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModuleId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ModuleName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.LongDescription)
-            </td>
-            <td>
-                $@Html.DisplayFor(modelItem => item.UnitPrice.UnitPriceId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.ModuleId">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-edit"></span> Edit
-                    </button>
-                </a>
-                <a asp-action="Details" asp-route-id="@item.ModuleId">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-tasks"></span> Details
-                    </button>
-                </a>
-                <a asp-action="Delete" asp-route-id="@item.ModuleId">
-                    <button type="button" class="btn btn-default btn-sm">
-                        <span class="glyphicon glyphicon-remove"></span> Delete
-                    </button>
-                </a>
-            </td>
-        </tr>
+<div class="admin-margin">
+
+    <div class="page-heading">
+        <h3>Module</h3>
+        <br />
+        <a asp-action="Create" role="button" class="btn btn-default">
+            <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
+        </a>
+    </div>
+
+    <div class="adv-table">
+        <table class="table" id="dynamic-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ModuleId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ModuleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Description)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UnitPrice)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModuleId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModuleName)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UnitPrice.Price)
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.ModuleId"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.ModuleId"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.ModuleId"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init.js"></script>
 }
-    </tbody>
-</table>

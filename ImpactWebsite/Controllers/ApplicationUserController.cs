@@ -16,7 +16,7 @@ namespace ImpactWebsite.Controllers
 
         public ApplicationUserController(ApplicationDbContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: ApplicationUser
@@ -95,25 +95,11 @@ namespace ImpactWebsite.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(applicationUser);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ApplicationUserExists(applicationUser.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
+                _context.Update(applicationUser);
+                _context.ApplicationUsers.SingleOrDefault(o => o.Id == id).ModifiedDate = DateTime.Now;
+                await _context.SaveChangesAsync();
             }
-            return View(applicationUser);
+            return RedirectToAction("Details", new { id = id });
         }
 
         // GET: ApplicationUser/Delete/5

@@ -233,10 +233,22 @@ table.dataTable th:active {
     padding-bottom: 7px; 
 }
 
+.admin-margin{
+    margin:0 30px 30px 30px;
+}
+
+.admin-margin-detail dt{
+    margin-bottom: 10px;
+}
+
+.form-no-max-width input{
+    max-width: none !important;
+}
+
+
 /*-------------------------------
        Responsive design
 -------------------------------*/
-
 /* For responsive design */
 @media all and (max-width:1150px) {
     nav {

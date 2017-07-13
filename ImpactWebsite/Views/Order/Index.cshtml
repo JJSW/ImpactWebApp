@@ -24,6 +24,28 @@
         </li>
         <li class="active">Select modules</li>
     </ul>
+    <div class="state-info">
+        <section class="panel">
+            <div class="panel-body">
+                <div style="margin: 9px 0 5px;" class="btn-group">
+                    <button class="btn btn-success" type="button">Request information</button>
+                </div>
+            </div>
+        </section>
+        <section class="panel">
+            <div class="panel-body">
+                <div style="margin: 9px 0 5px;" class="btn-group">
+                    <button class="btn btn-primary" type="button">
+                        <i class="fa fa-usd" aria-hidden="true"></i>@Html.Raw(strSpacer)USD</button>
+                    <button class="btn btn-primary" type="button">
+                        <i class="fa fa-gbp" aria-hidden="true"></i>@Html.Raw(strSpacer)GBP</button>
+                    <button class="btn btn-primary" type="button">
+                        <i class="fa fa-eur" aria-hidden="true"></i>@Html.Raw(strSpacer)EUR</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
 </div>
 
 <form action="/Order/NewOrder" method="post">
@@ -72,7 +94,7 @@
                                                 </label>
                                             </td>
                                             <td>
-                                                @Model.ElementAt(@i).Modules.LongDescription
+                                                @Model.ElementAt(@i).Modules.Description
                                             </td>
                                             <td>
                                                 <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">

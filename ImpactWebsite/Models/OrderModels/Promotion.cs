@@ -22,6 +22,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class Promotion : BaseEntity
     {
         [Key]
+        [Display(Name = "Promotion ID")]
         public Int32 PromotionId { get; set; }
 
         [StringLength(160, MinimumLength = 2)]

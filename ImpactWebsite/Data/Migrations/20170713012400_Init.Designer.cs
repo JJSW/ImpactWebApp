@@ -9,7 +9,7 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170710002606_Init")]
+    [Migration("20170713012400_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,8 +147,6 @@ namespace WebApplication1.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
-
-                    b.Property<string>("LongDescription");
 
                     b.Property<DateTime>("ModifiedDate");
 

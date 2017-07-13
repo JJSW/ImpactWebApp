@@ -3,104 +3,96 @@
     ViewData["Title"] = "Orders";
 }
 
-<h2>Orders</h2>
-<p>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderNum)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderedDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.ModuleIds)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.UserEmail)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SalesRep)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoteFromUser)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NoteFromAdmin)
-            </th>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
+
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Order</h3>
+    </div>
+    <div class="adv-table">
+        <table class="table" id="dynamic-table">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderId)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderNum)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderedDate)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ModuleIds)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.TotalAmount)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.OrderStatus)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserEmail)
+                    </th>
+
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+            {
+                var totalAmount = item.TotalAmount / 100;
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderId)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderNum)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderedDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.ModuleIds)
+                        </td>
+                        <td>
+                            $@totalAmount
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.OrderStatus)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.UserEmail)
+                        </td>
 
 
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@item.OrderId"
+                               role="button" class="btn btn-default btn-sm">
+                                <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                            </a>
+                            <a asp-action="Details" asp-route-id="@item.OrderId"
+                               role="button" class="btn btn-default btn-sm">
+                                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.OrderId"
+                               role="button" class="btn btn-default btn-sm">
+                                <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
 
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            var totalAmount = item.TotalAmount / 100;
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
 
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderId)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderNum)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderedDate)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.ModuleIds)
-                </td>
-                <td>
-                    $@totalAmount
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.OrderStatus)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UserEmail)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.SalesRep)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoteFromUser)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.NoteFromAdmin)
-                </td>
-
-
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.OrderId">
-                        <button type="button" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-edit"></span> Edit
-                        </button>
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.OrderId">
-                        <button type="button" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-tasks"></span> Details
-                        </button>
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@item.OrderId">
-                        <button type="button" class="btn btn-default btn-sm">
-                            <span class="glyphicon glyphicon-remove"></span> Delete
-                        </button>
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init.js"></script>
+}

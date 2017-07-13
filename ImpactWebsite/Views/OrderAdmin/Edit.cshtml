@@ -5,136 +5,146 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+@{ string strSpacer = "&nbsp;&nbsp;";
+    var totalAmount = Model.TotalAmount / 100;
+    var uploadedFileName = Model.UploadedFileName;
+    var filePath = Model.UploadedFilePath;
+    string fileLink = filePath + uploadedFileName;
+}
 
 <form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>Order</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="OrderId" />
-        <div class="form-group">
-            <label asp-for="OrderNum" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="OrderNum" class="form-control" />
-                <span asp-validation-for="OrderNum" class="text-danger"></span>
-            </div>
+    <div class="admin-margin">
+        <div class="page-heading">
+            <h3>Order Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.OrderNum)</h3>
         </div>
-        <div class="form-group">
-            <label asp-for="UserEmail" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UserEmail" class="form-control" />
-                <span asp-validation-for="UserEmail" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UserId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SalesRep" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SalesRep" class="form-control" />
-                <span asp-validation-for="SalesRep" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="OrderedDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="OrderedDate" class="form-control" />
-                <span asp-validation-for="OrderedDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="DeliveredDate" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="DeliveredDate" class="form-control" />
-                <span asp-validation-for="DeliveredDate" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="OrderStatus" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <select asp-for="OrderStatus" class="form-control"></select>
-                <span asp-validation-for="OrderStatus" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="NoteFromUser" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="NoteFromUser" class="form-control" />
-                <span asp-validation-for="NoteFromUser" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="NoteFromAdmin" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="NoteFromAdmin" class="form-control" />
-                <span asp-validation-for="NoteFromAdmin" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="ModuleIds" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="ModuleIds" class="form-control" />
-                <span asp-validation-for="ModuleIds" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SelectionDiscount" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SelectionDiscount" class="form-control" />
-                <span asp-validation-for="SelectionDiscount" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="TotalAmount" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="TotalAmount" class="form-control" />
-                <span asp-validation-for="TotalAmount" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="PromotionId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="PromotionId" class="form-control" />
-                <span asp-validation-for="PromotionId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <div class="checkbox">
-                    <input asp-for="IsPromotionCodeApplied" />
-                    <label asp-for="IsPromotionCodeApplied"></label>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="UploadedFileName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="UploadedFileName" class="form-control" />
-                <span asp-validation-for="UploadedFileName" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="InvestmentId" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="InvestmentId" class="form-control" />
-                <span asp-validation-for="InvestmentId" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
+
+        <input type="hidden" asp-for="OrderId" />
+        <input type="hidden" asp-for="UserEmail" />
+        <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="OrderNum" />
+        <input type="hidden" asp-for="OrderedDate" />
+        <input type="hidden" asp-for="NoteFromUser" />
+        <input type="hidden" asp-for="ModuleIds" />
+        <input type="hidden" asp-for="SelectionDiscount" />
+        <input type="hidden" asp-for="TotalAmount" />
+        <input type="hidden" asp-for="PromotionId" />
+        <input type="hidden" asp-for="IsPromotionCodeApplied" />
+        <input type="hidden" asp-for="UploadedFileName" />
+        <input type="hidden" asp-for="InvestmentId" />
+        <input type="hidden" asp-for="ModifiedDate" />
+        <input type="hidden" asp-for="UploadedFilePath" />
+
+        <div>
+            <dl class="dl-horizontal admin-margin-detail">
+                <dt>
+                    @Html.DisplayNameFor(model => model.UserEmail)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.UserEmail)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OrderedDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.OrderedDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ModuleIds)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ModuleIds)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.TotalAmount)
+                </dt>
+                <dd>
+                    $@totalAmount
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.UploadedFileName)
+                </dt>
+                <dd>
+                    <a href="@fileLink">
+                        @Html.DisplayFor(model => model.UploadedFileName)
+                    </a>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NoteFromUser)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.NoteFromUser)
+                </dd>
+
+
+                <dt></dt>
+                <dd></dd>
+                <dt></dt>
+                <dd></dd>
+
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.OrderStatus)
+                </dt>
+                <dd class="form-group">
+                    <select asp-for="OrderStatus" asp-items="Html.GetEnumSelectList<ImpactWebsite.Models.OrderModels.OrderStatusList>()" class="form-control"></select>
+                    <span asp-validation-for="OrderStatus" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SalesRep)
+                </dt>
+                <dd class="form-group">
+                    <input asp-for="SalesRep" class="form-control" />
+                    <span asp-validation-for="SalesRep" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.NoteFromAdmin)
+                </dt>
+                <dd class="form-group">
+                    <input asp-for="NoteFromAdmin" class="form-control" />
+                    <span asp-validation-for="NoteFromAdmin" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DeliveredDate)
+                </dt>
+                <dd class="form-group">
+                    <input asp-for="DeliveredDate" type="text" id="datepicker" class="form-control"/>
+                    <span asp-validation-for="DeliveredDate" class="text-danger"></span>
+                </dd>
+            </dl>
+
+            <a asp-action="Details" asp-route-id="@Model.OrderId"
+               role="button" class="btn btn-default">
+                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+            </a>
+
+            <input type="submit" value="Save" class="btn btn-primary" />
+
         </div>
     </div>
 </form>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+@section scripts
+{
+
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
+    <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
+
+    <script>
+        $(function () {
+            $("#datepicker").datepicker();
+        });
+    </script>
+}
+
+
 

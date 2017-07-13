@@ -195,7 +195,6 @@ namespace WebApplication1.Data.Migrations
                     ModuleId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
-                    LongDescription = table.Column<string>(nullable: true),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     ModuleName = table.Column<string>(nullable: true),
                     UnitPriceId = table.Column<int>(nullable: false)

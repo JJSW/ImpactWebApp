@@ -2,114 +2,110 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h2>Details</h2>
+@{ string strSpacer = "&nbsp;&nbsp;";
+    var totalAmount = Model.TotalAmount / 100;
+    var uploadedFileName = Model.UploadedFileName;
+    var filePath = Model.UploadedFilePath;
+    string fileLink = filePath + uploadedFileName;
+}
 
-<div>
-    <h4>Order</h4>
-    <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderNum)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderNum)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserEmail)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserEmail)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UserId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UserId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SalesRep)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SalesRep)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderedDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderedDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.DeliveredDate)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.DeliveredDate)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.OrderStatus)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.OrderStatus)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NoteFromUser)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NoteFromUser)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.NoteFromAdmin)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.NoteFromAdmin)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.ModuleIds)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.ModuleIds)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.SelectionDiscount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.SelectionDiscount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.TotalAmount)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.TotalAmount)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.PromotionId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.PromotionId)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.IsPromotionCodeApplied)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.IsPromotionCodeApplied)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.UploadedFileName)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.UploadedFileName)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.InvestmentId)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.InvestmentId)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.OrderId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>Order Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.OrderNum)</h3>
+    </div>
+
+    <div>
+        <dl class="dl-horizontal admin-margin-detail">
+            <dt>
+                @Html.DisplayNameFor(model => model.UserEmail)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.UserEmail)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderedDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OrderedDate)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.ModuleIds)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.ModuleIds)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </dt>
+            <dd>
+                $@totalAmount
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.UploadedFileName)
+            </dt>
+            <dd>
+                <a href="@fileLink">
+                    @Html.DisplayFor(model => model.UploadedFileName)
+                </a>
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NoteFromUser)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NoteFromUser)
+            </dd>
+
+            <dt></dt>
+            <dd></dd>
+            <dt></dt>
+            <dd></dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.OrderStatus)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.OrderStatus)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.SalesRep)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.SalesRep)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.NoteFromAdmin)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.NoteFromAdmin)
+            </dd>
+
+            <dt>
+                @Html.DisplayNameFor(model => model.DeliveredDate)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DeliveredDate)
+            </dd>
+
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Index" class="btn btn-default" role="button">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            @Html.Raw(strSpacer)Back to list
+        </a>
+        <a asp-action="Edit" asp-route-id="@Model.OrderId"
+           role="button" class="btn btn-default">
+            <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+        </a>
+    </div>
 </div>

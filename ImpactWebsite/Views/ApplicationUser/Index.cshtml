@@ -4,74 +4,111 @@
     ViewData["Title"] = "Index";
 }
 
-<h2>Index</h2>
+@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                #
-            </th>
+<div class="admin-margin">
+    <div class="page-heading">
+        <h3>User</h3>
+    </div>
+    <div class="adv-table">
+        <table class="table" id="dynamic-table">
+            <thead>
+                <tr>
+                    <th>
+                        #
+                    </th>
 
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Email)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CompanyName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.NewsletterRequired)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @for (int i = 0; i < Model.Count(); i++)
+                    <th>
+                        @Html.DisplayNameFor(model => model.FirstName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.LastName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.CompanyName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.NewsletterRequired)
+                    </th>
+                    <th>
+                        User Type
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.Count(); i++)
             {
                 var modelNum = @i + 1;
-            <tr>
-                <td>
-                    @modelNum
-                </td>
-                <td>
-                    @Model.ElementAt(@i).FirstName
-                </td>
-                <td>
-                    @Model.ElementAt(@i).LastName
-                </td>
-                <td>
-                    @Model.ElementAt(@i).Email
-                </td>
-                <td>
-                    @Model.ElementAt(@i).CompanyName
-                </td>
-                <td>
-                    @Model.ElementAt(@i).NewsletterRequired
-                </td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
-                       class="btn btn-default btn-sm"
-                       role="button">
-                        <span class="glyphicon glyphicon-edit"></span> Edit
-                    </a>
-                    <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
-                       class="btn btn-default btn-sm"
-                       role="button">
-                        <span class="glyphicon glyphicon-tasks"></span> Details
-                    </a>
-                    <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
-                       class="btn btn-default btn-sm"
-                       role="button">
-                        <span class="glyphicon glyphicon-remove"></span> Delete
-                    </a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+                    <tr>
+                        <td>
+                            @modelNum
+                        </td>
+                        <td>
+                            @Model.ElementAt(@i).FirstName
+                        </td>
+                        <td>
+                            @Model.ElementAt(@i).LastName
+                        </td>
+                        <td>
+                            @Model.ElementAt(@i).Email
+                        </td>
+                        <td>
+                            @Model.ElementAt(@i).CompanyName
+                        </td>
+                        <td>
+                            @if (Model.ElementAt(@i).NewsletterRequired)
+                            {
+                                @Html.Raw("Subscribed");
+                            }
+                            else
+                            {
+                                @Html.Raw("N/A");
+                            }
+                        </td>
+                        <td>
+                            @if (Model.ElementAt(@i).IsTempUser)
+                            {
+                                @Html.Raw("Temporary User");
+                            }
+                            else
+                            {
+                                @Html.Raw("Registered User");
+                            }                           
+                        </td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                            </a>
+                            <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
+                               class="btn btn-default btn-sm"
+                               role="button">
+                                <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                            </a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <!--dynamic table-->
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" language="javascript" src="~/lib/datatables/media/js/dataTables.bootstrap.js"></script>
+
+    <!--dynamic table initialization -->
+    <script type="text/javascript" src="~/js/dynamic_table_init.js"></script>
+}
