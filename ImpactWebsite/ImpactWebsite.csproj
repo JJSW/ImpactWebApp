@@ -197,10 +197,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="wwwroot\uploads\" />
-    <Folder Include="wwwroot\uploads\" />
-    <Folder Include="wwwroot\uploads\" />
-    <Folder Include="wwwroot\uploads\" />
-    <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Views\OrderAdmin\Index.cshtml">
