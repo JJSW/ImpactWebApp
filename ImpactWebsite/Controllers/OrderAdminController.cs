@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImpactWebsite.Data;
 using ImpactWebsite.Models.OrderModels;
+using Microsoft.AspNetCore.Identity;
+using ImpactWebsite.Models;
 
 namespace ImpactWebsite.Controllers
 {
     public class OrderAdminController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public OrderAdminController(ApplicationDbContext context)
+        public OrderAdminController(ApplicationDbContext context, UserManager<ApplicationUser> UserManager)
         {
             _context = context;
+            _userManager = UserManager;
         }
 
         // GET: OrderAdmin
@@ -26,21 +30,82 @@ namespace ImpactWebsite.Controllers
         }
 
         // GET: OrderAdmin/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int id)
         {
-            if (id == null)
+            ViewData["OrderId"] = id;
+
+            if (_context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum != null)
+            {
+                ViewData["OrderNum"] = _context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum;
+            }
+
+            if (id == 0)
+            {
+                return View("~/Views/Shared/Error.cshtml");
+            }
+
+            List<OrderDetailViewModel> orderDetailVMs = new List<OrderDetailViewModel>();
+
+            var orderDetails = (from u in _context.Users
+                                join o in _context.Orders on u.Id equals o.UserId
+                                join od in _context.OrderDetails on o.OrderId equals od.OrderId
+                                join m in _context.Modules on od.ModuleId equals m.ModuleId
+                                select new
+                                {
+                                    OrderId = o.OrderId,
+                                    OrderNum = o.OrderNum,
+                                    UserId = u.Id,
+                                    UserEmail = u.Email,
+                                    OrderDetailId = od.OrderDetailId,
+                                    OrderedDate = o.OrderedDate,
+                                    ModuleId = m.ModuleId,
+                                    ModuleIds = o.ModuleIds,
+                                    ModuleName = m.ModuleName,
+                                    NoteFromUser = o.NoteFromUser,
+                                    NoteFromAdmin = o.NoteFromAdmin,
+                                    UploadedFileName = o.UploadedFileName,
+                                    UploadedFilePath = o.UploadedFilePath,
+                                    TotalAmount = o.TotalAmount,
+                                    SalesRep = o.SalesRep,
+                                    DeliveredDate = o.DeliveredDate,
+                                    OrderStatus = o.OrderStatus,
+                                    Module = od.Module,
+                                }).ToList();
+
+            var currentOrderDetails = orderDetails.Where(y => y.OrderId == id)
+                                                  .ToList();
+
+            foreach (var orderDetail in currentOrderDetails)
+            {
+                orderDetailVMs.Add(new OrderDetailViewModel()
+                {
+                    OrderId = orderDetail.OrderId,
+                    OrderNum = orderDetail.OrderNum,
+                    UserId = orderDetail.UserId,
+                    UserEmail = orderDetail.UserEmail,
+                    OrderDetailId = orderDetail.OrderDetailId,
+                    OrderedDate = orderDetail.OrderedDate,
+                    ModuleId = orderDetail.ModuleId,
+                    ModuleIds = orderDetail.ModuleIds,
+                    ModuleName = orderDetail.ModuleName,
+                    NoteFromUser = orderDetail.NoteFromUser,
+                    NoteFromAdmin = orderDetail.NoteFromAdmin,
+                    UploadedFileName = orderDetail.UploadedFileName,
+                    UploadedFilePath = orderDetail.UploadedFilePath,
+                    TotalAmount = orderDetail.TotalAmount,
+                    SalesRep = orderDetail.SalesRep,
+                    DeliveredDate = orderDetail.DeliveredDate,
+                    OrderStatus = orderDetail.OrderStatus,
+                    Module = orderDetail.Module,
+                });
+            };
+
+            if (orderDetailVMs == null)
             {
                 return NotFound();
             }
-
-            var order = await _context.Orders
-                .SingleOrDefaultAsync(m => m.OrderId == id);
-            if (order == null)
-            {
-                return NotFound();
-            }
-
-            return View(order);
+        
+            return View(orderDetailVMs);
         }
 
         // GET: OrderAdmin/Create

@@ -14,11 +14,10 @@ $(document).ready(function() {
 
     $('#dynamic-table').dataTable( {
         "aaSorting": [[0, "asc"]],
-        "lengthMenu": [[5, -1], [5, "All"]],
+        "lengthMenu": [[10, -1], [10, "All"]],
         "bFilter": false,
         "bLengthChange": false,
         "ordering": false,
-
     } );
 
     /*

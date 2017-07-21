@@ -13,10 +13,6 @@
         </div>
 
         <input type="hidden" asp-for="ModuleId" />
-        <input type="hidden" asp-for="ModuleName" />
-        <input type="hidden" asp-for="Description" />
-        <input type="hidden" asp-for="UnitPriceId" />
-        <input type="hidden" asp-for="UnitPrice" />
 
         <div>
             <dl class="dl-horizontal admin-margin-detail">
@@ -45,11 +41,11 @@
                 </dd>
 
                 <dt>
-                    @Html.DisplayNameFor(model => model.UnitPriceId)
+                    @Html.DisplayNameFor(model => model.UnitPrice)
                 </dt>
                 <dd class="form-group">
-                    <input asp-for="UnitPriceId" class="form-control" />
-                    <span asp-validation-for="UnitPriceId" class="text-danger"></span>
+                    <input asp-for="UnitPrice" class="form-control" />
+                    <span asp-validation-for="UnitPrice" class="text-danger"></span>
                 </dd>
 
             </dl>

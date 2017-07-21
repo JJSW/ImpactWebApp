@@ -9,9 +9,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
 
-@Html.Partial("_BillingInvoice", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+<br />
 
 <!--
     Display and connect to Stripe API
@@ -24,7 +23,7 @@
 {
     var orderId = 0;
     var bAddressId = (int)@ViewData["BillingAddressId"];
-    foreach (var a in Model) { orderId = a.OrderId; }
+    foreach (var m in Model) { orderId = m.OrderId; }
 
     <!--
         Create options to send to Stripe API.
@@ -103,7 +102,7 @@ else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
 
     <div class="btn-center">
         <a class="btn btn-primary btn-lg"
-           href="@Url.Action("ChargeDefault", "Billing", new { orderId = @orderId})">
+           href="@Url.Action("ChargeDefault", "Billing", new { id = @orderId})">
             Complete Order
         </a>
 
@@ -121,17 +120,24 @@ else if (@ViewData["Amount"] != null && (int)@ViewData["Amount"] == 0)
 }
 else
 {
-    <div style="margin:30px 30px 0px 30px; display:table;">
-        <p> No payment to make </p>
+    <div style="margin:30px; display:table;">
+        <div class="alert alert-danger">No payment to make</div>
     </div>
 }
 
 <br /><br />
 
+
+@Html.Partial("_BillingInvoice", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
+
+
+<br />
+
+
 <!--Display payment details as a partial view -->
 @Html.Partial("_BillingDetails", (IEnumerable<BillingDetailViewModel>)ViewBag.BillingDetails)
 
-<br /><br />
+<br />
 
 <!--Display billing address details as a partial view
 <hr/>

@@ -42,7 +42,7 @@ namespace ImpactWebsite.Controllers
         /// Return billing page with a data that contains information with order and module.
         /// Only displays the specific order of the logged in user.
         /// Billing address will be displayed in any circumstances.
-        public async Task<IActionResult> Index(int? orderId)
+        public async Task<IActionResult> Index(int? id)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             List<BillingDetailViewModel> billingVMs = new List<BillingDetailViewModel>();
@@ -55,7 +55,7 @@ namespace ImpactWebsite.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            if (orderId != null)
+            if (id != null)
             {
                 var billingDetails = (from u in _context.Users
                                       join o in _context.Orders on u.Id equals o.UserId
@@ -67,15 +67,16 @@ namespace ImpactWebsite.Controllers
                                           OrderNum = o.OrderNum,
                                           OrderedDate = o.OrderedDate,
                                           UserId = u.Id,
+                                          ModuleId = m.ModuleId,
                                           ModuleName = m.ModuleName,
-                                          UnitPrice = m.UnitPrice.Price,
+                                          UnitPrice = m.UnitPrice,
                                           TotalAmount = o.TotalAmount,
                                           OrderStatus = o.OrderStatus,
                                           NoteFromUser = o.NoteFromUser,
                                           UploadedFileName = o.UploadedFileName,
                                       }).ToList();
 
-                var temps = billingDetails.Where(x => x.UserId == user.Id).Where(y => y.OrderId == orderId).ToList();
+                var temps = billingDetails.Where(x => x.UserId == user.Id).Where(y => y.OrderId == id).ToList();
 
                 foreach (var billing in temps)
                 {
@@ -85,6 +86,7 @@ namespace ImpactWebsite.Controllers
                         OrderNum = billing.OrderNum,
                         OrderedDate = billing.OrderedDate,
                         UserId = billing.UserId,
+                        ModuleId = billing.ModuleId,
                         ModuleName = billing.ModuleName,
                         UnitPrice = billing.UnitPrice,
                         TotalAmount = billing.TotalAmount,
@@ -105,7 +107,7 @@ namespace ImpactWebsite.Controllers
                 ViewData["Amount"] = totalAmount;
                 ViewData["AmountDisplay"] = totalAmount / _dollarCent;
                 ViewData["ModuleCount"] = moduleCount;
-                ViewData["OrderId"] = orderId;
+                ViewData["OrderId"] = id;
             }
 
             var userId = await _userManager.GetUserIdAsync(user);
@@ -120,9 +122,9 @@ namespace ImpactWebsite.Controllers
 
         /// Get order when a user select the default module.
         /// Since the default module is free of charge, no need to go through payment process.
-        public async Task<IActionResult> ChargeDefault(int orderId)
+        public async Task<IActionResult> ChargeDefault(int id)
         {
-            var completedOrders = _context.Orders.Where(x => x.OrderId == orderId);
+            var completedOrders = _context.Orders.Where(x => x.OrderId == id);
 
             foreach (var order in completedOrders)
             {
@@ -178,6 +180,7 @@ namespace ImpactWebsite.Controllers
             foreach (var order in completedOrders)
             {
                 order.OrderStatus = OrderStatusList.Processing;
+                order.ModifiedDate = DateTime.Now;
             }
 
             _context.Orders.SingleOrDefault(o => o.OrderId == orderId).IsPromotionCodeApplied = true;
@@ -194,6 +197,8 @@ namespace ImpactWebsite.Controllers
             foreach (var order in orders)
             {
                 order.OrderStatus = OrderStatusList.Cancelled;
+                order.ModifiedDate = DateTime.Now;
+                order.PromotionId = -1;
             }
 
             await _context.SaveChangesAsync();

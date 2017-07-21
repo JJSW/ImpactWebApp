@@ -34,7 +34,6 @@ namespace ImpactWebsite.Data
         public DbSet<Saving> Savings { get; set; }
 
         public DbSet<Module> Modules { get; set; }
-        public DbSet<UnitPrice> UnitPrices { get; set; }
         public DbSet<Investment> Investments { get; set; }
     }
 }

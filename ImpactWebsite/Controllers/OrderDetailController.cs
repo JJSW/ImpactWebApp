@@ -136,7 +136,6 @@ namespace ImpactWebsite.Controllers
 
             var orderDetail = await _context.OrderDetails
                 .Include(o => o.Module)
-                //.Include(o => o.Order)
                 .SingleOrDefaultAsync(m => m.OrderDetailId == id);
             if (orderDetail == null)
             {

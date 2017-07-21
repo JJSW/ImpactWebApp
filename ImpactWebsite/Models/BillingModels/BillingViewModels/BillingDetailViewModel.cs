@@ -21,6 +21,12 @@ namespace ImpactWebsite.Models.BillingModels
 
         public string UserId { get; set; }
 
+        [Display(Name = "User Email")]
+        public string UserEmail { get; set; }
+
+        [Display(Name = "Module Id")]
+        public Int32 ModuleId { get; set; }
+
         [Display(Name = "Module Name")]
         public string ModuleName { get; set; }
 

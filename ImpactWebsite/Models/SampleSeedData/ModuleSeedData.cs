@@ -11,44 +11,11 @@ namespace ImpactWebsite.Models.SampleSeedData
     {
         public static void Initialize(ApplicationDbContext db)
         {
-            GetUnitPrice(db);
             GetModules(db);
             GetSavings(db);
             GetPromotions(db);
         }
 
-        public static void GetUnitPrice(ApplicationDbContext db)
-        {
-            if (!db.UnitPrices.Any())
-            {
-                db.UnitPrices.Add(new UnitPrice()
-                {
-                    Price = 0,
-                    DateEffectFrom = new DateTime(2017, 01, 01),
-                });
-                db.UnitPrices.Add(new UnitPrice()
-                {
-                    Price = 10,
-                    DateEffectFrom = new DateTime(2017, 01, 01),
-                });
-                db.UnitPrices.Add(new UnitPrice()
-                {
-                    Price = 15,
-                    DateEffectFrom = new DateTime(2017, 01, 01),
-                });
-                db.UnitPrices.Add(new UnitPrice()
-                {
-                    Price = 20,
-                    DateEffectFrom = new DateTime(2017, 01, 01),
-                });
-                db.UnitPrices.Add(new UnitPrice()
-                {
-                    Price = 25,
-                    DateEffectFrom = new DateTime(2017, 01, 01),
-                });
-                db.SaveChanges();
-            }
-        }
         public static void GetModules(ApplicationDbContext db)
         {
             if (!db.Modules.Any())
@@ -57,48 +24,48 @@ namespace ImpactWebsite.Models.SampleSeedData
                 {
                     ModuleName = "Overview and Financials",
                     Description = "Description Overview and Financials",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 0).UnitPriceId
+                    UnitPrice = 0,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Operational blueprint and asset-level data",
                     Description = "Description Operational blueprint and asset-level data",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Social Impact metrics",
                     Description = "Description Social Impact metrics",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Environmental impact metrics",
                     Description = "Description Environmental impact metrics",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Governance and controversies",
                     Description = "Description Governance and controversies",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Upstream and downstream supplier analysis",
                     Description = "Description Upstream and downstream supplier analysis",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.Modules.Add(new Module()
                 {
                     ModuleName = "Regulatory, climate-realted and other risk analysis",
                     Description = "Description Regulatory, climate-realted and other risk analysis",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 }); db.Modules.Add(new Module()
                 {
                     ModuleName = "Benchmarking and targets",
                     Description = "Description Benchmarking and targets",
-                    UnitPriceId = db.UnitPrices.FirstOrDefault(u => u.Price == 25).UnitPriceId
+                    UnitPrice = 25,
                 });
                 db.SaveChanges();
             }

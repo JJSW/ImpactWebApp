@@ -70,8 +70,6 @@ namespace ImpactWebsite.Controllers
 
             List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
 
-            var moduleList = _context.Modules.Include(o => o.UnitPrice);
-
             var activeDiscount1 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 1);
             var activeDiscount2 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 2);
 
@@ -95,7 +93,7 @@ namespace ImpactWebsite.Controllers
                 }
             }
 
-            foreach (var module in moduleList)
+            foreach (var module in _context.Modules)
             {
                 tempOrders.Add(new TempOrderViewModel()
                 {
@@ -122,7 +120,7 @@ namespace ImpactWebsite.Controllers
             ViewData["Email"] = _emailAddress;
 
             var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId)
-                .Include(o => o.Module.UnitPrice);
+                .Include(o => o.Module);
             return View(OrderDetails.ToList());
         }
 
@@ -212,7 +210,7 @@ namespace ImpactWebsite.Controllers
             CreateModuleIds();
 
             var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId)
-                .Include(o => o.Module.UnitPrice);
+                .Include(od=>od.Module);
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;

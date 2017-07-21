@@ -46,7 +46,7 @@ namespace ImpactWebsite.Controllers
             }
 
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
-            List<OrderDetailViewModel> orderDetailVM = new List<OrderDetailViewModel>();
+            List<OrderDetailViewModel> orderDetailVMs = new List<OrderDetailViewModel>();
             var userId = user.Id;
 
             var orderDetails = (from u in _context.Users
@@ -74,7 +74,7 @@ namespace ImpactWebsite.Controllers
 
             foreach (var orderDetail in currentOrderDetails)
             {
-                orderDetailVM.Add(new OrderDetailViewModel()
+                orderDetailVMs.Add(new OrderDetailViewModel()
                 {
                     OrderId = orderDetail.OrderId,
                     OrderNum = orderDetail.OrderNum,
@@ -90,12 +90,12 @@ namespace ImpactWebsite.Controllers
                 });
             };
 
-            if (orderDetailVM == null)
+            if (orderDetailVMs == null)
             {
                 return NotFound();
             }
 
-            return View(orderDetailVM);
+            return View(orderDetailVMs);
         }
 
         // GET

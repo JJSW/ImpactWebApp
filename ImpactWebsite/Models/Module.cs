@@ -18,10 +18,7 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Module Description")]
         public string Description { get; set; }
 
-        public Int32 UnitPriceId { get; set; }
-
         [Display(Name = "Unit Price")]
-        public UnitPrice UnitPrice { get; set; }
-
+        public int UnitPrice { get; set; }
     }
 }

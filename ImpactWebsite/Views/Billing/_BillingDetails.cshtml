@@ -5,7 +5,6 @@
     ViewData["Title"] = "BillingDetails";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
 @{
     string noteFromUser = null;
     string uploadedFileName = null;
@@ -36,7 +35,7 @@
                 {
                     var moduleNum = @i + 1;
                             <tr>
-                                <td>@moduleNum</td>
+                                <td>@Model.ElementAt(@i).ModuleId</td>
                                 <td>@Model.ElementAt(@i).ModuleName</td>
                                 <td class="text-center"><strong>$@Model.ElementAt(@i).UnitPrice</strong></td>
                             </tr>
@@ -94,13 +93,11 @@
 
 else
 {
-    <div class="panel">
-        <div style="margin:30px;">
-            <p>You haven't selected module(s) yet. </p>
-        </div>
-        <a class="impact-btn" id="Test" asp-controller="Order" asp-action="Index">
+    <div class="alert alert-warning" style="margin: 30px; display:table;">
+        <p>You haven't selected any module yet. </p>
+        <br />
+        <a class="btn btn-primary" asp-controller="Order" asp-action="Index">
             Start Analysis
         </a>
-        <br />
     </div>
 }

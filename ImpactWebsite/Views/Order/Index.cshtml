@@ -32,18 +32,6 @@
                 </div>
             </div>
         </section>
-        <section class="panel">
-            <div class="panel-body">
-                <div style="margin: 9px 0 5px;" class="btn-group">
-                    <button class="btn btn-primary" type="button">
-                        <i class="fa fa-usd" aria-hidden="true"></i>@Html.Raw(strSpacer)USD</button>
-                    <button class="btn btn-primary" type="button">
-                        <i class="fa fa-gbp" aria-hidden="true"></i>@Html.Raw(strSpacer)GBP</button>
-                    <button class="btn btn-primary" type="button">
-                        <i class="fa fa-eur" aria-hidden="true"></i>@Html.Raw(strSpacer)EUR</button>
-                </div>
-            </div>
-        </section>
     </div>
 
 </div>
@@ -76,7 +64,7 @@
                                             Module Detail
                                         </th>
                                         <th style="width:10%">
-                                            @Html.DisplayNameFor(model => model.Modules.UnitPrice)
+                                            Price (USD)
                                         </th>
                                         <th style="width:10%">
                                             Select
@@ -98,7 +86,7 @@
                                             </td>
                                             <td>
                                                 <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
-                                                    @Model.ElementAt(@i).Modules.UnitPrice.Price.ToString("C0", fp)
+                                                    @Model.ElementAt(@i).Modules.UnitPrice.ToString("C0", fp)
                                                 </label>
                                             </td>
                                             <td>
@@ -228,7 +216,7 @@
             $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
-                totalPrice += +jsonObj.modules.unitPrice.price;
+                totalPrice += +jsonObj.modules.unitPrice;
             });
 
             var selectedModules = $(':checkbox:checked.chkBox').length;

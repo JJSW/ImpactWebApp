@@ -22,8 +22,7 @@ namespace ImpactWebsite.Controllers
         // GET: Module
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Modules.Include(o => o.UnitPrice);
-            return View(await applicationDbContext.ToListAsync());
+            return View(await _context.Modules.ToListAsync());
         }
 
         // GET: Module/Details/5
@@ -35,7 +34,6 @@ namespace ImpactWebsite.Controllers
             }
 
             var orderModule = await _context.Modules
-                .Include(o => o.UnitPrice)
                 .SingleOrDefaultAsync(m => m.ModuleId == id);
             if (orderModule == null)
             {
@@ -47,8 +45,7 @@ namespace ImpactWebsite.Controllers
 
         // GET: Module/Create
         public IActionResult Create()
-        {
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId");
+        {           
             return View();
         }
 
@@ -57,7 +54,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Create([Bind("ModuleId,ModuleName,Description,UnitPrice")] Module orderModule)
         {
             if (ModelState.IsValid)
             {
@@ -70,8 +67,7 @@ namespace ImpactWebsite.Controllers
                 await _context.SaveChangesAsync();
 
                 return RedirectToAction("Index");
-            }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
+            }         
             return View(orderModule);
         }
 
@@ -88,7 +84,6 @@ namespace ImpactWebsite.Controllers
             {
                 return NotFound();
             }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
             return View(orderModule);
         }
 
@@ -97,22 +92,20 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,UnitPriceId")] Module orderModule)
+        public async Task<IActionResult> Edit(int id, [Bind("ModuleId,ModuleName,Description,UnitPrice")] Module module)
         {
-            if (id != orderModule.ModuleId)
+            if (id != module.ModuleId)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-
-                _context.Update(orderModule);
+                _context.Update(module);
                 _context.Modules.SingleOrDefault(o => o.ModuleId == id).ModifiedDate = DateTime.Now;
                 await _context.SaveChangesAsync();
 
             }
-            ViewData["UnitPriceId"] = new SelectList(_context.UnitPrices, "UnitPriceId", "UnitPriceId", orderModule.UnitPriceId);
             return RedirectToAction("Details", new { id = id });
         }
 
@@ -125,7 +118,6 @@ namespace ImpactWebsite.Controllers
             }
 
             var orderModule = await _context.Modules
-                .Include(o => o.UnitPrice)
                 .SingleOrDefaultAsync(m => m.ModuleId == id);
             if (orderModule == null)
             {

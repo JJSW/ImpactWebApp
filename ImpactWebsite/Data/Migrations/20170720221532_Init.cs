@@ -96,6 +96,22 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Modules",
+                columns: table => new
+                {
+                    ModuleId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Description = table.Column<string>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: false),
+                    ModuleName = table.Column<string>(nullable: true),
+                    UnitPrice = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.ModuleId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Orders",
                 columns: table => new
                 {
@@ -173,44 +189,6 @@ namespace WebApplication1.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UnitPrices",
-                columns: table => new
-                {
-                    UnitPriceId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    DateEffectFrom = table.Column<DateTime>(nullable: false),
-                    DateEffectTo = table.Column<DateTime>(nullable: false),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    Price = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UnitPrices", x => x.UnitPriceId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Modules",
-                columns: table => new
-                {
-                    ModuleId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Description = table.Column<string>(nullable: true),
-                    ModifiedDate = table.Column<DateTime>(nullable: false),
-                    ModuleName = table.Column<string>(nullable: true),
-                    UnitPriceId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Modules", x => x.ModuleId);
-                    table.ForeignKey(
-                        name: "FK_Modules_UnitPrices_UnitPriceId",
-                        column: x => x.UnitPriceId,
-                        principalTable: "UnitPrices",
-                        principalColumn: "UnitPriceId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "OrderDetails",
                 columns: table => new
                 {
@@ -242,11 +220,6 @@ namespace WebApplication1.Data.Migrations
                 name: "IX_AspNetUsers_BillingAddressId",
                 table: "AspNetUsers",
                 column: "BillingAddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Modules_UnitPriceId",
-                table: "Modules",
-                column: "UnitPriceId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_ApplicationUserId",
@@ -293,9 +266,6 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Modules");
-
-            migrationBuilder.DropTable(
-                name: "UnitPrices");
 
             migrationBuilder.DropIndex(
                 name: "RoleNameIndex",

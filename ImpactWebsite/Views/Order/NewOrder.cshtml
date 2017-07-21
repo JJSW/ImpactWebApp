@@ -37,41 +37,46 @@
                     Upload portfolio
                     <span class="tools pull-right">
                         <a href="javascript:;" class="fa fa-chevron-down"></a>
-                    </span>
+                    </span>                   
                 </header>
                 <div class="panel-body">
 
-                    <form class="dropzone"
-                          id="dropzoneForm"
-                          asp-action="UploadFile"
-                          asp-controller="Order"
-                          method="post"
-                          style="text-align:left !important">
-                        <div class="fallback">
-                            <input name="file" type="file" multiple />
-                        </div>
-                    </form>
+                    <div class="alert alert-success">
+                        <p>Please upload details of your portfolio, </p>
+                        <p>including holding names, ISINs and positions (number of shares or debt held)</p>
+                    </div>
 
-                    <form id="noteFromUserForm" method="post" role="form">
-                        <div class="form-group">
-                            <textarea id="noteFromUser"
-                                      name="noteFromUser"
-                                      class="form-control"
-                                      placeholder="Add any additional comments"
-                                      rows="3"
-                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
-                        </div>
-                    </form>
+                        <form class="dropzone dropzone-preview"
+                              id="dropzoneForm"
+                              asp-action="UploadFile"
+                              asp-controller="Order"
+                              method="post"
+                              style="text-align:left !important">
+                            <div class="fallback">
+                                <input name="file" type="file" multiple />
+                            </div>
+                        </form>
 
-                    <button id="submitFileComment" type="submit" value="Submit"
-                            class="btn btn-primary input-icon">
-                        <i class="fa fa-upload" aria-hidden="true"></i>
-                        @Html.Raw(strSpacer)Upload file and comment
-                    </button>
+                        <form id="noteFromUserForm" method="post" role="form">
+                            <div class="form-group">
+                                <textarea id="noteFromUser"
+                                          name="noteFromUser"
+                                          class="form-control"
+                                          placeholder="Add any additional comments"
+                                          rows="3"
+                                          style="margin-top:10px; margin-bottom:20px;"></textarea>
+                            </div>
+                        </form>
 
-                    <span id="submitResult"></span>
+                        <button id="submitFileComment" type="submit" value="Submit"
+                                class="btn btn-primary input-icon">
+                            <i class="fa fa-upload" aria-hidden="true"></i>
+                            @Html.Raw(strSpacer)Upload file and comment
+                        </button>
 
-                </div>
+                        <span id="submitResult"></span>
+
+                    </div>
             </section>
         </div>
 
@@ -96,7 +101,7 @@
                             @for (int i = 0; i < Model.Count(); i++)
                             {
                                 <tr></tr>
-                                subTotal += Model.ElementAt(@i).Module.UnitPrice.Price;
+                                subTotal += Model.ElementAt(@i).Module.UnitPrice;
                             }
                         </tbody>
 
@@ -172,9 +177,7 @@
                             <button id="promoCode"
                                     asp-controller="Order"
                                     asp-action="SubmitPromoCode"
-                                    class="btn btn-success">
-                                <i class="fa fa-barcode" aria-hidden="true"></i>
-                                @Html.Raw(strSpacer)Promotion Code
+                                    class="btn btn-success">Promotion Code
                             </button>
                         }
                         else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
@@ -203,7 +206,7 @@
                     <br />
                     @if (SignInManager.IsSignedIn(User))
                     {
-                        <a href="@Url.Action("Index", "Billing", new { @orderId = ViewData["OrderId"] })"
+                        <a href="@Url.Action("Index", "Billing", new { @id = ViewData["OrderId"] })"
                            class="btn btn-primary btn-new-order"
                            role="button"
                            id="proceedButton">
@@ -321,6 +324,7 @@
             //Set Dropzone from uploading dropped files immediately
             autoProcessQueue: false,
             paramName: "file",
+            dictDefaultMessage: "Drop files or click here to upload",
 
             init: function () {
                 var submitButton = document.querySelector("#submitFileComment");

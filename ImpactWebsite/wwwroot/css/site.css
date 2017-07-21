@@ -6,7 +6,7 @@
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
-    margin: 30px;
+    margin: 20px;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -216,6 +216,16 @@ table.dataTable th:active {
 }
 
 /*-------------------------------
+            Dropzone
+-------------------------------*/
+
+.dropzone-preview {
+    height: 100px !important
+}
+
+
+
+/*-------------------------------
              Misc
 -------------------------------*/
 
@@ -234,7 +244,7 @@ table.dataTable th:active {
 }
 
 .admin-margin{
-    margin:0 30px 30px 30px;
+    margin:30px;
 }
 
 .admin-margin-detail dt{

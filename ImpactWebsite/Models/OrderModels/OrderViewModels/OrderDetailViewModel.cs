@@ -8,6 +8,7 @@ namespace ImpactWebsite.Models.OrderModels
 {
     public class OrderDetailViewModel
     {
+        // Order
         [Display(Name = "Order ID")]
         public Int32 OrderId { get; set; }
 
@@ -28,18 +29,6 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
 
-
-        [Display(Name = "Module ID")]
-        public Int32 ModuleId { get; set; }
-
-        [Display(Name = "Module Name")]
-        public string ModuleName { get; set; }
-
-        public string UserId { get; set; }
-
-        [Display(Name = "Module Price")]
-        public int UnitPrice { get; set; }
-
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
 
@@ -57,11 +46,40 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Uploaded File Name")]
         public string UploadedFileName { get; set; }
 
+        [Display(Name = "Sales Rep")]
+        public string SalesRep { get; set; }
+
+
+
+        // Module
+        public Module Module { get; set; }
+
+        [Display(Name = "Module ID")]
+        public Int32 ModuleId { get; set; }
+
+        [Display(Name = "Module IDs")]
+        public string ModuleIds { get; set; }
+
+        [Display(Name = "Module Name")]
+        public string ModuleName { get; set; }
+
+
+
+        // User
+        public string UserId { get; set; }
+
+        [Display(Name = "Email")]
+        public string UserEmail { get; set; }
+
+        [Display(Name = "Module Price")]
+        public int UnitPrice { get; set; }
+
+
+
         [Display(Name = "Billing Address Number")]
         public Int32 BillingAddressId { get; set; }
 
         [Display(Name = "Promotion")]
         public Promotion Promotion { get; set; }
-
     }
 }

@@ -151,11 +151,9 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("ModuleName");
 
-                    b.Property<int>("UnitPriceId");
+                    b.Property<int>("UnitPrice");
 
                     b.HasKey("ModuleId");
-
-                    b.HasIndex("UnitPriceId");
 
                     b.ToTable("Modules");
                 });
@@ -287,24 +285,6 @@ namespace WebApplication1.Data.Migrations
                     b.ToTable("Savings");
                 });
 
-            modelBuilder.Entity("ImpactWebsite.Models.UnitPrice", b =>
-                {
-                    b.Property<int>("UnitPriceId")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime>("DateEffectFrom");
-
-                    b.Property<DateTime>("DateEffectTo");
-
-                    b.Property<DateTime>("ModifiedDate");
-
-                    b.Property<int>("Price");
-
-                    b.HasKey("UnitPriceId");
-
-                    b.ToTable("UnitPrices");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole", b =>
                 {
                     b.Property<string>("Id")
@@ -417,14 +397,6 @@ namespace WebApplication1.Data.Migrations
                     b.HasOne("ImpactWebsite.Models.BillingModels.BillingAddress", "BillingAddress")
                         .WithMany()
                         .HasForeignKey("BillingAddressId");
-                });
-
-            modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Module", b =>
-                {
-                    b.HasOne("ImpactWebsite.Models.UnitPrice", "UnitPrice")
-                        .WithMany()
-                        .HasForeignKey("UnitPriceId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("ImpactWebsite.Models.OrderModels.Order", b =>
