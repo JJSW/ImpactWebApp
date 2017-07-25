@@ -34,9 +34,11 @@ namespace ImpactWebsite.Controllers
         {
             ViewData["OrderId"] = id;
 
-            if (_context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum != null)
+            var orderNum = await _context.Orders.SingleOrDefaultAsync(o => o.OrderId == id);
+
+            if (orderNum.OrderNum != null)
             {
-                ViewData["OrderNum"] = _context.Orders.SingleOrDefault(o => o.OrderId == id).OrderNum;
+                ViewData["OrderNum"] = orderNum.OrderNum;
             }
 
             if (id == 0)

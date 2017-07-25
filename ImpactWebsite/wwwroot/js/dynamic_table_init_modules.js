@@ -18,7 +18,7 @@ $(document).ready(function() {
         "bFilter": false,
         "bLengthChange": false,
         "ordering": false,
-
+        "bStateSave": false,
     } );
 
     /*

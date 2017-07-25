@@ -78,57 +78,17 @@
     <Content Include="wwwroot\lib\jquery-ui\jquery-ui.min.js" />
     <Content Include="wwwroot\lib\jquery-ui\package.json" />
     <Content Include="wwwroot\lib\jquery-ui\README.md" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\accordion.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\all.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\autocomplete.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\base.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\button.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\checkboxradio.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\controlgroup.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\core.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\datepicker.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\dialog.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\draggable.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_444444_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_555555_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_777620_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_777777_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_cc0000_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\images\ui-icons_ffffff_256x240.png" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\jquery-ui.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\jquery-ui.min.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\menu.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\progressbar.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\resizable.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\selectable.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\selectmenu.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\slider.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\sortable.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\spinner.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\tabs.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\theme.css" />
-    <Content Include="wwwroot\lib\jquery-ui\themes\base\tooltip.css" />
     <Content Include="wwwroot\lib\jquery-ui\ui\.jshintrc" />
     <Content Include="wwwroot\lib\jquery-ui\ui\core.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\data.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\disable-selection.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effect.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-blind.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-bounce.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-clip.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-drop.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-explode.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-fade.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-fold.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-highlight.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-puff.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-pulsate.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-scale.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-shake.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-size.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-slide.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\effects\effect-transfer.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\escape-selector.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\focusable.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\form-reset-mixin.js" />
@@ -164,7 +124,6 @@
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\slider.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\sortable.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\spinner.js" />
-    <Content Include="wwwroot\lib\jquery-ui\ui\widgets\tabs.js" />
     <Content Include="wwwroot\lib\jquery-ui\ui\widgets\tooltip.js" />
   </ItemGroup>
   <ItemGroup>
@@ -197,6 +156,7 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="1.0.0" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="wwwroot\lib\jquery-ui\themes\" />
     <Folder Include="wwwroot\uploads\" />
   </ItemGroup>
   <ItemGroup>

@@ -11,8 +11,6 @@
 @inject SignInManager<ApplicationUser> SignInManager
 @inject UserManager<ApplicationUser> UserManager
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
-
 <!-- page heading start-->
 <div class="page-heading">
     <h3>
@@ -57,7 +55,7 @@
                                         <th style="width:5%">
                                             #
                                         </th>
-                                        <th style="width:30%">
+                                        <th style="width:23%; max-width:30%">
                                             @Html.DisplayNameFor(model => model.Modules.ModuleName)
                                         </th>
                                         <th style="width:45%">
@@ -202,47 +200,65 @@
 
     <script type="text/javascript">
 
+        var totalPrice = 0;
+        var selectionDiscount = 0;
+        var totalAmountToPay = 0;
+
         $(document).ready(function () {
-            $("input").on("ifChanged", function () {
+
+            $(".adv-table").on("ifChanged", ":checkbox", function () {
                 calculateTotal();
+            });
+
+            var table = $("#dynamic-table").DataTable();
+            table.on("page", function () {
+
             });
         });
 
         function calculateTotal() {
-            totalPrice = 0;
-            selectionDiscount = 0;
-            totalAmountToPay = 0;
+
+            var pageTotalPrice = 0;
+
+            var tempTotalPrice = 0;
+            var tempSelectionDiscount = 0;
+            var tempTotalAmountToPay = 0;
 
             $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
-                totalPrice += +jsonObj.modules.unitPrice;
+                pageTotalPrice += jsonObj.modules.unitPrice;
             });
 
-            var selectedModules = $(':checkbox:checked.chkBox').length;
+            var selectedModules = $(":checkbox:checked.chkBox").length;
 
-            if (selectedModules >= '@ViewBag.D1SelectFrom' && selectedModules <= '@ViewBag.D1SelectTo' ) {
-                selectionDiscount = '@ViewBag.D1DiscountRate';
-            } else if (selectedModules >= '@ViewBag.D1SelectTo' && selectedModules <= '@ViewBag.D2SelectTo') {
-                selectionDiscount = '@ViewBag.D2DiscountRate';
+            if (selectedModules >= "@ViewBag.D1SelectFrom" && selectedModules <= "@ViewBag.D1SelectTo" ) {
+                tempSelectionDiscount = "@ViewBag.D1DiscountRate";
+            } else if (selectedModules >= "@ViewBag.D1SelectTo" && selectedModules <= "@ViewBag.D2SelectTo") {
+                tempSelectionDiscount = "@ViewBag.D2DiscountRate";
             }
 
-            $('span[name=totalPrice]').text('$' + totalPrice);
+            $("span[name=totalPrice]").text("$" + tempTotalPrice);
 
-            $('input[name=selectionDiscount]').val(selectionDiscount);
+            $("input[name=selectionDiscount]").val(tempSelectionDiscount);
 
-            if (selectionDiscount != null || selectionDiscount != 0) {
-                $('span[name=selectionDiscountDisplay]').text('-$' + selectionDiscount);
+            if (tempSelectionDiscount != null || tempSelectionDiscount != 0) {
+                $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
             }
 
-            totalAmountToPay = (totalPrice - selectionDiscount);
+            tempTotalAmountToPay = (tempTotalPrice - tempSelectionDiscount);
 
-            $('input[name=totalAmountToPay]').val(totalAmountToPay);
+            $("input[name=totalAmountToPay]").val(tempTotalAmountToPay);
 
-            if (totalAmountToPay != null || totalAmountToPay != 0) {
-                $('span[name=totalAmountToPayDisplay]').text('$' + totalAmountToPay);
+            if (tempTotalAmountToPay != null || tempTotalAmountToPay != 0) {
+                $("span[name=totalAmountToPayDisplay]").text("$" + tempTotalAmountToPay);
             }
+
+            totalPrice = tempTotalPrice;
+            selectionDiscount = tempSelectionDiscount;
+            totalAmountToPay = tempTotalAmountToPay;
         }
+
     </script>
 
 }

@@ -9,7 +9,16 @@
 <div class="admin-margin">
 
     <div class="page-heading">
-        <h3>Admin / Module</h3>
+        <ul class="breadcrumb">
+            <li>
+                <h3>
+                    Admin
+                </h3>
+            </li>
+            <li class="active">
+                Module
+            </li>
+        </ul>
         <br />
         <a asp-action="Create" role="button" class="btn btn-default">
             <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
@@ -18,22 +27,22 @@
 
     <section class="panel">
         <div class="adv-table">
-            <table class="table" id="dynamic-table">
+            <table class="table" id="dynamic-table" style="table-layout:auto">
                 <thead>
                     <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.ModuleId)
+                        <th style="min-width:3%">
+                            ID
                         </th>
-                        <th>
+                        <th style="min-width:25%; width:auto;">
                             @Html.DisplayNameFor(model => model.ModuleName)
                         </th>
-                        <th>
+                        <th style="max-width:45%; word-wrap: break-word;">
                             @Html.DisplayNameFor(model => model.Description)
                         </th>
-                        <th>
+                        <th style="min-width:7%;">
                             @Html.DisplayNameFor(model => model.UnitPrice)
                         </th>
-                        <th></th>
+                        <th style="min-width:20%;"></th>
                     </tr>
                 </thead>
                 <tbody>
