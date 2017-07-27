@@ -79,18 +79,9 @@ namespace ImpactWebsite.Models.SampleSeedData
                 {
                     SavingName = "Discount1",
                     SavingRate = 10,
-                    SelectFrom = 3,
-                    SelectTo = 5,
-                    Description = "Discount $10 for selections of 3 to 5"
-                });
-
-                db.Savings.Add(new Saving()
-                {
-                    SavingName = "Discount2",
-                    SavingRate = 20,
-                    SelectFrom = 6,
-                    SelectTo = 8,
-                    Description = "Discount $20 for selections of 6 to 8"
+                    SelectFrom = 2,
+                    SelectTo = 4,
+                    Description = "Discount $10 for selections of 2 to 4"
                 });
 
                 db.SaveChanges();

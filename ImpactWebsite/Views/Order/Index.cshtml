@@ -1,4 +1,5 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.TempOrderViewModel>
+@using ImpactWebsite.Models.OrderModels;
 
 @using Microsoft.AspNetCore.Identity
 @using ImpactWebsite.Models
@@ -6,6 +7,8 @@
 @{
     ViewData["Title"] = "Order";
     IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
+    var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));    
+    //var savingDataJson = ViewBag.SavingData;
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -49,7 +52,8 @@
 
                     <div class="panel-body">
                         <div class="adv-table">
-                            <table class="display table table-hover general-table" id="dynamic-table">
+                            <!--<table class="display table table-hover general-table" id="dynamic-table">-->
+                            <table class="display table table-hover general-table">
                                 <thead>
                                     <tr>
                                         <th style="width:5%">
@@ -204,21 +208,14 @@
         var selectionDiscount = 0;
         var totalAmountToPay = 0;
 
-        $(document).ready(function () {
 
+        $(document).ready(function () {
             $(".adv-table").on("ifChanged", ":checkbox", function () {
                 calculateTotal();
-            });
-
-            var table = $("#dynamic-table").DataTable();
-            table.on("page", function () {
-
             });
         });
 
         function calculateTotal() {
-
-            var pageTotalPrice = 0;
 
             var tempTotalPrice = 0;
             var tempSelectionDiscount = 0;
@@ -227,16 +224,21 @@
             $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
                 console.log($(this).val());
-                pageTotalPrice += jsonObj.modules.unitPrice;
+                tempTotalPrice += jsonObj.modules.unitPrice;
             });
 
             var selectedModules = $(":checkbox:checked.chkBox").length;
 
-            if (selectedModules >= "@ViewBag.D1SelectFrom" && selectedModules <= "@ViewBag.D1SelectTo" ) {
-                tempSelectionDiscount = "@ViewBag.D1DiscountRate";
-            } else if (selectedModules >= "@ViewBag.D1SelectTo" && selectedModules <= "@ViewBag.D2SelectTo") {
-                tempSelectionDiscount = "@ViewBag.D2DiscountRate";
-            }
+            var savingData = JSON.parse(@savingDataJson);
+            console.log(savingData);
+
+            $.each(savingData, function (key, value) {
+                console.log(value.SelectFrom);
+                if (selectedModules >= value.SelectFrom && selectedModules <= value.SelectTo) {
+                    tempSelectionDiscount = value.SavingRate;
+                    console.log(value.SavingRate);
+                }
+            });
 
             $("span[name=totalPrice]").text("$" + tempTotalPrice);
 

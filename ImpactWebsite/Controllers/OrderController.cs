@@ -59,6 +59,7 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> Index(string message)
         {
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
+            List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
             ViewData["error"] = message;
             _promotionDiscountRate = "0";
 
@@ -68,30 +69,10 @@ namespace ImpactWebsite.Controllers
                 ViewData["Email"] = _emailAddress;
             }
 
-            List<TempOrderViewModel> tempOrders = new List<TempOrderViewModel>();
+            var savingData = _context.Savings.Where(s => s.IsActive == true);
 
-            var activeDiscount1 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 1);
-            var activeDiscount2 = _context.Savings.Where(w => w.IsActive == true).Where(x => x.SavingId == 2);
-
-            if (activeDiscount1.Any() || activeDiscount1 != null)
-            {
-                foreach (var active1 in activeDiscount1)
-                {
-                    ViewBag.D1SelectFrom = active1.SelectFrom;
-                    ViewBag.D1SelectTo = active1.SelectTo;
-                    ViewBag.D1DiscountRate = active1.SavingRate;
-                }
-            }
-
-            if (activeDiscount2.Any() || activeDiscount2 != null)
-            {
-                foreach (var active2 in activeDiscount2)
-                {
-                    ViewBag.D2SelectFrom = active2.SelectFrom;
-                    ViewBag.D2SelectTo = active2.SelectTo;
-                    ViewBag.D2DiscountRate = active2.SavingRate;
-                }
-            }
+            List<Saving> saving = new List<Saving>(savingData);
+            ViewBag.SavingData = saving;
 
             foreach (var module in _context.Modules)
             {

@@ -223,6 +223,25 @@ table.dataTable th:active {
     height: 100px !important
 }
 
+/*-------------------------------
+            Ion Range Slider
+-------------------------------*/
+
+.slider-width {
+    max-width: 280px;
+}
+
+.area {
+    position: absolute;
+    top: 0;
+    height: 10px;
+    background: #65CEA7;
+}
+
+.range-slider-position {
+    position: relative;
+    height: 80px;
+}
 
 
 /*-------------------------------

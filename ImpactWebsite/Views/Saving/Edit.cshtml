@@ -37,7 +37,7 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.SelectFrom)
                 </dt>
-                <dd class="form-group">
+                <dd class="form-group slider-width">
                     <input asp-for="SelectFrom" class="form-control" />
                     <span asp-validation-for="SelectFrom" class="text-danger"></span>
                 </dd>
@@ -45,7 +45,7 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.SelectTo)
                 </dt>
-                <dd class="form-group">
+                <dd class="form-group slider-width">
                     <input asp-for="SelectTo" class="form-control" />
                     <span asp-validation-for="SelectTo" class="text-danger"></span>
                 </dd>
@@ -80,7 +80,9 @@
 
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");
+
+    }
 }
 
 

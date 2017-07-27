@@ -20,7 +20,17 @@
                 Saving
             </li>
         </ul>
+        <br />
+        <a asp-action="Create" role="button" class="btn btn-default">
+            <span class="fa fa-plus"></span>@Html.Raw(strSpacer)Create
+        </a>
     </div>
+
+    <!--
+    <div class="range-slider-position">
+        <input type="text" class="range-slider" value="" />
+    </div>
+    -->
 
     <section class="panel">
         <div class="adv-table">
@@ -62,7 +72,7 @@
                                 @Html.DisplayFor(modelItem => item.SavingName)
                             </td>
                             <td>
-                                @Html.DisplayFor(modelItem => item.SavingRate)
+                                $@Html.DisplayFor(modelItem => item.SavingRate)
                             </td>
                             <td>
                                 @Html.DisplayFor(modelItem => item.SelectFrom)
@@ -87,6 +97,11 @@
                                    role="button">
                                     <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
                                 </a>
+                                <a asp-action="Delete" asp-route-id="@item.SavingId"
+                                   class="btn btn-default btn-sm"
+                                   role="button">
+                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                </a>
                             </td>
                         </tr>
                     }
@@ -104,4 +119,57 @@
 
     <!--dynamic table initialization -->
     <script type="text/javascript" src="~/js/dynamic_table_init_default.js"></script>
+
+    <!-- ion.RangeSlider-->
+    <link rel="stylesheet" href="~/lib/ion.rangeSlider/css/ion.rangeSlider.css" />
+    <link rel="stylesheet" href="~/lib/ion.rangeSlider/css/ion.rangeSlider.skinFlat.css" />
+
+    <script type="text/javascript" src="~/lib/ion.rangeSlider/js/ion.rangeSlider.js"></script>
+
+    <script type="text/javascript">
+
+        var $range = $(".range-slider");
+        var min = @ViewBag.MinimumSelectedFrom;
+        var max = @ViewBag.MaximumSelctedTo;
+
+        $(document).ready(function () {
+
+            $range.ionRangeSlider({
+                type: "double",
+                grid: true,
+                grid_margin: false,
+                grid_num: max,
+                min: 0,
+                max: max,
+                disable: true,
+                onStart: function (data) {
+                    addSpecialAreas(data.slider);
+                }
+            });
+        });
+
+        $.each(savingData.savingID, function (i){
+            $.each(savingData.savingID[i], function (key, val){
+                alert(key + val);
+            });
+        });
+
+        var selectFrom = 5;
+        var selectTo = 10;
+
+        function addSpecialAreas($slider) {
+            var area = [selectFrom, selectTo];
+            var $line = $slider.find(".irs-line");
+            var left_percent = area[0] / (max - min) * 100;
+            var right_percent = area[1] / (max - min) * 100;
+            var width_percent = right_percent - left_percent;
+
+            $line.append("<div class='area' style='left: " + left_percent +
+                "%; width: " + width_percent +
+                "%; right: " + right_percent +
+                "%;'></div>")
+        }
+    </script>
+
+
 }

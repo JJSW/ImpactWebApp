@@ -9,6 +9,7 @@ namespace ImpactWebsite.Models.OrderModels
     public class Saving : BaseEntity
     {
         [Key]
+        [Display(Name = "Saving ID")]
         public Int32 SavingId { get; set; }
        
         [Display(Name = "Saving Name")]
