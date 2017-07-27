@@ -12,7 +12,6 @@
 
 @{
     string strSpacer = "&nbsp;&nbsp;";
-    var isCommentSaved = false;
 }
 
 <!-- page heading start-->
@@ -37,7 +36,7 @@
                     Upload portfolio
                     <span class="tools pull-right">
                         <a href="javascript:;" class="fa fa-chevron-down"></a>
-                    </span>                   
+                    </span>
                 </header>
                 <div class="panel-body">
 
@@ -45,37 +44,37 @@
                         <p>Please upload details of your portfolio, including holding names, ISINs and positions (number of shares or debt held)</p>
                     </div>
 
-                        <form class="dropzone dropzone-preview"
-                              id="dropzoneForm"
-                              asp-action="UploadFile"
-                              asp-controller="Order"
-                              method="post"
-                              style="text-align:left !important">
-                            <div class="fallback">
-                                <input name="file" type="file" multiple />
-                            </div>
-                        </form>
+                    <form class="dropzone dropzone-preview"
+                          id="dropzoneForm"
+                          asp-action="UploadFile"
+                          asp-controller="Order"
+                          method="post"
+                          style="text-align:left !important">
+                        <div class="fallback">
+                            <input name="file" type="file" multiple />
+                        </div>
+                    </form>
 
-                        <form id="noteFromUserForm" method="post" role="form">
-                            <div class="form-group">
-                                <textarea id="noteFromUser"
-                                          name="noteFromUser"
-                                          class="form-control"
-                                          placeholder="Add any additional comments"
-                                          rows="3"
-                                          style="margin-top:10px; margin-bottom:20px;"></textarea>
-                            </div>
-                        </form>
+                    <form id="noteFromUserForm" method="post" role="form">
+                        <div class="form-group">
+                            <textarea id="noteFromUser"
+                                      name="noteFromUser"
+                                      class="form-control"
+                                      placeholder="Add any additional comments"
+                                      rows="3"
+                                      style="margin-top:10px; margin-bottom:20px;"></textarea>
+                        </div>
+                    </form>
 
-                        <button id="submitFileComment" type="submit" value="Submit"
-                                class="btn btn-primary input-icon">
-                            <i class="fa fa-upload" aria-hidden="true"></i>
-                            @Html.Raw(strSpacer)Upload file and comment
-                        </button>
+                    <button id="submitFileComment" type="submit" value="Submit"
+                            class="btn btn-primary input-icon">
+                        <i class="fa fa-upload" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Upload file and comment
+                    </button>
 
-                        <span id="submitResult"></span>
+                    <span id="submitResult"></span>
 
-                    </div>
+                </div>
             </section>
         </div>
 
@@ -176,7 +175,8 @@
                             <button id="promoCode"
                                     asp-controller="Order"
                                     asp-action="SubmitPromoCode"
-                                    class="btn btn-success">Promotion Code
+                                    class="btn btn-success">
+                                Promotion Code
                             </button>
                         }
                         else if (ViewBag.PromotionStatus == PromotionStatusList.Applied)
@@ -193,7 +193,8 @@
                             <button id="promoCode"
                                     asp-controller="Order"
                                     asp-action="SubmitPromoCode"
-                                    class="btn btn-success">Promotion Code
+                                    class="btn btn-success">
+                                Promotion Code
 
                             </button>
                             <span class="alert alert-danger alert-custom">
@@ -233,7 +234,8 @@
     </div>
 </div>
 
-<div id="addUserForm"></div>
+<div id="promotionCodeForm"></div>
+<div id="checkProceedForm" class="text-center" style="margin-top: 10px;"><h4>Please click the upload button to proceed</h4> </div>
 
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
     <div class="modal-dialog">
@@ -270,68 +272,121 @@
     <link rel="stylesheet" href="~/lib/jquery-ui/themes/base/jquery-ui.css" />
     <script type="text/javascript" src="~/lib/jquery-ui/jquery-ui.js"></script>
 
+    <link rel="stylesheet" href="~/css/bootstrap-reset.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
 
     <script type="text/javascript">
-        $(document).ready(function () {
 
-            var noteFromUser = $("#noteFromUser").val();
+        var isCommentSubmitted = false;
+        var isFileSubmitted = false;
+        var isFileInQueue = false;
+
+        $(document).ready(function () {
 
             $("#proceedButton").on("click", function (e) {
-                if (@isCommentSaved == false) {
-                    alert(@isCommentSaved);
-                    e.preventDefault();
-                    alert(noteFromUser);
+                console.log(noteFromUser);
+
+                if (isFileInQueue) {
+                    if (isFileSubmitted == false) {
+                        openProceedDialog();
+                        e.preventDefault();
+                        return false;
+                    }
                 }
+
+                if ($("#noteFromUser").val() || $.trim("#noteFromUser").val()) {
+                    if (isCommentSubmitted == false) {
+                        openProceedDialog();
+                        e.preventDefault();
+                        return false;
+                    }
+                }
+
             });
         });
-    </script>
 
-    <script type="text/javascript">
+        function openProceedDialog() {
+            $("#checkProceedForm").dialog({
+                type: "GET",
+                autoOpen: true,
+                resizable: true,
+                modal: true,
+                draggable: false,
+                title: "Did you forget to upload comment or file?",
+                position: { my: "top", at: "top+50", of: window },
+                show: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                hide: {
+                    effect: "drop", direction: "up", duration: 300
+                },
+                width: 600,
+                height: 200,
+
+                buttons: {
+                    "Back": {
+                        text: "Back",
+                        class: "btn btn-primary btn-modal",
+                        click: function () {
+                            $(this).dialog("close");
+                        }
+                    }
+                },
+            });
+        }
+
         $(document).ready(function () {
             $("#submitFileComment").on("click", function () {
-                var isSuccess = false;
-                if ($("#noteFromUser").val() != "") {
-                    var noteFromUser = { noteFromUser: $("#noteFromUser").val() }
-
-                    $.ajax({
-                        type: "POST",
-                        url: "/Order/SubmitNote",
-                        data: noteFromUser,
-                        dataType: "json",
-                        success: function (result, status, xhr) {
-                        },
-                    });
-
-                    isSuccess = true;
-                }
-
-                if (isSuccess) {
-                    $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;comment saved</span>");
-                    @isCommentSaved = true;
-                }
+                submitNote();
             });
             return false;
         });
+
+        function submitNote() {
+            var isSuccess = false;
+
+            if ($("#noteFromUser").val() != "") {
+                var noteFromUser = { noteFromUser: $("#noteFromUser").val() }
+                $.ajax({
+                    type: "POST",
+                    url: "/Order/SubmitNote",
+                    data: noteFromUser,
+                    dataType: "json",
+                    success: function (result, status, xhr) {
+
+                    },
+                });
+                isSuccess = true;
+            }
+            if (isSuccess) {
+                $("#submitResult").html("<span class=\"alert alert-success alert-custom\"><i class=\"fa fa-check\"></i>&nbsp;&nbsp;comment saved</span>");
+                isCommentSubmitted = true;
+            }
+        }
     </script>
 
     <script type="text/javascript">
 
-        //File Upload response from the server
         Dropzone.options.dropzoneForm = {
 
-            maxFiles: 5,
-            //Set Dropzone from uploading dropped files immediately
+            maxFiles: 10,
+            //Prevent Dropzone from uploading dropped files immediately
             autoProcessQueue: false,
             paramName: "file",
             dictDefaultMessage: "Drop files or click here to upload",
 
             init: function () {
-                var submitButton = document.querySelector("#submitFileComment");
+                var submitButton = document.querySelector("#submitFileComment");                
                 var myDropzone = this; //closure
-
-                // Set Dropzone use button to upload
+                
                 submitButton.addEventListener("click", function () {
                     myDropzone.processQueue();
+                    var acceptedFileCount = myDropzone.getAcceptedFiles().length;
+                    console.log(acceptedFileCount);
+
+                    if (acceptedFileCount > 0) {
+                        isFileSubmitted = true;
+                    }
                 });
 
                 // Send additional parameter (optional)
@@ -344,23 +399,25 @@
                 });
 
                 this.on("addedfile", function (file) {
+                    
+                    if (file.size > 0) {
+                        isFileInQueue = true;
+                    }
 
-                    // Create the remove button
+                    console.log(isFileInQueue, isFileSubmitted);
+
                     var removeButton = Dropzone.createElement("<button class=\"btn btn-default\" style=\"margin-left:7px;margin-top:10px;\">Remove file</button>");
 
                     // Capture the Dropzone instance as closure.
                     var _this = this;
 
-                    // Listen to the click event
                     removeButton.addEventListener("click", function (e) {
                         // Make sure the button click doesn't submit the form:
                         e.preventDefault();
                         e.stopPropagation();
-                        // Remove the file preview.
                         _this.removeFile(file);
                         // AJAX request to delete file (optional)
                     });
-                    // Add the button to the file preview element.
                     file.previewElement.appendChild(removeButton);
                 });
             }
@@ -369,7 +426,7 @@
 
     <script type="text/javascript">
         $("#promoCode").on("click", function () {
-            $("#addUserForm").dialog({
+            $("#promotionCodeForm").dialog({
                 type: "GET",
                 autoOpen: true,
                 resizable: true,

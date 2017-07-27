@@ -111,6 +111,13 @@ select {
     margin: auto;
 }
 
+.btn-modal {
+    padding: 8px 18px;
+    margin-bottom: 15px !important;
+    margin-right: 15px !important;
+    border-radius: 5px;
+}
+
 /*-------------------------------
             Jquery UI
 -------------------------------*/
@@ -140,6 +147,10 @@ select {
     padding: 0 !important;
     outline: none !important;
 }
+
+    .ui-dialog .ui-dialog-buttonpane {
+        border-width: 0;
+    }
 
 ul.p-info .title {
     width: 50% !important;

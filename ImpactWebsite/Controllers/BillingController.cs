@@ -159,7 +159,7 @@ namespace ImpactWebsite.Controllers
             {
                 Amount = _amountInt,
                 Description = "Module Charge",
-                Currency = "cad",
+                Currency = "USD",
                 CustomerId = customer.Id,
             });
 

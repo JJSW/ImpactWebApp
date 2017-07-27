@@ -93,15 +93,14 @@ namespace ImpactWebsite.Controllers
             ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
             ViewBag.PromotionStatus = _promotionStatus;
-            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.TotalAmountToPay = _totalAmountToPay;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
             ViewData["Email"] = _emailAddress;
 
-            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId)
-                .Include(o => o.Module);
+            var OrderDetails = _context.OrderDetails.Where(o => o.OrderId == _orderId).Include(o => o.Module);
             return View(OrderDetails.ToList());
         }
 
@@ -125,9 +124,9 @@ namespace ImpactWebsite.Controllers
 
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
             ViewData["TotalDay"] = _totalDay;
+            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewBag.SelectionDiscount = _selectionDiscount;
             ViewBag.PromotionStatus = PromotionStatusList.Ready;
-            TempData["PromotionDiscountRate"] = _promotionDiscountRate;
 
             if (_signInManager.IsSignedIn(User))
             {
@@ -181,6 +180,7 @@ namespace ImpactWebsite.Controllers
                 SelectionDiscount = parsedSelectionDiscount,
                 PromotionId = -1,
                 OrderNum = _orderNumber,
+                ModifiedDate = DateTime.Now,
             });
 
             await _context.SaveChangesAsync();
@@ -190,8 +190,7 @@ namespace ImpactWebsite.Controllers
             CreateOrderDetail(collection);
             CreateModuleIds();
 
-            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId)
-                .Include(od=>od.Module);
+            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(od=>od.Module);
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;

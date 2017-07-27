@@ -8,7 +8,6 @@
     ViewData["Title"] = "Order";
     IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
     var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));    
-    //var savingDataJson = ViewBag.SavingData;
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -229,14 +228,12 @@
 
             var selectedModules = $(":checkbox:checked.chkBox").length;
 
-            var savingData = JSON.parse(@savingDataJson);
+            var savingData = @savingDataJson;
             console.log(savingData);
 
-            $.each(savingData, function (key, value) {
-                console.log(value.SelectFrom);
-                if (selectedModules >= value.SelectFrom && selectedModules <= value.SelectTo) {
-                    tempSelectionDiscount = value.SavingRate;
-                    console.log(value.SavingRate);
+            $.each(savingData, function (key, value) {                
+                if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
+                    tempSelectionDiscount = value.savingRate;
                 }
             });
 

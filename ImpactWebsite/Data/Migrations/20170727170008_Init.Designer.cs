@@ -9,8 +9,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170726193824_Saving")]
-    partial class Saving
+    [Migration("20170727170008_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -277,9 +277,9 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<int>("SavingRate");
 
-                    b.Property<int?>("SelectFrom");
+                    b.Property<int>("SelectFrom");
 
-                    b.Property<int?>("SelectTo");
+                    b.Property<int>("SelectTo");
 
                     b.HasKey("SavingId");
 
