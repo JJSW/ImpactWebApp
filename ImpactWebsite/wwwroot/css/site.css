@@ -57,6 +57,18 @@ select {
     margin: auto;
 }
 
+.inv-title {
+    color: #6bc5a4;
+    font-size: 30px;
+    text-transform: uppercase;
+    margin-top:30px;
+}
+
+.inv-title-vertical-center {
+    display:inline-block;
+    vertical-align:central;
+}
+
 /*-------------------------------
            Sign in
 -------------------------------*/

@@ -33,23 +33,6 @@
                         <div class="desk">@Html.DisplayFor(Model => Model.CompanyName)</div>
                     </li>
                     <li>
-                        <div class="title">Phone Number</div>
-                        <div class="desk">@Html.DisplayFor(Model => Model.PhoneNumber)</div>
-                    </li>
-                    <li>
-                        <div class="title">Newsletter Subscription</div>
-                        <div class="desk">
-                            @if (Model.NewsletterRequired)
-                            {
-                                <span>Yes</span>
-                            }
-                            else
-                            {
-                                <span>No</span>
-                            }
-                        </div>
-                    </li>
-                    <li>
                         <div class="title">Password</div>
                         <div class="desk">
                             @if (Model.PasswordHash != null)

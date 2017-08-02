@@ -95,13 +95,7 @@
                                                 </a>
                                             </td>
                                         }
-                                        else if (Model.ElementAt(@i).OrderStatus == OrderStatusList.Cancelled)
-                                        {
-                                            <td>
-                                            </td>
-                                        }
-                                        else if (Model.ElementAt(@i).OrderStatus == OrderStatusList.Completed
-                                            || Model.ElementAt(@i).OrderStatus == OrderStatusList.Processing)
+                                        else
                                         {
                                             <td>
                                                 <a asp-controller="OrderSummary"
