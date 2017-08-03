@@ -51,12 +51,6 @@ namespace WebApplication1.Data.Migrations
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
 
-            migrationBuilder.AddColumn<bool>(
-                name: "NewsletterRequired",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: false);
-
             migrationBuilder.CreateTable(
                 name: "BillingAddresses",
                 columns: table => new
@@ -297,10 +291,6 @@ namespace WebApplication1.Data.Migrations
 
             migrationBuilder.DropColumn(
                 name: "ModifiedDate",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
-                name: "NewsletterRequired",
                 table: "AspNetUsers");
 
             migrationBuilder.CreateIndex(

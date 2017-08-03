@@ -27,8 +27,6 @@ namespace ImpactWebsite.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        [Display(Name = "Receive Newsletter")]
-        public bool NewsletterRequired { get; set; }
-
+        public string Code { get; set; }
     }
 }

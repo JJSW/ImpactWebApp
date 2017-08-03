@@ -8,16 +8,14 @@
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
 <div class="admin-margin">
-
     <div class="page-heading">
+        <h3>Promotion Summary</h3>
         <ul class="breadcrumb">
             <li>
-                <h3>
-                    Admin
-                </h3>
+                Admin
             </li>
             <li class="active">
-                Promotion
+                Promotion Summary
             </li>
         </ul>
         <br />
@@ -26,94 +24,109 @@
         </a>
     </div>
 
-    <section class="panel">
-        <div class="adv-table">
-            <table class="table" id="dynamic-table">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PromotionId)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PromotionName)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.PromotionCode)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DiscountRate)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DateFrom)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.DateTo)
-                        </th>
-                        <th>
-                            @Html.DisplayNameFor(model => model.IsActive)
-                        </th>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of savings
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
 
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PromotionId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PromotionName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.PromotionCode)
-                            </td>
-                            @if (item.DiscountMethod == DiscountMethodList.Fixed)
+                    </header>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="table" id="dynamic-table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.PromotionId)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.PromotionName)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.PromotionCode)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DiscountRate)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DateFrom)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.DateTo)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.IsActive)
+                                        </th>
+
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.PromotionCode)
+                                            </td>
+                                            @if (item.DiscountMethod == DiscountMethodList.Fixed)
                 {
-                                <td>
-                                    $@Html.DisplayFor(modelItem => item.DiscountRate)
-                                </td>
-                            }
-                            else if (item.DiscountMethod == DiscountMethodList.Percentage)
-                            {
-                                <td>
-                                    @Html.DisplayFor(modelItem => item.DiscountRate)%
-                                </td>
-                            }
+                                                <td>
+                                                    $@Html.DisplayFor(modelItem => item.DiscountRate)
+                                                </td>
+                                            }
+                                            else if (item.DiscountMethod == DiscountMethodList.Percentage)
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.DiscountRate)%
+                                                </td>
+                                            }
 
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateFrom)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.DateTo)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.IsActive)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.PromotionId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
-                                </a>
-                                <a asp-action="Details" asp-route-id="@item.PromotionId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.PromotionId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateFrom)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.DateTo)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.IsActive)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.PromotionId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.PromotionId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.PromotionId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 @section scripts

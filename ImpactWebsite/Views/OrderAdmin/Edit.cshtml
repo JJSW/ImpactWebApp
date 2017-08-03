@@ -60,6 +60,7 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.UploadedFileName)
                 </dt>
+
                 <dd>
                     <a href="@fileLink">
                         @Html.DisplayFor(model => model.UploadedFileName)
@@ -99,8 +100,9 @@
                 <dt>
                     @Html.DisplayNameFor(model => model.NoteFromAdmin)
                 </dt>
-                <dd class="form-group">
-                    <input asp-for="NoteFromAdmin" class="form-control" />
+
+                <dd class="form-group form-no-max-width">
+                    <textarea asp-for="NoteFromAdmin" class="form-control">@Html.DisplayFor(model => model.NoteFromAdmin)</textarea>
                     <span asp-validation-for="NoteFromAdmin" class="text-danger"></span>
                 </dd>
 

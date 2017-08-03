@@ -36,6 +36,7 @@
     <Content Include="wwwroot\images\forward_enabled.png" />
     <Content Include="wwwroot\images\forward_enabled_hover.png" />
     <Content Include="wwwroot\images\ImpactLeap-logo-gray-bg-blue.png" />
+    <Content Include="wwwroot\images\favicon.png" />
     <Content Include="wwwroot\images\input-spinner.gif" />
     <Content Include="wwwroot\images\minus.png" />
     <Content Include="wwwroot\images\plus-white.png" />
@@ -48,8 +49,13 @@
     <Content Include="wwwroot\images\sort_desc_disabled.png" />
     <Content Include="wwwroot\js\bootstrap.min.js" />
     <Content Include="wwwroot\js\dynamic_table_init.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_modules - Copy.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_user.js">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
     <Content Include="wwwroot\js\dynamic_table_init_default.js" />
     <Content Include="wwwroot\js\dynamic_table_init_modules.js" />
+    <Content Include="wwwroot\js\dynamic_table_init_users.js" />
     <Content Include="wwwroot\js\html5shiv.js" />
     <Content Include="wwwroot\js\icheck-init.js" />
     <Content Include="wwwroot\js\modernizr.min.js" />

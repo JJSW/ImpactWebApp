@@ -50,8 +50,6 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<DateTime>("ModifiedDate");
 
-                    b.Property<bool>("NewsletterRequired");
-
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
 

@@ -66,13 +66,12 @@
             In this case, deals with a specific order with a specific user billing address
         -->
         <script src="https://checkout.stripe.com/v2/checkout.js"></script>
-
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
 
         <script>
             $(document).ready(function () {
                 $('#StripePay').on('click', function (event) {
-                    event.defaultPrevented();
+                    event.preventDefault();
                     var $button = $(this),
                         $form = $button.parents('form');
                     var opts = $.extend({}, $button.data(), {
@@ -124,6 +123,7 @@ else
         <div class="alert alert-danger">No payment to make</div>
     </div>
 }
+
 
 <br /><br />
 

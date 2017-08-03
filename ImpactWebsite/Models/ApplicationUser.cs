@@ -23,9 +23,6 @@ namespace ImpactWebsite.Models
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
-        [Display(Name = "Newsletter")]
-        public bool NewsletterRequired { get; set; }
-
         [Display(Name = "User Type")]
         public bool IsTempUser { get; set; }
 

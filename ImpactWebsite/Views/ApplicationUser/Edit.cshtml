@@ -13,10 +13,6 @@
         </div>
 
         <input type="hidden" asp-for="Id" />
-        <input type="hidden" asp-for="Email" />
-        <input type="hidden" asp-for="FirstName" />
-        <input type="hidden" asp-for="LastName" />
-        <input type="hidden" asp-for="CompanyName" />
 
         <input type="hidden" asp-for="UserName" />
         <input type="hidden" asp-for="NormalizedUserName" />
@@ -39,28 +35,33 @@
                     @Html.DisplayNameFor(model => model.Email)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.Email)
+                    <input id="emailInput" asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                    <div id="emailChange" class="text-danger" style="margin-top:5px;"></div>
                 </dd>
 
                 <dt>
                     @Html.DisplayNameFor(model => model.FirstName)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.FirstName)
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
                 </dd>
 
                 <dt>
                     @Html.DisplayNameFor(model => model.LastName)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.LastName)
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
                 </dd>
 
                 <dt>
                     @Html.DisplayNameFor(model => model.CompanyName)
                 </dt>
                 <dd>
-                    @Html.DisplayFor(model => model.CompanyName)
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
                 </dd>
 
                 <dt></dt>
@@ -68,16 +69,8 @@
                 <dt></dt>
                 <dd></dd>
 
-
                 <dt>
-                    @Html.DisplayNameFor(model => model.NewsletterRequired) ?
-                </dt>
-                <dd>
-                    <input asp-for="NewsletterRequired" class="checkbox"/>
-                </dd>
-
-                <dt>
-                    Temporary user ?
+                    Is temporary user ?
                 </dt>
                 <dd>
                     <input asp-for="IsTempUser" class="checkbox"/>

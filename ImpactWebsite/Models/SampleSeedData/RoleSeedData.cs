@@ -46,7 +46,7 @@ namespace ImpactWebsite.Models
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Fairbank Financial",
-                NewsletterRequired = true
+                ModifiedDate = DateTime.Now,
             };
 
             var temp = new ApplicationUser
@@ -62,7 +62,7 @@ namespace ImpactWebsite.Models
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Temporary User",
-                NewsletterRequired = true
+                ModifiedDate = DateTime.Now,
             };
 
             var member = new ApplicationUser
@@ -78,7 +78,7 @@ namespace ImpactWebsite.Models
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Test User",
-                NewsletterRequired = true
+                ModifiedDate = DateTime.Now,
             };
 
             if (!context.Users.Any(u => u.UserName == admin.UserName))

@@ -22,7 +22,9 @@ namespace ImpactWebsite.Controllers
         // GET: ApplicationUser
         public async Task<IActionResult> Index()
         {
-            return View(await _context.ApplicationUsers.ToListAsync());
+            var usersOrderByModifiedDate = await _context.ApplicationUsers.OrderBy(u => u.ModifiedDate).ToListAsync();
+
+            return View(usersOrderByModifiedDate);
         }
 
         // GET: ApplicationUser/Details/5
@@ -54,10 +56,11 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,CompanyName,NewsletterRequired,IsTempUser,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create([Bind("FirstName,LastName,CompanyName,IsTempUser,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
             if (ModelState.IsValid)
             {
+                applicationUser.ModifiedDate = DateTime.Now;
                 _context.Add(applicationUser);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");

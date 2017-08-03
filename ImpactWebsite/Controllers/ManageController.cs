@@ -83,8 +83,8 @@ namespace ImpactWebsite.Controllers
                 Email = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).Email,
                 PhoneNumber = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).PhoneNumber,
                 PasswordHash = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).PasswordHash,
-                NewsletterRequired = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).NewsletterRequired,
                 Orders = _context.ApplicationUsers.SingleOrDefault(s => s.Id == user.Id).Orders,
+                ModifiedDate = DateTime.Now,
             };
 
             return View(model);
@@ -142,7 +142,6 @@ namespace ImpactWebsite.Controllers
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).FirstName = applicationUser.FirstName;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).LastName = applicationUser.LastName;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).CompanyName = applicationUser.CompanyName;
-                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).NewsletterRequired = applicationUser.NewsletterRequired;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).UserName = editedEmail;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).NormalizedUserName = normalizedEmail;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).Email = editedEmail;
@@ -151,6 +150,7 @@ namespace ImpactWebsite.Controllers
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).LockoutEnabled = applicationUser.LockoutEnabled;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).PhoneNumber = applicationUser.PhoneNumber;
                 _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == user.Id).ModifiedDate = DateTime.Now;
 
                 await _context.SaveChangesAsync();
 

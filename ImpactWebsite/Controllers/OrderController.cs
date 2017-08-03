@@ -146,9 +146,22 @@ namespace ImpactWebsite.Controllers
                 else
                 {
                     TempUser = notRegisteredUser;
+
+                    var tempUser = new ApplicationUser()
+                    {
+                        Email = email,
+                        IsTempUser = true,
+                        ModifiedDate = DateTime.Now,
+                    };
+
+                    _context.ApplicationUsers.Add(tempUser);
+                    await _context.SaveChangesAsync();
                 }
+
                 _emailAddress = email;
             }
+
+
             ViewData["Email"] = _emailAddress;
 
             parsedTotalAmountToPay = ParseStringToInt(_totalAmountToPay);
@@ -190,7 +203,7 @@ namespace ImpactWebsite.Controllers
             CreateOrderDetail(collection);
             CreateModuleIds();
 
-            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(od=>od.Module);
+            var OrderDetails = _context.OrderDetails.Where(od => od.OrderId == _orderId).Include(od => od.Module);
 
             ViewData["OrderId"] = _orderId;
             ViewData["OrderNumber"] = _orderNumber;
@@ -305,8 +318,11 @@ namespace ImpactWebsite.Controllers
                                 var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
                                 var promotionDiscountRate = verfiedPromotion.DiscountRate;
                                 var promotionDicountRatePercent = promotionDiscountRate * 0.01;
-                                tempTotalAmount = (int)((tempTotalAmountWithCent - (tempTotalAmountWithCent * promotionDicountRatePercent)) * _dollarCent);
-                                _promotionDiscountRate = "-" + promotionDiscountRate + "%";
+                                var discountRateFixed = tempTotalAmountWithCent * promotionDicountRatePercent;
+
+                                tempTotalAmount = (int)((tempTotalAmountWithCent - discountRateFixed) * _dollarCent);
+                                _promotionDiscountRate = "-$" + discountRateFixed + " (" + promotionDiscountRate + "%" + ")";
+
                                 TempData["PromotionDiscountRate"] = _promotionDiscountRate;
                             }
 
@@ -442,30 +458,41 @@ namespace ImpactWebsite.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             ViewData["Email"] = _emailAddress;
             ViewData["OrderId"] = _orderId;
+
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser
+                if (_emailAddress != null)
                 {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    EmailConfirmed = true,
-                    CompanyName = model.CompanyName,
-                    NewsletterRequired = model.NewsletterRequired
-                };
-                var result = await _userManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
-                    _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId = user.Id;
-                    await _context.SaveChangesAsync();
-                    _logger.LogInformation(3, "User created a new account with password.");
-                    await _userManager.AddToRoleAsync(user, "Member");
-                    return RedirectToAction("NewOrder");
+                    var tempUser = _context.ApplicationUsers.FirstOrDefault(u => u.Email == _emailAddress);
+
+                    tempUser.UserName = model.Email;
+                    tempUser.NormalizedUserName = model.Email.ToUpper();
+                    tempUser.Email = model.Email;
+                    tempUser.EmailConfirmed = true;
+                    tempUser.NormalizedEmail = model.Email.ToUpper();
+                    tempUser.CompanyName = model.CompanyName;
+
+                    tempUser.ModifiedDate = DateTime.Now;
+                    tempUser.IsTempUser = false;
+
+                    var result = await _userManager.AddPasswordAsync(tempUser, model.Password);
+
+                    if (result.Succeeded)
+                    {
+                        await _signInManager.SignInAsync(tempUser, isPersistent: false);
+
+                        _context.Orders.FirstOrDefault(o => o.OrderId == _orderId).UserId = tempUser.Id;
+                        await _context.SaveChangesAsync();
+
+                        _logger.LogInformation(3, "User created a new account with password.");
+                        await _userManager.AddToRoleAsync(tempUser, "Member");
+
+                        return RedirectToAction("NewOrder");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
 
@@ -516,7 +543,6 @@ namespace ImpactWebsite.Controllers
                 }
             }
 
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
         #region Helpers

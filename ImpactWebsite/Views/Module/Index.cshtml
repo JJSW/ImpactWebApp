@@ -7,16 +7,15 @@
 @{ string strSpacer = "&nbsp;&nbsp;"; }
 
 <div class="admin-margin">
-
     <div class="page-heading">
+        <h3>Module Summary</h3>
+
         <ul class="breadcrumb">
             <li>
-                <h3>
-                    Admin
-                </h3>
+                Admin
             </li>
             <li class="active">
-                Module
+                Module Summary
             </li>
         </ul>
         <br />
@@ -25,65 +24,80 @@
         </a>
     </div>
 
-    <section class="panel">
-        <div class="adv-table">
-            <table class="table" id="dynamic-table" style="table-layout:auto">
-                <thead>
-                    <tr>
-                        <th style="min-width:3%">
-                            ID
-                        </th>
-                        <th style="min-width:25%; width:auto;">
-                            @Html.DisplayNameFor(model => model.ModuleName)
-                        </th>
-                        <th style="max-width:45%; word-wrap: break-word;">
-                            @Html.DisplayNameFor(model => model.Description)
-                        </th>
-                        <th style="min-width:7%;">
-                            @Html.DisplayNameFor(model => model.UnitPrice)
-                        </th>
-                        <th style="min-width:20%;"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var item in Model)
-                    {
-                        <tr>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ModuleId)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.ModuleName)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.Description)
-                            </td>
-                            <td>
-                                @Html.DisplayFor(modelItem => item.UnitPrice)
-                            </td>
-                            <td>
-                                <a asp-action="Edit" asp-route-id="@item.ModuleId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
-                                </a>
-                                <a asp-action="Details" asp-route-id="@item.ModuleId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-                                </a>
-                                <a asp-action="Delete" asp-route-id="@item.ModuleId"
-                                   class="btn btn-default btn-sm"
-                                   role="button">
-                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
-                                </a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+    <div class="wrapper">
+        <div class="row">
+            <div class="col-sm-12">
+                <section class="panel">
+                    <header class="panel-heading">
+                        Summary of modules
+                        <span class="tools pull-right">
+                            <a href="javascript:;" class="fa fa-chevron-down"></a>
+                        </span>
+
+                    </header>
+                    <div class="panel-body">
+                        <div class="adv-table">
+                            <table class="table" id="dynamic-table" style="table-layout:auto">
+                                <thead>
+                                    <tr>
+                                        <th style="min-width:3%">
+                                            ID
+                                        </th>
+                                        <th style="min-width:25%; width:auto;">
+                                            @Html.DisplayNameFor(model => model.ModuleName)
+                                        </th>
+                                        <th style="max-width:45%; word-wrap: break-word;">
+                                            @Html.DisplayNameFor(model => model.Description)
+                                        </th>
+                                        <th style="min-width:7%;">
+                                            @Html.DisplayNameFor(model => model.UnitPrice)
+                                        </th>
+                                        <th style="min-width:20%;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ModuleId)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.ModuleName)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Description)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.UnitPrice)
+                                            </td>
+                                            <td>
+                                                <a asp-action="Edit" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                </a>
+                                                <a asp-action="Details" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                </a>
+                                                <a asp-action="Delete" asp-route-id="@item.ModuleId"
+                                                   class="btn btn-default btn-sm"
+                                                   role="button">
+                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </div>
-    </section>
+    </div>
 </div>
 
 @section scripts

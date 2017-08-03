@@ -9,7 +9,7 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170727170008_Init")]
+    [Migration("20170803023831_Init")]
     partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,8 +50,6 @@ namespace WebApplication1.Data.Migrations
                     b.Property<DateTimeOffset?>("LockoutEnd");
 
                     b.Property<DateTime>("ModifiedDate");
-
-                    b.Property<bool>("NewsletterRequired");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);

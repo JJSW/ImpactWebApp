@@ -128,7 +128,6 @@ namespace ImpactWebsite.Controllers
                     Email = model.Email,
                     EmailConfirmed = true,
                     CompanyName = model.CompanyName,
-                    NewsletterRequired = model.NewsletterRequired
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
