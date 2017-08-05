@@ -36,7 +36,7 @@ namespace ImpactWebsite.Models.BillingModels
         [Display(Name = "Total Amount")]
         public int TotalAmount { get; set; }
 
-        [Display(Name = "Note")]
+        [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
 
         [Display(Name = "Uploaded File Name")]

@@ -34,7 +34,7 @@ namespace ImpactWebsite.Models.OrderModels
 
 
 
-        [Display(Name = "Note")]
+        [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
 
         [Display(Name = "Note From Admin")]

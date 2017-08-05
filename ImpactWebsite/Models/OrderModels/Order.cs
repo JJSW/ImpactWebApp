@@ -48,7 +48,7 @@ namespace ImpactWebsite.Models.OrderModels
         [Display(Name = "Order Status")]
         public OrderStatusList OrderStatus { get; set; }
 
-        [Display(Name = "Note")]
+        [Display(Name = "Notes")]
         public string NoteFromUser { get; set; }
 
         [Display(Name = "Note from admin")]

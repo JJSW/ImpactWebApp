@@ -6,8 +6,8 @@
 
 @{
     ViewData["Title"] = "Order";
-    IFormatProvider fp = new System.Globalization.CultureInfo("en-CA");
-    var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));    
+    IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
+    var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -28,7 +28,9 @@
         <section class="panel">
             <div class="panel-body">
                 <div style="margin: 9px 0 5px;" class="btn-group">
-                    <button class="btn btn-success"  data-toggle="modal" href="#myModal" type="button">Request information</button>
+                    <button class="btn btn-success" data-toggle="modal" href="#myModal" type="button">
+                        Request information
+                    </button>
                 </div>
             </div>
         </section>
@@ -50,8 +52,7 @@
                     </header>
 
                     <div class="panel-body">
-                        <div class="adv-table">
-                            <!--<table class="display table table-hover general-table" id="dynamic-table">-->
+                        <div class="adv-table">                    
                             <table class="display table table-hover general-table">
                                 <thead>
                                     <tr>
@@ -62,7 +63,7 @@
                                             @Html.DisplayNameFor(model => model.Modules.ModuleName)
                                         </th>
                                         <th style="width:45%">
-                                            Module Detail
+                                            Details
                                         </th>
                                         <th style="width:10%">
                                             Price (USD)
@@ -87,7 +88,15 @@
                                             </td>
                                             <td>
                                                 <label asp-for="@Model.ElementAt(@i).IsChecked" style="font-weight:normal;">
-                                                    @Model.ElementAt(@i).Modules.UnitPrice.ToString("C0", fp)
+                                                    @if (String.Equals(Model.ElementAt(@i).Modules.UnitPrice.ToString(), "0"))
+                                                    {
+                                                        <span class="text-danger">FREE</span>
+                                                    }
+                                                    else
+                                                    {
+                                                        @Model.ElementAt(@i).Modules.UnitPrice.ToString("C0", formatProvider)
+                                                    }
+
                                                 </label>
                                             </td>
                                             <td>
@@ -188,7 +197,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title">Request Information</h4>
+                <h4 class="modal-title">Request Information</h4>
             </div>
 
             <form asp-controller="Account" asp-action="ForgotPassword" method="post">
@@ -258,7 +267,7 @@
             var savingData = @savingDataJson;
             console.log(savingData);
 
-            $.each(savingData, function (key, value) {                
+            $.each(savingData, function (key, value) {
                 if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
                     tempSelectionDiscount = value.savingRate;
                 }

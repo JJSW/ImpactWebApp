@@ -37,15 +37,15 @@ namespace ImpactWebsite.Models
             {
                 FirstName = "admin",
                 LastName = "admin",
-                Email = "admin@admin.com",
-                NormalizedEmail = "ADMIN@ADMIN.COM",
-                UserName = "admin@admin.com",
-                NormalizedUserName = "ADMIN@ADMIN.COM",
+                Email = "admin@impactleap.com",
+                NormalizedEmail = "ADMIN@IMPACTLEAP.COM",
+                UserName = "admin@impactleap.com",
+                NormalizedUserName = "ADMIN@IMPACTLEAP.COM",
                 PhoneNumber = "000-000-0000",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                CompanyName = "Fairbank Financial",
+                CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
             };
 
