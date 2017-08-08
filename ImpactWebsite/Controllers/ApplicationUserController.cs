@@ -7,16 +7,20 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImpactWebsite.Data;
 using ImpactWebsite.Models;
+using Microsoft.AspNetCore.Identity;
+using ImpactWebsite.Models.AccountViewModels;
 
 namespace ImpactWebsite.Controllers
 {
     public class ApplicationUserController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public ApplicationUserController(ApplicationDbContext context)
+        public ApplicationUserController(ApplicationDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
         // GET: ApplicationUser
@@ -56,16 +60,37 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("FirstName,LastName,CompanyName,IsTempUser,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Create(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                applicationUser.ModifiedDate = DateTime.Now;
-                _context.Add(applicationUser);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    EmailConfirmed = true,
+                    CompanyName = model.CompanyName,
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                };
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+                {
+                    var createdUser = _context.ApplicationUsers.SingleOrDefault(u => u.Email == model.Email);
+                    createdUser.NormalizedEmail = createdUser.Email.ToUpper();
+                    createdUser.NormalizedUserName = createdUser.UserName.ToUpper();
+
+                    await _userManager.AddToRoleAsync(user, "Manager");
+                    await _context.SaveChangesAsync();
+
+                    return RedirectToAction("Index");
+                }
+
+                AddErrors(result);
             }
-            return View(applicationUser);
+            return View(model);
         }
 
         // GET: ApplicationUser/Edit/5
@@ -138,5 +163,14 @@ namespace ImpactWebsite.Controllers
         {
             return _context.ApplicationUsers.Any(e => e.Id == id);
         }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
     }
 }

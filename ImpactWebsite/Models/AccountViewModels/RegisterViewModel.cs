@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.AccountViewModels
 {
-    public class RegisterViewModel
+    public class RegisterViewModel : BaseEntity
     {
         [Required]
         [EmailAddress]
@@ -27,6 +27,15 @@ namespace ImpactWebsite.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
 
-        public string Code { get; set; }
+        [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [StringLength(20, ErrorMessage = "The {0} mucst be at least {2} and at max {1} characters long.", MinimumLength = 1)]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "User Type")]
+        public bool IsTempUser { get; set; }
     }
 }

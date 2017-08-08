@@ -15,17 +15,6 @@ select {
     max-width: 280px;
 }
 
-/* Styling for main navigation bar */
-.main-nav-right {
-    margin-right: 50px;
-}
-
-.main-nav-left {
-    margin-left: 50px !important;
-}
-
-
-
 /*-------------------------------
             Table
 -------------------------------*/
@@ -70,7 +59,7 @@ select {
 }
 
 /*-------------------------------
-           Sign in
+           Sign in - style.css override
 -------------------------------*/
 .form-signin {
     margin: 70px auto !important;
@@ -131,7 +120,7 @@ select {
 }
 
 /*-------------------------------
-            Jquery UI
+            Jquery UI - jquery-ui.css override
 -------------------------------*/
 .ui-dialog .ui-dialog-titlebar {
     padding: 15px !important;
@@ -173,7 +162,7 @@ ul.p-info .desk {
 }
 
 /*-------------------------------
-            Data table
+            Data table - dataTable.bootstrap.css override
 -------------------------------*/
 div.dataTables_paginate {
     float: right;
@@ -239,7 +228,7 @@ table.dataTable th:active {
 }
 
 /*-------------------------------
-            Dropzone
+            Dropzone - dropzone.css override
 -------------------------------*/
 
 .dropzone-preview {
@@ -247,7 +236,7 @@ table.dataTable th:active {
 }
 
 /*-------------------------------
-            Ion Range Slider
+            Ion Range Slider - ion.rangeSlider.css override
 -------------------------------*/
 
 .slider-width {
@@ -285,17 +274,35 @@ table.dataTable th:active {
     padding-bottom: 7px; 
 }
 
-.admin-margin{
-    margin:30px;
-}
-
-.admin-margin-detail dt{
-    margin-bottom: 10px;
-}
-
 .form-no-max-width input{
     max-width: none !important;
 }
+
+/* Styling for main navigation bar */
+.main-nav-right {
+    margin-right: 50px;
+}
+
+.main-nav-left {
+    margin-left: 50px !important;
+}
+
+.admin-margin {
+    margin: 30px;
+}
+
+.admin-margin-detail {
+    margin-top: 15px;
+    margin-left: -50px;
+}
+
+.validation-align-middle {
+    display:inline-block;
+    padding-left: 10px;
+    padding-top: 7px;
+    margin-bottom: 0;
+}
+
 
 
 /*-------------------------------

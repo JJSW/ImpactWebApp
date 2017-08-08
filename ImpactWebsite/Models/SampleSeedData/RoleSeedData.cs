@@ -24,6 +24,15 @@ namespace ImpactWebsite.Models
                 });
             }
 
+            if (!context.Roles.Any(r => r.Name == "Manager"))
+            {
+                await roleStore.CreateAsync(new IdentityRole
+                {
+                    Name = "Manager",
+                    NormalizedName = "MANAGER"
+                });
+            }
+
             if (!context.Roles.Any(r => r.Name == "Member"))
             {
                 await roleStore.CreateAsync(new IdentityRole
@@ -33,10 +42,19 @@ namespace ImpactWebsite.Models
                 });
             }
 
+            if (!context.Roles.Any(r => r.Name == "Temp"))
+            {
+                await roleStore.CreateAsync(new IdentityRole
+                {
+                    Name = "Temp",
+                    NormalizedName = "TEMP"
+                });
+            }
+
             var admin = new ApplicationUser
             {
                 FirstName = "admin",
-                LastName = "admin",
+                LastName = "administrator",
                 Email = "admin@impactleap.com",
                 NormalizedEmail = "ADMIN@IMPACTLEAP.COM",
                 UserName = "admin@impactleap.com",
@@ -52,32 +70,32 @@ namespace ImpactWebsite.Models
             var temp = new ApplicationUser
             {
                 FirstName = "temp",
-                LastName = "temp",
-                Email = "temp@user.com",
-                NormalizedEmail = "TEMP@USER.COM",
-                UserName = "temp@user.com",
-                NormalizedUserName = "TEMP@USER.COM",
+                LastName = "user",
+                Email = "tempuser@impactleap.com",
+                NormalizedEmail = "TEMPUSER@IMPACTLEAP.COM",
+                UserName = "tempuser@impactleap.com",
+                NormalizedUserName = "TEMPUSER@IMPACTLEAP.COM",
                 PhoneNumber = "000-000-0000",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                CompanyName = "Temporary User",
+                CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
             };
 
-            var member = new ApplicationUser
+            var test = new ApplicationUser
             {
                 FirstName = "test",
-                LastName = "test",
-                Email = "test@test.com",
-                NormalizedEmail = "TEST@TEST.COM",
-                UserName = "test@test.com",
-                NormalizedUserName = "TEST@TEST.COM",
+                LastName = "user",
+                Email = "testuser@impactleap.com",
+                NormalizedEmail = "TEST@IMPACTLEAP.COM",
+                UserName = "testuser@impactleap.com",
+                NormalizedUserName = "TEST@IMPACTLEAP.COM",
                 PhoneNumber = "000-000-0000",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
                 SecurityStamp = Guid.NewGuid().ToString("D"),
-                CompanyName = "Test User",
+                CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
             };
 
@@ -96,7 +114,7 @@ namespace ImpactWebsite.Models
             if (!context.Users.Any(u => u.UserName == temp.UserName))
             {
                 var password = new PasswordHasher<ApplicationUser>();
-                var hashed = password.HashPassword(temp, "Password2!");
+                var hashed = password.HashPassword(temp, "Password1!");
                 temp.PasswordHash = hashed;
 
                 var userStore = new UserStore<ApplicationUser>(context);
@@ -105,16 +123,16 @@ namespace ImpactWebsite.Models
                 await AssignRoles(isp, temp.Email, "Temp");
             }
 
-            if (!context.Users.Any(u => u.UserName == member.UserName))
+            if (!context.Users.Any(u => u.UserName == test.UserName))
             {
                 var password = new PasswordHasher<ApplicationUser>();
-                var hashed = password.HashPassword(member, "Password3!");
-                member.PasswordHash = hashed;
+                var hashed = password.HashPassword(test, "Password1!");
+                test.PasswordHash = hashed;
 
                 var userStore = new UserStore<ApplicationUser>(context);
-                var result = userStore.CreateAsync(member);
+                var result = userStore.CreateAsync(test);
 
-                await AssignRoles(isp, member.Email, "Member");
+                await AssignRoles(isp, test.Email, "Member");
             }
 
             await context.SaveChangesAsync();

@@ -12,6 +12,11 @@ namespace ImpactWebsite.Models
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public override string Email { get; set; }
+
         [StringLength(20, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 1)]
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
