@@ -9,6 +9,14 @@ using ImpactWebsite.Models.BillingModels;
 
 namespace ImpactWebsite.Models
 {
+    public enum UserRoleList
+    {
+        Admin,
+        Manager,
+        Member,
+        Temporary
+    }
+
     // Add profile data for application users by adding properties to the ApplicationUser class
     public class ApplicationUser : IdentityUser
     {
@@ -28,8 +36,8 @@ namespace ImpactWebsite.Models
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
-        [Display(Name = "User Type")]
-        public bool IsTempUser { get; set; }
+        [Display(Name = "User Role")]
+        public UserRoleList UserRole { get; set; }
 
         [Display(Name = "Modified Date")]
         public DateTime ModifiedDate { get; set; }

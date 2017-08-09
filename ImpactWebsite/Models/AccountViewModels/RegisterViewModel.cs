@@ -35,7 +35,7 @@ namespace ImpactWebsite.Models.AccountViewModels
         [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
-        [Display(Name = "User Type")]
-        public bool IsTempUser { get; set; }
+        [Display(Name = "User Role")]
+        public UserRoleList UserRole { get; set; }
     }
 }

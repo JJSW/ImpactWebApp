@@ -42,12 +42,12 @@ namespace ImpactWebsite.Models
                 });
             }
 
-            if (!context.Roles.Any(r => r.Name == "Temp"))
+            if (!context.Roles.Any(r => r.Name == "Temporary"))
             {
                 await roleStore.CreateAsync(new IdentityRole
                 {
-                    Name = "Temp",
-                    NormalizedName = "TEMP"
+                    Name = "Temporary",
+                    NormalizedName = "TEMPORARY"
                 });
             }
 
@@ -65,6 +65,7 @@ namespace ImpactWebsite.Models
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
+                UserRole = UserRoleList.Admin,
             };
 
             var temp = new ApplicationUser
@@ -81,6 +82,7 @@ namespace ImpactWebsite.Models
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
+                UserRole = UserRoleList.Temporary
             };
 
             var test = new ApplicationUser
@@ -97,6 +99,7 @@ namespace ImpactWebsite.Models
                 SecurityStamp = Guid.NewGuid().ToString("D"),
                 CompanyName = "Impact Leap",
                 ModifiedDate = DateTime.Now,
+                UserRole = UserRoleList.Member
             };
 
             if (!context.Users.Any(u => u.UserName == admin.UserName))

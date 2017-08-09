@@ -288,12 +288,17 @@ table.dataTable th:active {
 }
 
 .admin-margin {
-    margin: 30px;
+    margin: 15px;
 }
 
 .admin-margin-detail {
     margin-top: 15px;
     margin-left: -50px;
+}
+
+.admin-margin-buttons {
+    margin-left: 50px;
+    margin-bottom: 20px;
 }
 
 .validation-align-middle {

@@ -45,15 +45,7 @@
                 User Type
             </dt>
             <dd>
-                @if (Model.IsTempUser)
-                {
-                    @Html.Raw("Temporary User");
-                }
-                else
-                {
-                    @Html.Raw("Registered User");
-                }
-
+                @Html.DisplayFor(model => model.UserRole)
             </dd>
         </dl>
 

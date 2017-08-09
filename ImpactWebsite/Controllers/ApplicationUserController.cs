@@ -26,9 +26,12 @@ namespace ImpactWebsite.Controllers
         // GET: ApplicationUser
         public async Task<IActionResult> Index()
         {
-            var usersOrderByModifiedDate = await _context.ApplicationUsers.OrderBy(u => u.ModifiedDate).ToListAsync();
+            var orderedUsers = await _context.ApplicationUsers
+                                .OrderBy(u => u.UserRole)
+                                .ThenBy(u => u.ModifiedDate)
+                                .ToListAsync();
 
-            return View(usersOrderByModifiedDate);
+            return View(orderedUsers);
         }
 
         // GET: ApplicationUser/Details/5
@@ -72,6 +75,7 @@ namespace ImpactWebsite.Controllers
                     CompanyName = model.CompanyName,
                     FirstName = model.FirstName,
                     LastName = model.LastName,
+                    UserRole = model.UserRole,
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
@@ -81,8 +85,9 @@ namespace ImpactWebsite.Controllers
                     var createdUser = _context.ApplicationUsers.SingleOrDefault(u => u.Email == model.Email);
                     createdUser.NormalizedEmail = createdUser.Email.ToUpper();
                     createdUser.NormalizedUserName = createdUser.UserName.ToUpper();
+                    createdUser.ModifiedDate = DateTime.Now;
 
-                    await _userManager.AddToRoleAsync(user, "Manager");
+                    await _userManager.AddToRoleAsync(user, model.UserRole.ToString());
                     await _context.SaveChangesAsync();
 
                     return RedirectToAction("Index");
@@ -114,7 +119,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,CompanyName,NewsletterRequired,IsTempUser,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
+        public async Task<IActionResult> Edit(string id, [Bind("FirstName,LastName,CompanyName,NewsletterRequired,UserRole,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] ApplicationUser applicationUser)
         {
             if (id != applicationUser.Id)
             {
@@ -125,6 +130,7 @@ namespace ImpactWebsite.Controllers
             {
                 _context.Update(applicationUser);
                 _context.ApplicationUsers.SingleOrDefault(o => o.Id == id).ModifiedDate = DateTime.Now;
+                
                 await _context.SaveChangesAsync();
             }
             return RedirectToAction("Details", new { id = id });

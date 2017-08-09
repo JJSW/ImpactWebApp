@@ -150,7 +150,7 @@ namespace ImpactWebsite.Controllers
                     var tempUser = new ApplicationUser()
                     {
                         Email = email,
-                        IsTempUser = true,
+                        UserRole = UserRoleList.Temporary,
                         ModifiedDate = DateTime.Now,
                     };
 
@@ -473,7 +473,7 @@ namespace ImpactWebsite.Controllers
                     tempUser.CompanyName = model.CompanyName;
 
                     tempUser.ModifiedDate = DateTime.Now;
-                    tempUser.IsTempUser = false;
+                    tempUser.UserRole = UserRoleList.Member;
 
                     var result = await _userManager.AddPasswordAsync(tempUser, model.Password);
 

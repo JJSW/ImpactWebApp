@@ -47,7 +47,7 @@
                                 <thead>
                                     <tr>
                                         <th>
-                                            #
+                                            @Html.DisplayNameFor(model => model.Id)
                                         </th>
                                         <th>
                                             Name
@@ -59,10 +59,7 @@
                                             @Html.DisplayNameFor(model => model.CompanyName)
                                         </th>
                                         <th>
-                                            User Type
-                                        </th>
-                                        <th>
-                                            Role
+                                            @Html.DisplayNameFor(model => model.UserRole)
                                         </th>
                                         <th></th>
                                     </tr>
@@ -85,16 +82,8 @@
                                                 @Model.ElementAt(@i).CompanyName
                                             </td>
                                             <td>
-                                                @if (Model.ElementAt(@i).IsTempUser)
-                                                {
-                                                    @Html.Raw("Temporary User");
-                                                }
-                                                else
-                                                {
-                                                    @Html.Raw("Registered User");
-                                                }
+                                                @Model.ElementAt(@i).UserRole
                                             </td>
-                                            <td></td>
 
                                             <td>
                                                 <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
