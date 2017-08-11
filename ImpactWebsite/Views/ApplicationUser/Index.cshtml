@@ -21,7 +21,7 @@
             </li>
         </ul>
 
-        @if (User.IsInRole("Admin"))
+        @if (User.IsInRole("Admin") || User.IsInRole("Manager"))
         {
             <br />
             <a asp-action="Create" role="button" class="btn btn-default">
