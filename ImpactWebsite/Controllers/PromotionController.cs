@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImpactWebsite.Data;
 using ImpactWebsite.Models.OrderModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactWebsite.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class PromotionController : Controller
     {
         private readonly ApplicationDbContext _context;

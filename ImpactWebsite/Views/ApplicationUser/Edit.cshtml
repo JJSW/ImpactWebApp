@@ -22,61 +22,71 @@
         <input type="hidden" asp-for="SecurityStamp" />
         <input type="hidden" asp-for="ConcurrencyStamp" />
         <input type="hidden" asp-for="PhoneNumber" />
-        <input type="hidden" asp-for="PhoneNumberConfirmed" />        
+        <input type="hidden" asp-for="PhoneNumberConfirmed" />
         <input type="hidden" asp-for="TwoFactorEnabled" />
         <input type="hidden" asp-for="LockoutEnd" />
         <input type="hidden" asp-for="LockoutEnabled" />
         <input type="hidden" asp-for="AccessFailedCount" />
 
 
-        <div>
-            <dl class="dl-horizontal admin-margin-detail">
-                <dt>
-                    @Html.DisplayNameFor(model => model.Email)
-                </dt>
-                <dd>
-                    <input id="emailInput" asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                    <div id="emailChange" class="text-danger" style="margin-top:5px;"></div>
-                </dd>
+        <div class="form-horizontal admin-margin-detail">
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.FirstName)
-                </dt>
-                <dd>
+            <div class="form-group">
+                <label asp-for="Email" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="FirstName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
                     <input asp-for="FirstName" class="form-control" />
-                    <span asp-validation-for="FirstName" class="text-danger"></span>
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </dt>
-                <dd>
+                    <span asp-validation-for="FirstName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="LastName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
                     <input asp-for="LastName" class="form-control" />
-                    <span asp-validation-for="LastName" class="text-danger"></span>
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.CompanyName)
-                </dt>
-                <dd>
+                    <span asp-validation-for="LastName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
                     <input asp-for="CompanyName" class="form-control" />
-                    <span asp-validation-for="CompanyName" class="text-danger"></span>
-                </dd>
+                    <span asp-validation-for="CompanyName" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
 
-                <dt></dt>
-                <dd></dd>
-                <dt></dt>
-                <dd></dd>
+            <div class="form-group">
+                <label asp-for="UserRole" class="col-md-2 control-label"></label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.UserRole)
+                </div>
+            </div>
 
-            </dl>
+            <div class="form-group">
+                <div class="col-md-2 control-label" style="margin-top: 7px;">Password</div>
+                <div class="col-md-10 admin-align-middle">
+                    <a asp-controller="ApplicationUser" asp-action="ChangePasswordAdmin" class="btn btn-default">
+                        <i class="fa fa-unlock-alt" aria-hidden="true"></i>
+                        @Html.Raw(strSpacer)Set Password
+                    </a>
+                </div>
+            </div>
 
-            <a asp-action="Details" asp-route-id="@Model.Id"
-               role="button" class="btn btn-default">
-                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-            </a>
+            <br />
+            <div class="admin-margin-buttons">
+                <a asp-action="Details" asp-route-id="@Model.Id"
+                   role="button" class="btn btn-default">
+                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                </a>
 
-            <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
         </div>
     </div>
 </form>

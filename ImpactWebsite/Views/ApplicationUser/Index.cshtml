@@ -66,8 +66,8 @@
                                 </thead>
                                 <tbody>
                                     @for (int i = 0; i < Model.Count(); i++)
-            {
-                var modelNum = @i + 1;
+                                    {
+                                        var modelNum = @i + 1;
                                         <tr>
                                             <td>
                                                 @modelNum
@@ -86,21 +86,53 @@
                                             </td>
 
                                             <td>
-                                                <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
-                                                   class="btn btn-default btn-sm"
-                                                   role="button">
-                                                    <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
-                                                </a>
-                                                <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
-                                                   class="btn btn-default btn-sm"
-                                                   role="button">
-                                                    <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-                                                </a>
-                                                <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
-                                                   class="btn btn-default btn-sm"
-                                                   role="button">
-                                                    <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
-                                                </a>
+                                                @if (User.IsInRole("Admin"))
+                                                {
+                                                    <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                    </a>
+                                                    <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                    </a>
+                                                    <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
+                                                       class="btn btn-default btn-sm"
+                                                       role="button">
+                                                        <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                    </a>
+                                                }
+                                                else if (User.IsInRole("Manager"))
+                                                {
+                                                    if (Model.ElementAt(@i).UserRole == UserRoleList.Admin)
+                                                    {
+                                                        <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                        </a>
+                                                    }
+                                                    else
+                                                    {
+                                                        <a asp-action="Edit" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-pencil-square-o"></span>@Html.Raw(strSpacer)Edit
+                                                        </a>
+                                                        <a asp-action="Details" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+                                                        </a>
+                                                        <a asp-action="Delete" asp-route-id="@Model.ElementAt(@i).Id"
+                                                           class="btn btn-default btn-sm"
+                                                           role="button">
+                                                            <span class="fa fa-times"></span>@Html.Raw(strSpacer)Delete
+                                                        </a>
+                                                    }
+                                                }
                                             </td>
                                         </tr>
                                     }

@@ -90,9 +90,9 @@ namespace ImpactWebsite.Models
                 FirstName = "test",
                 LastName = "user",
                 Email = "testuser@impactleap.com",
-                NormalizedEmail = "TEST@IMPACTLEAP.COM",
+                NormalizedEmail = "TESTUSER@IMPACTLEAP.COM",
                 UserName = "testuser@impactleap.com",
-                NormalizedUserName = "TEST@IMPACTLEAP.COM",
+                NormalizedUserName = "TESTUSER@IMPACTLEAP.COM",
                 PhoneNumber = "000-000-0000",
                 EmailConfirmed = true,
                 PhoneNumberConfirmed = true,
@@ -123,7 +123,7 @@ namespace ImpactWebsite.Models
                 var userStore = new UserStore<ApplicationUser>(context);
                 var result = userStore.CreateAsync(temp);
 
-                await AssignRoles(isp, temp.Email, "Temp");
+                await AssignRoles(isp, temp.Email, "Temporary");
             }
 
             if (!context.Users.Any(u => u.UserName == test.UserName))

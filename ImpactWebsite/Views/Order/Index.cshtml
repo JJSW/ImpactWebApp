@@ -8,6 +8,8 @@
     ViewData["Title"] = "Order";
     IFormatProvider formatProvider = new System.Globalization.CultureInfo("en-US");
     var savingDataJson = Html.Raw(Json.Serialize(ViewBag.SavingData));
+
+    string strSpacer = "&nbsp;&nbsp;";
 }
 
 @inject SignInManager<ApplicationUser> SignInManager
@@ -27,11 +29,10 @@
     <div class="state-info">
         <section class="panel">
             <div class="panel-body">
-                <div style="margin: 9px 0 5px;" class="btn-group">
-                    <button class="btn btn-success" data-toggle="modal" href="#myModal" type="button">
-                        Request information
-                    </button>
-                </div>
+                <button class="btn btn-info text-center" style="padding: 10px;"
+                        data-toggle="modal" href="#myModal" type="button">
+                    Request information
+                </button>
             </div>
         </section>
     </div>
@@ -52,7 +53,7 @@
                     </header>
 
                     <div class="panel-body">
-                        <div class="adv-table">                    
+                        <div class="adv-table">
                             <table class="display table table-hover general-table">
                                 <thead>
                                     <tr>
@@ -132,13 +133,13 @@
                         <table class="table table-hover general-table">
                             <thead>
                                 <tr>
-                                    <th class="inv-col"><span>Order total</span></th>
-                                    <th class="inv-col"><span>Total</span></th>
+                                    <th class="inv-col col-md-4"><span>Order total</span></th>
+                                    <th class="inv-col col-md-2"><span>Total</span></th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>Total value</td>
+                                    <td>Total price</td>
                                     <td>
                                         <span name="totalPrice"></span>
                                     </td>
@@ -153,8 +154,8 @@
                                 <tr>
                                     <td>Total to pay</td>
                                     <td>
-                                        <input type="hidden" name="totalAmountToPay" value="0" style="width:60px; border:none;" />
-                                        <span name="totalAmountToPayDisplay"></span>
+                                        <input type="hidden" name="totalToPay" value="0" style="width:60px; border:none;" />
+                                        <span name="totalToPayDisplay"></span>
                                     </td>
                                 </tr>
                             </tbody>
@@ -165,8 +166,8 @@
 
             <div class="col-md-6">
                 <section class="panel">
-                    <div class="panel-body">
-                        Where shall we send your analysis?<br><br>
+                    <div class="panel-body" style="display:table">
+                        Where shall we send your analysis?<br /><br />
                         @if (SignInManager.IsSignedIn(User))
                         {
                             <b><input class="form-control" type="email" required="required" name="email" value="@ViewData["Email"]" placeholder="Enter your email" /></b>
@@ -175,12 +176,12 @@
                         {
                             <input class="form-control" type="email" required="required" name="email" placeholder="Enter your email" />
                         }
-                        <div class="form-group" style="margin-top:60px; margin-bottom: 0;">
-                            <button type="submit" class="btn btn-primary btn-new-order">
-                                Next step&nbsp;
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                            </button>
-                        </div>
+
+                        <button type="submit" class="btn btn-primary btn-new-order">
+                            Next step&nbsp;
+                            <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                        </button>
+
                     </div>
                 </section>
             </div>
@@ -241,8 +242,7 @@
 
         var totalPrice = 0;
         var selectionDiscount = 0;
-        var totalAmountToPay = 0;
-
+        var totalToPay = 0;
 
         $(document).ready(function () {
             $(".adv-table").on("ifChanged", ":checkbox", function () {
@@ -254,11 +254,14 @@
 
             var tempTotalPrice = 0;
             var tempSelectionDiscount = 0;
-            var tempTotalAmountToPay = 0;
+            var tempTotalToPay = 0;
+
+            var isFixedSaving = false;
+            var isPercentageSaving = false;
 
             $(":checkbox:checked.chkBox").each(function () {
                 var jsonObj = JSON.parse($(this).val());
-                console.log($(this).val());
+                //console.log($(this).val());
                 tempTotalPrice += jsonObj.modules.unitPrice;
             });
 
@@ -269,29 +272,49 @@
 
             $.each(savingData, function (key, value) {
                 if (selectedModules >= value.selectFrom && selectedModules <= value.selectTo) {
+                    if (value.discountMethod == 0) {
+                        isFixedSaving = true;
+                        isPercentageSaving = false;
+                    } else if (value.discountMethod == 1) {
+                        isPercentageSaving = true;
+                        isFixedSaving = false;
+                    }
                     tempSelectionDiscount = value.savingRate;
                 }
             });
 
             $("span[name=totalPrice]").text("$" + tempTotalPrice);
 
+            // Multiple saving
             $("input[name=selectionDiscount]").val(tempSelectionDiscount);
 
             if (tempSelectionDiscount != null || tempSelectionDiscount != 0) {
-                $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+
+                if (isFixedSaving) {
+                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                } else if (isPercentageSaving) {
+                    var percentageSaving = (tempTotalPrice * tempSelectionDiscount) / 100;
+                    console.log(percentageSaving);
+                    $("span[name=selectionDiscountDisplay]").text("-$" + percentageSaving + " (" + tempSelectionDiscount + "%)");
+                    tempSelectionDiscount = percentageSaving;
+                } else {
+                    $("span[name=selectionDiscountDisplay]").text("-$" + tempSelectionDiscount);
+                }
             }
 
-            tempTotalAmountToPay = (tempTotalPrice - tempSelectionDiscount);
 
-            $("input[name=totalAmountToPay]").val(tempTotalAmountToPay);
+            // Total to pay
+            tempTotalToPay = (tempTotalPrice - tempSelectionDiscount);
 
-            if (tempTotalAmountToPay != null || tempTotalAmountToPay != 0) {
-                $("span[name=totalAmountToPayDisplay]").text("$" + tempTotalAmountToPay);
+            $("input[name=totalToPay]").val(tempTotalToPay);
+
+            if (tempTotalToPay != null || tempTotalToPay != 0) {
+                $("span[name=totalToPayDisplay]").text("$" + tempTotalToPay.toFixed(0));
             }
 
             totalPrice = tempTotalPrice;
             selectionDiscount = tempSelectionDiscount;
-            totalAmountToPay = tempTotalAmountToPay;
+            totalToPay = tempTotalToPay;
         }
 
     </script>

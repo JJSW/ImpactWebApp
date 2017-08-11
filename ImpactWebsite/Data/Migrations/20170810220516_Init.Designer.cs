@@ -10,8 +10,8 @@ using ImpactWebsite.Models.OrderModels;
 namespace WebApplication1.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20170808232918_UserRole")]
-    partial class UserRole
+    [Migration("20170810220516_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -268,6 +268,8 @@ namespace WebApplication1.Data.Migrations
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Description");
+
+                    b.Property<int>("DiscountMethod");
 
                     b.Property<bool>("IsActive");
 

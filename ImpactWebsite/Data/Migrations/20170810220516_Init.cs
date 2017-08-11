@@ -17,6 +17,15 @@ namespace WebApplication1.Data.Migrations
                 name: "RoleNameIndex",
                 table: "AspNetRoles");
 
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "AspNetUsers",
+                maxLength: 256,
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 256,
+                oldNullable: true);
+
             migrationBuilder.AddColumn<int>(
                 name: "BillingAddressId",
                 table: "AspNetUsers",
@@ -33,12 +42,6 @@ namespace WebApplication1.Data.Migrations
                 maxLength: 20,
                 nullable: true);
 
-            migrationBuilder.AddColumn<bool>(
-                name: "IsTempUser",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: false);
-
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
                 table: "AspNetUsers",
@@ -50,6 +53,12 @@ namespace WebApplication1.Data.Migrations
                 table: "AspNetUsers",
                 nullable: false,
                 defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
+
+            migrationBuilder.AddColumn<int>(
+                name: "UserRole",
+                table: "AspNetUsers",
+                nullable: false,
+                defaultValue: 0);
 
             migrationBuilder.CreateTable(
                 name: "BillingAddresses",
@@ -170,6 +179,7 @@ namespace WebApplication1.Data.Migrations
                     SavingId = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Description = table.Column<string>(nullable: true),
+                    DiscountMethod = table.Column<int>(nullable: false),
                     IsActive = table.Column<bool>(nullable: false),
                     ModifiedDate = table.Column<DateTime>(nullable: false),
                     SavingName = table.Column<string>(nullable: true),
@@ -282,16 +292,24 @@ namespace WebApplication1.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "IsTempUser",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
                 name: "LastName",
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
                 name: "ModifiedDate",
                 table: "AspNetUsers");
+
+            migrationBuilder.DropColumn(
+                name: "UserRole",
+                table: "AspNetUsers");
+
+            migrationBuilder.AlterColumn<string>(
+                name: "Email",
+                table: "AspNetUsers",
+                maxLength: 256,
+                nullable: true,
+                oldClrType: typeof(string),
+                oldMaxLength: 256);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUserRoles_UserId",

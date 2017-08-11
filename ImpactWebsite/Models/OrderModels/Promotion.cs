@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
-    public enum DiscountMethodList
+    public enum PromotionDiscountMethodList
     {
         Fixed,
         Percentage,
@@ -36,7 +36,7 @@ namespace ImpactWebsite.Models.OrderModels
 
         [Required]
         [Display(Name = "Discount Method")]
-        public DiscountMethodList DiscountMethod { get; set; }
+        public PromotionDiscountMethodList DiscountMethod { get; set; }
 
         [Display(Name = "Discount Rate")]
         public int DiscountRate { get; set; }

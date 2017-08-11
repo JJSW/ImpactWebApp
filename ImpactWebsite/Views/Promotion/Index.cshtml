@@ -78,13 +78,13 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.PromotionCode)
                                             </td>
-                                            @if (item.DiscountMethod == DiscountMethodList.Fixed)
-                {
+                                            @if (item.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                                            {
                                                 <td>
                                                     $@Html.DisplayFor(modelItem => item.DiscountRate)
                                                 </td>
                                             }
-                                            else if (item.DiscountMethod == DiscountMethodList.Percentage)
+                                            else if (item.DiscountMethod == PromotionDiscountMethodList.Percentage)
                                             {
                                                 <td>
                                                     @Html.DisplayFor(modelItem => item.DiscountRate)%

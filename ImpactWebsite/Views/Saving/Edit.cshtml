@@ -27,6 +27,16 @@
                 </dd>
 
                 <dt>
+                    @Html.DisplayNameFor(model => model.DiscountMethod)
+                </dt>
+                <dd class="form-group">
+                    <select asp-for="DiscountMethod">
+                        <option value="0">Fixed</option>
+                        <option value="1">Percentage</option>
+                    </select>
+                </dd>
+
+                <dt>
                     @Html.DisplayNameFor(model => model.SavingRate)
                 </dt>
                 <dd class="form-group">

@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ImpactWebsite.Data;
 using ImpactWebsite.Models.OrderModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactWebsite.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class SavingController : Controller
     {
         private readonly ApplicationDbContext _context;
@@ -70,7 +72,6 @@ namespace ImpactWebsite.Controllers
                     _maxSelectFrom = _context.Savings.OrderByDescending(s => s.SelectFrom).First().SelectFrom;
                     _minSelectTo = _context.Savings.OrderBy(s => s.SelectTo).First().SelectTo;
                     _maxSelectTo = _context.Savings.OrderByDescending(s => s.SelectTo).First().SelectTo;
-
                 }
                 else
                 {
@@ -93,7 +94,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("SavingId,SavingName,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
+        public async Task<IActionResult> Create([Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
         {
             if (_context.Savings.Any())
             {
@@ -208,7 +209,7 @@ namespace ImpactWebsite.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("SavingId,SavingName,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
+        public async Task<IActionResult> Edit(int id, [Bind("SavingId,SavingName,DiscountMethod,SavingRate,SelectFrom,SelectTo,Description,IsActive")] Saving saving)
         {
             var currentSelectFrom = _context.Savings.SingleOrDefault(s => s.SavingId == id).SelectFrom;
             var currentSelectTo = _context.Savings.SingleOrDefault(s => s.SavingId == id).SelectTo;
@@ -294,6 +295,7 @@ namespace ImpactWebsite.Controllers
                     if (isValidRange)
                     {
                         _context.Savings.SingleOrDefault(p => p.SavingId == id).SavingName = saving.SavingName;
+                        _context.Savings.SingleOrDefault(p => p.SavingId == id).DiscountMethod = saving.DiscountMethod;
                         _context.Savings.SingleOrDefault(p => p.SavingId == id).SavingRate = saving.SavingRate;
                         _context.Savings.SingleOrDefault(p => p.SavingId == id).SelectFrom = saving.SelectFrom;
                         _context.Savings.SingleOrDefault(p => p.SavingId == id).SelectTo = saving.SelectTo;

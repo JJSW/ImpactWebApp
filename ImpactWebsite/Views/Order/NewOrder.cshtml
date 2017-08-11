@@ -153,11 +153,11 @@
                             <td style="font-size:medium; font-weight: bold;" align="left">
                                 Total to pay :
                             </td>
-                            @if (ViewBag.TotalAmountToPay != null)
+                            @if (ViewBag.TotalToPay != null)
                             {
                                 <td>
                                     <b>
-                                        <label style="font-size: large;">$@ViewBag.TotalAmountToPay</label>
+                                        <label style="font-size: large;">$@ViewBag.TotalToPay</label>
                                     </b>
                                 </td>
                             }
@@ -168,7 +168,7 @@
                         </tr>
                     </table>
 
-                    @if (ViewBag.TotalAmountToPay != "0")
+                    @if (ViewBag.TotalToPay != "0")
                     {
                         @if (ViewBag.PromotionStatus == PromotionStatusList.Ready)
                         {
@@ -235,7 +235,11 @@
 </div>
 
 <div id="promotionCodeForm"></div>
-<div id="checkProceedForm" class="text-center" style="margin-top: 10px;"><h4>Please click the upload button to proceed</h4> </div>
+<div id="checkProceedForm">
+    <div class="alert alert-info text-center" style="margin-top:25px;">
+        Please click the upload button to proceed
+    </div>
+</div>
 
 <div aria-hidden="true" aria-labelledby="myModalLabel" role="dialog" tabindex="-1" id="myModal" class="modal fade">
     <div class="modal-dialog">
@@ -321,17 +325,24 @@
                     effect: "drop", direction: "up", duration: 300
                 },
                 width: 600,
-                height: 200,
+                height: 250,
 
                 buttons: {
                     "Back": {
                         text: "Back",
-                        class: "btn btn-primary btn-modal",
+                        class: "btn btn-default btn-modal",                        
                         click: function () {
                             $(this).dialog("close");
                         }
                     }
                 },
+
+                create: function () {
+                    $(this).closest(".ui-dialog")
+                        .find(".ui-button")
+                        .removeClass("ui-corner-all");
+                }
+
             });
         }
 
@@ -376,9 +387,9 @@
             dictDefaultMessage: "Drop files or click here to upload",
 
             init: function () {
-                var submitButton = document.querySelector("#submitFileComment");                
+                var submitButton = document.querySelector("#submitFileComment");
                 var myDropzone = this; //closure
-                
+
                 submitButton.addEventListener("click", function () {
                     myDropzone.processQueue();
                     var acceptedFileCount = myDropzone.getAcceptedFiles().length;
@@ -399,7 +410,7 @@
                 });
 
                 this.on("addedfile", function (file) {
-                    
+
                     if (file.size > 0) {
                         isFileInQueue = true;
                     }

@@ -9,9 +9,11 @@ using ImpactWebsite.Data;
 using ImpactWebsite.Models.OrderModels;
 using Microsoft.AspNetCore.Identity;
 using ImpactWebsite.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ImpactWebsite.Controllers
 {
+    [Authorize(Roles = "Admin, Manager")]
     public class OrderAdminController : Controller
     {
         private readonly ApplicationDbContext _context;

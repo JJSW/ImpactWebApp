@@ -1,4 +1,5 @@
 @model ImpactWebsite.Models.OrderModels.Saving
+@using ImpactWebsite.Models.OrderModels
 
 @{
     ViewData["Title"] = "Delete";
@@ -26,10 +27,27 @@
                 @Html.DisplayFor(model => model.SavingName)
             </dd>
             <dt>
+                @Html.DisplayNameFor(model => model.DiscountMethod)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DiscountMethod)
+            </dd>
+            <dt>
                 @Html.DisplayNameFor(model => model.SavingRate)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.SavingRate)
+                @if (Model.DiscountMethod == SavingDiscountMethodList.Fixed)
+                {
+                    <td>
+                        $@Html.DisplayFor(model => model.SavingRate)
+                    </td>
+                }
+                else if (Model.DiscountMethod == SavingDiscountMethodList.Percentage)
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.SavingRate)%
+                    </td>
+                }
             </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.SelectFrom)

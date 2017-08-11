@@ -128,6 +128,8 @@ namespace ImpactWebsite.Controllers
                     Email = model.Email,
                     EmailConfirmed = true,
                     CompanyName = model.CompanyName,
+                    UserRole = UserRoleList.Member,
+                    ModifiedDate = DateTime.Now,
                 };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

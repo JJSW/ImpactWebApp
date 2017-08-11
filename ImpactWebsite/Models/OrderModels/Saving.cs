@@ -6,6 +6,12 @@ using System.Threading.Tasks;
 
 namespace ImpactWebsite.Models.OrderModels
 {
+    public enum SavingDiscountMethodList
+    {
+        Fixed,
+        Percentage,
+    }
+
     public class Saving : BaseEntity
     {
         [Key]
@@ -14,6 +20,10 @@ namespace ImpactWebsite.Models.OrderModels
        
         [Display(Name = "Saving Name")]
         public string SavingName { get; set; }
+
+        [Required]
+        [Display(Name = "Discount Method")]
+        public SavingDiscountMethodList DiscountMethod { get; set; }
 
         [Display(Name = "Saving Rate")]
         public int SavingRate { get; set; }

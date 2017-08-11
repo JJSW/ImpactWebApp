@@ -1,11 +1,11 @@
 @model IEnumerable<ImpactWebsite.Models.OrderModels.Saving>
+@using ImpactWebsite.Models.OrderModels
 
 @{
     ViewData["Title"] = "Index";
 }
 
 @{ string strSpacer = "&nbsp;&nbsp;"; }
-
 
 <div class="admin-margin">
     <div class="page-heading">
@@ -75,9 +75,19 @@
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.SavingName)
                                             </td>
-                                            <td>
-                                                $@Html.DisplayFor(modelItem => item.SavingRate)
-                                            </td>
+
+                                            @if (item.DiscountMethod == SavingDiscountMethodList.Fixed)
+                                            {
+                                                <td>
+                                                    $@Html.DisplayFor(modelItem => item.SavingRate)
+                                                </td>
+                                            }
+                                            else if (item.DiscountMethod == SavingDiscountMethodList.Percentage)
+                                            {
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SavingRate)%
+                                                </td>
+                                            }
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.SelectFrom)
                                             </td>

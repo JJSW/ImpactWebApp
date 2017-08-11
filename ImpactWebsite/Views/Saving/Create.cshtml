@@ -1,4 +1,5 @@
 @model ImpactWebsite.Models.OrderModels.Saving
+@using ImpactWebsite.Models.OrderModels;
 
 @{
     ViewData["Title"] = "Create";
@@ -9,8 +10,6 @@
 }
 
 <form asp-action="Create">
-
-
     <div class="admin-margin">
         <div class="page-heading">
             <h3>Create Module</h3>
@@ -25,6 +24,16 @@
                 <dd class="form-group">
                     <input asp-for="SavingName" class="form-control" />
                     <span asp-validation-for="SavingName" class="text-danger"></span>
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.DiscountMethod)
+                </dt>
+                <dd class="form-group">
+                    <select asp-for="DiscountMethod">
+                        <option value="0">Fixed</option>
+                        <option value="1">Percentage</option>
+                    </select>
                 </dd>
 
                 <dt>

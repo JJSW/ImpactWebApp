@@ -51,10 +51,10 @@ namespace ImpactWebsite
             services.AddIdentity<ApplicationUser, IdentityRole>(identity =>
             {
                 // Configure identity options
-                identity.Password.RequireDigit = false;
-                identity.Password.RequireLowercase = false;
-                identity.Password.RequireUppercase = false;
-                identity.Password.RequireNonAlphanumeric = false;
+                identity.Password.RequireDigit = true;
+                identity.Password.RequireLowercase = true;
+                identity.Password.RequireUppercase = true;
+                identity.Password.RequireNonAlphanumeric = true;
                 identity.Password.RequiredLength = 6;
             })
 

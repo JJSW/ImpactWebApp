@@ -268,6 +268,8 @@ namespace WebApplication1.Data.Migrations
 
                     b.Property<string>("Description");
 
+                    b.Property<int>("DiscountMethod");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<DateTime>("ModifiedDate");

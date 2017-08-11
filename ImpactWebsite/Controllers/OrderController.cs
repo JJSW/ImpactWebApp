@@ -31,7 +31,7 @@ namespace ImpactWebsite.Controllers
         private readonly ILogger _logger;
         private static string _emailAddress;
         private static string _selectionDiscount;
-        private static string _totalAmountToPay;
+        private static string _totalToPay;
         private static string _totalDay;
         private static string _promotionDiscountRate;
         private static PromotionStatusList _promotionStatus;
@@ -93,7 +93,7 @@ namespace ImpactWebsite.Controllers
             ViewData["TotalDay"] = _totalDay;
             ViewBag.SelectionDiscount = _selectionDiscount;
             ViewBag.PromotionStatus = _promotionStatus;
-            ViewBag.TotalAmountToPay = _totalAmountToPay;
+            ViewBag.TotalToPay = _totalToPay;
             TempData["PromotionDiscountRate"] = _promotionDiscountRate;
             ViewData["LoggedinOrTempUserId"] = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).UserId;
             ViewData["OrderId"] = _orderId;
@@ -108,18 +108,18 @@ namespace ImpactWebsite.Controllers
         public async Task<IActionResult> NewOrder(IFormCollection collection,
                                                   string email,
                                                   string selectionDiscount,
-                                                  string totalAmountToPay,
+                                                  string totalToPay,
                                                   string totalDay)
         {
             int parsedSelectionDiscount = 0;
-            int parsedTotalAmountToPay = 0;
+            int parsedTotalToPay = 0;
             _promotionDiscountRate = "0";
 
             ApplicationUser user = await _userManager.GetUserAsync(HttpContext.User);
             ApplicationUser TempUser;
 
             _selectionDiscount = selectionDiscount;
-            _totalAmountToPay = totalAmountToPay;
+            _totalToPay = totalToPay;
             _totalDay = totalDay;
 
             ViewData["DeliverDate"] = DateTime.Now.AddDays(Convert.ToDouble(_totalDay)).ToString("MMM dd yyyy");
@@ -137,7 +137,7 @@ namespace ImpactWebsite.Controllers
             else
             {
                 var findUser = await _userManager.FindByEmailAsync(email);
-                var notRegisteredUser = await _userManager.FindByEmailAsync("temp@user.com");
+                var notRegisteredUser = await _userManager.FindByEmailAsync("tempuser@impactleap.com");
 
                 if (findUser != null)
                 {
@@ -164,10 +164,10 @@ namespace ImpactWebsite.Controllers
 
             ViewData["Email"] = _emailAddress;
 
-            parsedTotalAmountToPay = ParseStringToInt(_totalAmountToPay);
+            parsedTotalToPay = ParseStringToInt(_totalToPay);
             parsedSelectionDiscount = ParseStringToInt(_selectionDiscount);
 
-            ViewBag.TotalAmountToPay = _totalAmountToPay;
+            ViewBag.TotalToPay = _totalToPay;
 
             var ordersFromCurrentUser = _context.Orders.Where(o => o.UserEmail == _emailAddress);
 
@@ -189,7 +189,7 @@ namespace ImpactWebsite.Controllers
                 UserEmail = _emailAddress,
                 OrderedDate = DateTime.Now,
                 UserId = TempUser.Id,
-                TotalAmount = parsedTotalAmountToPay * _dollarCent,
+                TotalAmount = parsedTotalToPay * _dollarCent,
                 SelectionDiscount = parsedSelectionDiscount,
                 PromotionId = -1,
                 OrderNum = _orderNumber,
@@ -306,14 +306,14 @@ namespace ImpactWebsite.Controllers
                         {
                             var tempTotalAmount = _context.Orders.SingleOrDefault(o => o.OrderId == _orderId).TotalAmount;
 
-                            if (verfiedPromotion.DiscountMethod == DiscountMethodList.Fixed)
+                            if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Fixed)
                             {
                                 var promotionDiscountRate = verfiedPromotion.DiscountRate;
                                 tempTotalAmount = (tempTotalAmount - (promotionDiscountRate * _dollarCent));
                                 _promotionDiscountRate = "-$" + promotionDiscountRate;
                                 TempData["PromotionDiscountRate"] = _promotionDiscountRate;
                             }
-                            else if (verfiedPromotion.DiscountMethod == DiscountMethodList.Percentage)
+                            else if (verfiedPromotion.DiscountMethod == PromotionDiscountMethodList.Percentage)
                             {
                                 var tempTotalAmountWithCent = tempTotalAmount / _dollarCent;
                                 var promotionDiscountRate = verfiedPromotion.DiscountRate;
@@ -332,7 +332,7 @@ namespace ImpactWebsite.Controllers
 
                             await _context.SaveChangesAsync();
 
-                            _totalAmountToPay = (tempTotalAmount / _dollarCent).ToString();
+                            _totalToPay = (tempTotalAmount / _dollarCent).ToString();
 
                             ViewBag.PromotionStatus = PromotionStatusList.Applied;
                             _promotionStatus = PromotionStatusList.Applied;
@@ -356,7 +356,7 @@ namespace ImpactWebsite.Controllers
         [HttpPost]
         public async Task<IActionResult> UploadFile(IFormFile file, string noteFromUser)
         {
-            ViewBag.TotalAmountToPay = _totalAmountToPay;
+            ViewBag.TotalToPay = _totalToPay;
             string uploadDate = DateTime.Now.ToString("ddMMyyyy");
             string uploadPath = Path.Combine(_environment.WebRootPath, "uploads/" + uploadDate + "/" + _emailAddress);
             string uploadPathLink = HttpContext.Request.Scheme + "://" +

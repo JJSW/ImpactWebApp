@@ -1,4 +1,5 @@
 @model ImpactWebsite.Models.OrderModels.Promotion
+@using ImpactWebsite.Models.OrderModels
 
 @{
     ViewData["Title"] = "Delete";
@@ -39,10 +40,27 @@
                 @Html.DisplayFor(model => model.PromotionCode)
             </dd>
             <dt>
+                @Html.DisplayNameFor(model => model.DiscountMethod)
+            </dt>
+            <dd>
+                @Html.DisplayFor(model => model.DiscountMethod)
+            </dd>            
+            <dt>
                 @Html.DisplayNameFor(model => model.DiscountRate)
             </dt>
             <dd>
-                @Html.DisplayFor(model => model.DiscountRate)
+                @if (Model.DiscountMethod == PromotionDiscountMethodList.Fixed)
+                {
+                    <td>
+                        $@Html.DisplayFor(model => model.DiscountRate)
+                    </td>
+                }
+                else if (Model.DiscountMethod == PromotionDiscountMethodList.Percentage)
+                {
+                    <td>
+                        @Html.DisplayFor(model => model.DiscountRate)%
+                    </td>
+                }
             </dd>
             <dt>
                 @Html.DisplayNameFor(model => model.DateFrom)
