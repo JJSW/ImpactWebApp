@@ -12,63 +12,70 @@
         <h3>Saving Details :@Html.Raw(strSpacer)@Html.DisplayFor(model => model.SavingName)</h3>
     </div>
 
-    <div>
-        <dl class="dl-horizontal admin-margin-detail">
-            <dt>
-                @Html.DisplayNameFor(model => model.SavingName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SavingName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.DiscountMethod)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.DiscountMethod)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.SavingRate)
-            </dt>
-            <dd>
+    <div class="form-horizontal admin-margin-detail">
+
+        <div class="form-group">
+            <label asp-for="SavingName" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.SavingName)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="DiscountMethod" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.DiscountMethod)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SavingRate" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
                 @if (Model.DiscountMethod == SavingDiscountMethodList.Fixed)
                 {
-                    <td>
+                    <span>
                         $@Html.DisplayFor(model => model.SavingRate)
-                    </td>
+                    </span>
                 }
                 else if (Model.DiscountMethod == SavingDiscountMethodList.Percentage)
                 {
-                    <td>
+                    <span>
                         @Html.DisplayFor(model => model.SavingRate)%
-                    </td>
+                    </span>
                 }
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.SelectFrom)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SelectFrom)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.SelectTo)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SelectTo)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.IsActive)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.IsActive)
-            </dd>
-        </dl>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SelectFrom" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.SelectFrom)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="SelectTo" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.SelectTo)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.Description)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="IsActive" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.IsActive)
+            </div>
+        </div>
     </div>
+
+    <br />
     <div>
         <a asp-action="Index" class="btn btn-default" role="button">
             <i class="fa fa-arrow-left" aria-hidden="true"></i>

@@ -34,97 +34,94 @@
         <input type="hidden" asp-for="ModifiedDate" />
         <input type="hidden" asp-for="UploadedFilePath" />
 
-        <div>
-            <dl class="dl-horizontal admin-margin-detail">
-                <dt>
-                    @Html.DisplayNameFor(model => model.UserEmail)
-                </dt>
-                <dd>
+
+        <div class="form-horizontal admin-margin-detail">
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                <div class="col-md-10 admin-align-middle">
                     @Html.DisplayFor(model => model.UserEmail)
-                </dd>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.OrderedDate)
-                </dt>
-                <dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.OrderedDate)</label>
+                <div class="col-md-10 admin-align-middle">
                     @Html.DisplayFor(model => model.OrderedDate)
-                </dd>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.TotalAmount)
-                </dt>
-                <dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalAmount)</label>
+                <div class="col-md-10 admin-align-middle">
                     $@totalAmount
-                </dd>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.UploadedFileName)
-                </dt>
-
-                <dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UploadedFileName)</label>
+                <div class="col-md-10 admin-align-middle">
                     <a href="@fileLink">
-                        @Html.DisplayFor(model => model.UploadedFileName)
+                        @Html.DisplayFor(Model => Model.UploadedFileName)
                     </a>
-                </dd>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.NoteFromUser)
-                </dt>
-                <dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.NoteFromUser)</label>
+                <div class="col-md-10 admin-align-middle">
                     @Html.DisplayFor(model => model.NoteFromUser)
-                </dd>
+                </div>
+            </div>
 
+            <div class="form-group">
+                <label asp-for="OrderStatus" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <select asp-for="OrderStatus"
+                            asp-items="Html.GetEnumSelectList<ImpactWebsite.Models.OrderModels.OrderStatusList>()"
+                            class="form-control"></select>
+                    <span asp-validation-for="OrderStatus" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
 
-                <dt></dt>
-                <dd></dd>
-                <dt></dt>
-                <dd></dd>
-
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.OrderStatus)
-                </dt>
-                <dd class="form-group">
-                    <select asp-for="OrderStatus" asp-items="Html.GetEnumSelectList<ImpactWebsite.Models.OrderModels.OrderStatusList>()" class="form-control"></select>
-                    <span asp-validation-for="OrderStatus" class="text-danger"></span>
-                </dd>
-
-                <dt>
-                    @Html.DisplayNameFor(model => model.SalesRep)
-                </dt>
-                <dd class="form-group">
+            <div class="form-group">
+                <label asp-for="SalesRep" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
                     <input asp-for="SalesRep" class="form-control" />
-                    <span asp-validation-for="SalesRep" class="text-danger"></span>
-                </dd>
+                    <span asp-validation-for="SalesRep" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.NoteFromAdmin)
-                </dt>
-
-                <dd class="form-group form-no-max-width">
+            <div class="form-group form-no-max-width">
+                <label asp-for="NoteFromAdmin" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
                     <textarea asp-for="NoteFromAdmin" class="form-control">@Html.DisplayFor(model => model.NoteFromAdmin)</textarea>
-                    <span asp-validation-for="NoteFromAdmin" class="text-danger"></span>
-                </dd>
+                    <span asp-validation-for="NoteFromAdmin" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
 
-                <dt>
-                    @Html.DisplayNameFor(model => model.DeliveredDate)
-                </dt>
-                <dd class="form-group">
-                    <input asp-for="DeliveredDate" type="text" id="datepicker" class="form-control"/>
-                    <span asp-validation-for="DeliveredDate" class="text-danger"></span>
-                </dd>
-            </dl>
-
-            <a asp-action="Details" asp-route-id="@Model.OrderId"
-               role="button" class="btn btn-default">
-                <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
-            </a>
-
-            <input type="submit" value="Save" class="btn btn-primary" />
+            <div class="form-group">
+                <label asp-for="DeliveredDate" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="DeliveredDate" type="text" id="datepicker" class="form-control" />
+                    <span asp-validation-for="DeliveredDate" class="text-danger admin-align-middle"></span>
+                </div>
+            </div>
 
         </div>
+
+        <br />
+        <a asp-action="Details" asp-route-id="@Model.OrderId"
+           role="button" class="btn btn-default">
+            <span class="fa fa-info"></span>@Html.Raw(strSpacer)Details
+        </a>
+
+        <input type="submit" value="Save" class="btn btn-primary" />
+
     </div>
 </form>
+<br /><br />
+
 
 @section scripts
 {

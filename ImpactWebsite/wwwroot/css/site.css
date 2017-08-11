@@ -325,7 +325,8 @@ table.dataTable th:active {
 }
 
 .form-no-max-width input{
-    max-width: none !important;
+    max-width: 100% !important;
+    margin-bottom: -20px;    
 }
 
 /* Styling for main navigation bar */

@@ -17,62 +17,58 @@
     </div>
 
     <div>
-        <dl class="dl-horizontal admin-margin-detail">
-            <dt>
-                @Html.DisplayNameFor(Model => Model.UserEmail)
-            </dt>
-            <dd>
-                @Html.DisplayFor(Model => Model.FirstOrDefault().UserEmail)
-            </dd>
+        <div class="form-horizontal admin-margin-detail">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderedDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FirstOrDefault().OrderedDate)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(Model => Model.FirstOrDefault().UserEmail)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </dt>
-            <dd>
-                $@totalAmount
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderedDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().OrderedDate)
+                </div>
+            </div>
 
-            <dt></dt>
-            <dd></dd>
-            <dt></dt>
-            <dd></dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.TotalAmount)</label>
+                <div class="col-md-10 admin-align-middle">
+                    $@totalAmount
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FirstOrDefault().OrderStatus)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.OrderStatus)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().OrderStatus)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.SalesRep)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FirstOrDefault().SalesRep)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.SalesRep)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().SalesRep)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.NoteFromAdmin)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FirstOrDefault().NoteFromAdmin)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.NoteFromAdmin)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().NoteFromAdmin)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.DeliveredDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.FirstOrDefault().DeliveredDate)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(model => model.DeliveredDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.FirstOrDefault().DeliveredDate)
+                </div>
+            </div>
 
-        </dl>
+        </div>
     </div>
     <div class="row">
         <div class="col-sm-6">

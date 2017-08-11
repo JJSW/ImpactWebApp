@@ -16,44 +16,45 @@
 
     <input type="hidden" asp-for="ModuleId" />
 
-    <div>
-        <dl class="dl-horizontal admin-margin-detail">
+    <div class="form-horizontal admin-margin-detail">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ModuleId)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ModuleId)
-            </dd>
+        <div class="form-group">
+            <label asp-for="ModuleId" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.ModuleId)
+            </div>
+        </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.ModuleName)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.ModuleName)
-            </dd>
-            <dt>
-                @Html.DisplayNameFor(model => model.Description)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.Description)
-            </dd>
+        <div class="form-group">
+            <label asp-for="ModuleName" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.ModuleName)
+            </div>
+        </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.UnitPrice)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.UnitPrice)
-            </dd>
-        </dl>
+        <div class="form-group">
+            <label asp-for="Description" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                @Html.DisplayFor(Model => Model.Description)
+            </div>
+        </div>
 
-        <form asp-action="Delete">
-            <a asp-action="Index" class="btn btn-default" role="button">
-                <i class="fa fa-arrow-left" aria-hidden="true"></i>
-                @Html.Raw(strSpacer)Back to list
-            </a>
-
-            <input type="submit" value="Delete" class="btn btn-danger" />
-        </form>
+        <div class="form-group">
+            <label asp-for="UnitPrice" class="col-md-2 control-label"></label>
+            <div class="col-md-10 admin-align-middle">
+                $@Html.DisplayFor(Model => Model.UnitPrice)
+            </div>
+        </div>
     </div>
+
+    <br />
+
+    <form asp-action="Delete">
+        <a asp-action="Index" class="btn btn-default" role="button">
+            <i class="fa fa-arrow-left" aria-hidden="true"></i>
+            @Html.Raw(strSpacer)Back to list
+        </a>
+
+        <input type="submit" value="Delete" class="btn btn-danger" />
+    </form>
 </div>

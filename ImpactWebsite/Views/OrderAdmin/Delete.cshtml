@@ -20,78 +20,72 @@
     </div>
 
     <div>
-        <dl class="dl-horizontal admin-margin-detail">
-            <dt>
-                @Html.DisplayNameFor(model => model.UserEmail)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.UserEmail)
-            </dd>
+        <div class="form-horizontal admin-margin-detail">
 
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderedDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.OrderedDate)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UserEmail)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.UserEmail)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.TotalAmount)
-            </dt>
-            <dd>
-                $@totalAmount
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.OrderedDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.OrderedDate)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.UploadedFileName)
-            </dt>
-            <dd>
-                <a href="@fileLink">
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.TotalAmount)</label>
+                <div class="col-md-10 admin-align-middle">
+                    $@totalAmount
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.UploadedFileName)</label>
+                <div class="col-md-10 admin-align-middle">
                     @Html.DisplayFor(Model => Model.UploadedFileName)
-                </a>
-            </dd>
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.NoteFromUser)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.NoteFromUser)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.NoteFromUser)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.NoteFromUser)
+                </div>
+            </div>
 
-            <dt></dt>
-            <dd></dd>
-            <dt></dt>
-            <dd></dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.OrderStatus)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.OrderStatus)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.OrderStatus)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.OrderStatus)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.SalesRep)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.SalesRep)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.SalesRep)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.SalesRep)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.NoteFromAdmin)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.NoteFromAdmin)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.NoteFromAdmin)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.NoteFromAdmin)
-            </dd>
+            <div class="form-group">
+                <label class="col-md-2 control-label">@Html.DisplayNameFor(Model => Model.DeliveredDate)</label>
+                <div class="col-md-10 admin-align-middle">
+                    @Html.DisplayFor(model => model.DeliveredDate)
+                </div>
+            </div>
 
-            <dt>
-                @Html.DisplayNameFor(model => model.DeliveredDate)
-            </dt>
-            <dd>
-                @Html.DisplayFor(model => model.DeliveredDate)
-            </dd>
-
-        </dl>
+        </div>
     </div>
 
     <form asp-action="Delete">
@@ -102,4 +96,6 @@
 
         <input type="submit" value="Delete" class="btn btn-danger" />
     </form>
+
+    <br/><br />
 </div>
