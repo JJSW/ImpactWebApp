@@ -86,12 +86,23 @@ namespace ImpactWebsite.Models.SampleSeedData
             {
                 db.Savings.Add(new Saving()
                 {
-                    SavingName = "Discount1",
+                    SavingName = "Discount Fixed",
                     DiscountMethod = SavingDiscountMethodList.Fixed,
                     SavingRate = 10,
                     SelectFrom = 2,
                     SelectTo = 4,
                     Description = "Discount $10 for selections of 2 to 4",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Savings.Add(new Saving()
+                {
+                    SavingName = "Discount Percent",
+                    DiscountMethod = SavingDiscountMethodList.Percentage,
+                    SavingRate = 15,
+                    SelectFrom = 5,
+                    SelectTo = 8,
+                    Description = "Discount 15% for selections of 5 to 8",
                     ModifiedDate = DateTime.Today,
                 });
 
@@ -113,6 +124,19 @@ namespace ImpactWebsite.Models.SampleSeedData
                     DateTo = DateTime.Today.AddYears(1),
                     IsActive = true,
                     Description = "Sample Promotion - fixed discount rate - 10",
+                    ModifiedDate = DateTime.Today,
+                });
+
+                db.Promotions.Add(new Promotion()
+                {
+                    PromotionName = "Promotion Sample - Percentage",
+                    PromotionCode = "BBBBBBBB",
+                    DiscountMethod = PromotionDiscountMethodList.Percentage,
+                    DiscountRate = 10,
+                    DateFrom = DateTime.Today,
+                    DateTo = DateTime.Today.AddYears(1),
+                    IsActive = true,
+                    Description = "Sample Promotion - percentage discount rate - 10",
                     ModifiedDate = DateTime.Today,
                 });
             }

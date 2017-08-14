@@ -23,6 +23,8 @@ namespace ImpactWebsite.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger _logger;
+        private static string _userId;
+        private static string _message;
 
         public ApplicationUserController(
             ApplicationDbContext context, 
@@ -39,6 +41,7 @@ namespace ImpactWebsite.Controllers
         // GET: ApplicationUser
         public async Task<IActionResult> Index()
         {
+            _message = "";
             var orderedUsers = await _context.ApplicationUsers
                                 .Where(u => u.Email != "tempuser@impactleap.com")
                                 .OrderBy(u => u.UserRole)
@@ -51,6 +54,7 @@ namespace ImpactWebsite.Controllers
         // GET: ApplicationUser/Details/5
         public async Task<IActionResult> Details(string id)
         {
+            _message = "";
             if (id == null)
             {
                 return NotFound();
@@ -125,6 +129,8 @@ namespace ImpactWebsite.Controllers
             {
                 return NotFound();
             }
+
+            ViewData["Message"] = _message;
             return View(applicationUser);
         }
 
@@ -143,7 +149,7 @@ namespace ImpactWebsite.Controllers
             if (ModelState.IsValid)
             {
                 _context.Update(applicationUser);
-                _context.ApplicationUsers.SingleOrDefault(o => o.Id == id).ModifiedDate = DateTime.Now;
+                _context.ApplicationUsers.SingleOrDefault(u => u.Id == id).ModifiedDate = DateTime.Now;
                 
                 await _context.SaveChangesAsync();
             }
@@ -192,51 +198,44 @@ namespace ImpactWebsite.Controllers
             }
         }
 
+
         //
-        // GET: /Manage/SetPasswordAdmin
+        // GET: /ApplicationUser/ResetPasswordAdmin
         [HttpGet]
-        public IActionResult ChangePasswordAdmin()
+        [AllowAnonymous]
+        public IActionResult ResetPasswordAdmin(string id)
         {
+            _userId = id;
             return View();
         }
 
         //
-        // POST: /Manage/SetPasswordAdmin
+        // POST: /ApplicationUser/ResetPasswordAdmin
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePasswordAdmin(ChangePasswordViewModel model)
+        public async Task<IActionResult> ResetPasswordAdmin(SetPasswordViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
-
-            var user = await GetCurrentUserAsync();
+            var user = await _userManager.FindByIdAsync(_userId); 
             if (user != null)
             {
-                var remove = await _userManager.RemovePasswordAsync(user);
-                if(remove.Succeeded){
-                    _logger.LogInformation(3, "User removed their password successfully.");
-                }
-
+                await _userManager.RemovePasswordAsync(user);
                 var result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+
                 if (result.Succeeded)
                 {
-                    await _signInManager.SignInAsync(user, isPersistent: false);
                     _logger.LogInformation(3, "User changed their password successfully.");
-                    return RedirectToAction(nameof(Index), new { Message = ManageMessageId.SetPasswordSuccess });
+                    _message = "Password changed";
+                    return RedirectToAction("Edit", new { @id = _userId });
                 }
                 AddErrors(result);
-                return View(model);
             }
-            return RedirectToAction(nameof(Index), new { Message = ManageMessageId.Error });
+            return View(model);
         }
 
-        private Task<ApplicationUser> GetCurrentUserAsync()
-        {
-            return _userManager.GetUserAsync(HttpContext.User);
-        }
-
-
+ 
     }
 }

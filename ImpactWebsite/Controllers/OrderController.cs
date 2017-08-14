@@ -150,6 +150,9 @@ namespace ImpactWebsite.Controllers
                     var tempUser = new ApplicationUser()
                     {
                         Email = email,
+                        NormalizedEmail = email.ToUpper(),
+                        UserName = email,
+                        NormalizedUserName = email.ToUpper(),
                         UserRole = UserRoleList.Temporary,
                         ModifiedDate = DateTime.Now,
                     };
@@ -160,7 +163,6 @@ namespace ImpactWebsite.Controllers
 
                 _emailAddress = email;
             }
-
 
             ViewData["Email"] = _emailAddress;
 
@@ -426,13 +428,16 @@ namespace ImpactWebsite.Controllers
             ViewData["OrderId"] = _orderId;
             string userEmail = _context.Orders.FirstOrDefault(o => o.OrderId == id).UserEmail;
 
-            if (await _userManager.FindByEmailAsync(userEmail) == null)
+            if (await _userManager.FindByEmailAsync(userEmail) != null)
             {
-                ViewData["CheckUser"] = "NeedRegister";
-            }
-            else
-            {
-                ViewData["CheckUser"] = "NeedLogin";
+                if (_context.ApplicationUsers.SingleOrDefault(u => u.Email == userEmail).PasswordHash == null)
+                {
+                    ViewData["CheckUser"] = "NeedRegister";
+                }
+                else
+                {
+                    ViewData["CheckUser"] = "NeedLogin";
+                }
             }
 
             return View("CheckTempUser");

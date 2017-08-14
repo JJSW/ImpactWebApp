@@ -163,20 +163,6 @@ namespace ImpactWebsite.Controllers
                 CustomerId = customer.Id,
             });
 
-            /* For further development
-             * 
-            var billingAddress = await _context.BillingAddresses.LastOrDefaultAsync(x => x.BillingAddressId == bAddressId);
-            StripeAddress stripeAddress = new StripeAddress()
-            {
-                Line1 = billingAddress.AddressLine1,
-                Line2 = billingAddress.AddressLine2,
-                CityOrTown = billingAddress.City,
-                State = billingAddress.State,
-                PostalCode = billingAddress.ZipCode,
-                Country = billingAddress.Country
-            };
-            */
-
             foreach (var order in completedOrders)
             {
                 order.OrderStatus = OrderStatusList.Processing;

@@ -4,7 +4,11 @@
     ViewData["Title"] = "Edit";
 }
 
-@{ string strSpacer = "&nbsp;&nbsp;"; }
+@{
+    string strSpacer = "&nbsp;&nbsp;";
+    string email = Model.Email;
+    var email2 = ViewData["Email"];
+}
 
 <form asp-action="Edit">
     <div class="admin-margin">
@@ -27,6 +31,7 @@
         <input type="hidden" asp-for="LockoutEnd" />
         <input type="hidden" asp-for="LockoutEnabled" />
         <input type="hidden" asp-for="AccessFailedCount" />
+        <input type="hidden" asp-for="UserRole" />
 
 
         <div class="form-horizontal admin-margin-detail">
@@ -71,12 +76,22 @@
             <div class="form-group">
                 <div class="col-md-2 control-label" style="margin-top: 7px;">Password</div>
                 <div class="col-md-10 admin-align-middle">
-                    <a asp-controller="ApplicationUser" asp-action="ChangePasswordAdmin" class="btn btn-default">
+                    <a href="@Url.Action("ResetPasswordAdmin", "ApplicationUser", new { @id = Model.Id })"
+                       class="btn btn-default"
+                       role="button">
                         <i class="fa fa-unlock-alt" aria-hidden="true"></i>
                         @Html.Raw(strSpacer)Reset Password
                     </a>
+
+                    @if (!String.IsNullOrWhiteSpace(ViewData["Message"].ToString()))
+                    {
+                        <span class="alert alert-success alert-custom">
+                            <i class="fa fa-check"></i>@Html.Raw(strSpacer)@ViewData["Message"]
+                        </span>
+                    }
                 </div>
             </div>
+
 
             <br />
             <div class="admin-margin-buttons">

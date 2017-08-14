@@ -28,6 +28,7 @@ namespace ImpactWebsite.Controllers
         // GET: Saving
         public async Task<IActionResult> Index()
         {
+            /* For displaying range
             Dictionary<int, List<int>> savingData = new Dictionary<int, List<int>>();            
             foreach(var savingID in _context.Savings.Select(s=>s.SavingId))
             {
@@ -39,6 +40,7 @@ namespace ImpactWebsite.Controllers
             ViewBag.SavingData = savingData;
             ViewBag.MinimumSelectedFrom = _context.Savings.OrderBy(s => s.SelectFrom).First().SelectFrom;
             ViewBag.MaximumSelctedTo = _context.Savings.OrderByDescending(s => s.SelectTo).First().SelectTo;
+            */
 
             return View(await _context.Savings.ToListAsync());
         }

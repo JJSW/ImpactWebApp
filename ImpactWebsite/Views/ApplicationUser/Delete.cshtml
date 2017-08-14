@@ -59,7 +59,39 @@
                 @Html.Raw(strSpacer)Back to list
             </a>
 
-            <input type="submit" value="Delete" class="btn btn-danger" />
+            <button class="btn btn-danger" 
+                    data-toggle="modal" 
+                    href="#warningModal" 
+                    type="button">
+                Delete
+            </button>
         </form>
+    </div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="modalLabel" role="dialog" tabindex="-1" id="warningModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Delete Confirm</h4>
+            </div>
+
+            <form asp-action="Delete" method="post">
+
+                <br />
+                <div class="modal-body">
+                    <div class="alert alert-danger text-center">
+                        You will not be able to access this user's data
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" value="Confirm" class="btn btn-danger" />
+
+                    <button data-dismiss="modal" class="btn btn-default" type="button">Close</button>
+                </div>
+            </form>
+
+        </div>
     </div>
 </div>

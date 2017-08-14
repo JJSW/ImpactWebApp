@@ -36,6 +36,7 @@ namespace ImpactWebsite.Models
         [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
 
+        [Required]
         [Display(Name = "User Role")]
         public UserRoleList UserRole { get; set; }
 
